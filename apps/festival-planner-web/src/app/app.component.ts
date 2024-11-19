@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FeaturesModule } from '@festival-planner/features';
 import { CommonComponentModule } from '@festival-planner/common';
+import { FeaturesModule } from '@festival-planner/features';
 
 @Component({
   standalone: true,
-  imports: [RouterModule, FeaturesModule, CommonComponentModule],
+  imports: [RouterModule, CommonComponentModule, FeaturesModule],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
