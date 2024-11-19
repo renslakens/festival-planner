@@ -14,7 +14,16 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@festival-planner/backend/dto": ["libs/backend/dto/src/index.ts"],
+      "@festival-planner/backend/features": [
+        "libs/backend/features/src/index.ts"
+      ],
+      "@festival-planner/common": ["libs/frontend/common/src/index.ts"],
+      "@festival-planner/features": ["libs/frontend/features/src/index.ts"],
+      "@festival-planner/shared/api": ["libs/shared/api/src/index.ts"],
+      "@festival-planner/ui": ["libs/frontend/ui/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
