@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'festiva-planner-nav',
+  selector: 'festival-planner-nav',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css',
 })
