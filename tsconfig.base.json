@@ -22,6 +22,9 @@
       "@festival-planner/common": ["libs/frontend/common/src/index.ts"],
       "@festival-planner/features": ["libs/frontend/features/src/index.ts"],
       "@festival-planner/shared/api": ["libs/shared/api/src/index.ts"],
+      "@festival-planner/shared/util-env": [
+        "libs/shared/util-env/src/index.ts"
+      ],
       "@festival-planner/ui": ["libs/frontend/ui/src/index.ts"]
     }
   },

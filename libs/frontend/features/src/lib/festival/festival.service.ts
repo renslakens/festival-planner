@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, IFestival } from '@festival-planner/shared/api';
 import { Injectable } from '@angular/core';
+import { environment } from '@festival-planner/shared/util-env';
 
 /**
  * See https://angular.io/guide/http#requesting-data-from-a-server
@@ -18,7 +19,7 @@ export const httpOptions = {
  */
 @Injectable()
 export class FestivalService {
-    endpoint = 'http://localhost:3000/api/festival';
+    endpoint = environment.dataApiUrl + '/festival';
 
     constructor(private readonly http: HttpClient) {}
 
