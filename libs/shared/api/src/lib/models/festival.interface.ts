@@ -1,7 +1,7 @@
 import { Id } from './id.type';
 
 export interface IFestival {
-    id: Id;
+    _id: Id;
     name: string;
     description: string;
     date: Date;

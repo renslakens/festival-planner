@@ -1,0 +1,30 @@
+<div class="container">
+
+    @if(!users){
+    <h2 class="text-center">Loading data...</h2>
+    }@else if(users && users.length === 0){
+    <h2 class="text-center">No users found!</h2>
+    }@else{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Is Active</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (user of users; track user.id) {
+            <tr>
+                <td>{{user.id}}</td>
+                <td><a routerLink="{{user.id}}">{{user.name}}</a></td>
+                <td>{{user.emailAddress}}</td>
+                <td>{{user.isActive}}</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    }
+
+</div>
