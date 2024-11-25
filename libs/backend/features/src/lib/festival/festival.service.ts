@@ -1,54 +1,67 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable, Logger } from '@nestjs/common';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { Festival as FestivalModel, FestivalDocument } from './festival.schema';
 import { IFestival } from '@festival-planner/shared/api';
-import { BehaviorSubject } from 'rxjs';
-import { Logger } from '@nestjs/common';
+import { CreateFestivalDto, UpdateFestivalDto } from '@festival-planner/backend/dto';
+import {
+    UserDocument,
+    User as UserModel
+} from '@festival-planner/backend/user';
 
 @Injectable()
 export class FestivalService {
-    TAG = 'FestivalService';
+    private readonly logger: Logger = new Logger(FestivalService.name);
 
-    private Festivals$ = new BehaviorSubject<IFestival[]>([
-        {
-            id: '0',
-            name: 'Awakenings',
-            description: 'Techno festival',
-            date: new Date(),
-            location: 'Amsterdam',
-            is18Plus: true,
-        },
-    ]);
-
-    getAll(): IFestival[] {
-        Logger.log('getAll', this.TAG);
-        return this.Festivals$.value;
-    }
-
-    getOne(id: string): IFestival {
-        Logger.log(`getOne(${id})`, this.TAG);
-        const Festival = this.Festivals$.value.find((td) => td.id === id);
-        if (!Festival) {
-            throw new NotFoundException(`Festival could not be found!`);
-        }
-        return Festival;
-    }
+    constructor(
+        @InjectModel(FestivalModel.name) private festivalModel: Model<FestivalDocument>,
+        @InjectModel(UserModel.name) private userModel: Model<UserDocument>
+    ) {}
 
     /**
-     * Update the arg signature to match the DTO, but keep the
-     * return signature - we still want to respond with the complete
-     * object
+     * Zie https://mongoosejs.com/docs/populate.html#population
+     *
+     * @returns
      */
-    create(Festival: Pick<IFestival, 'name' | 'description'>): IFestival {
-        Logger.log('create', this.TAG);
-        const current = this.Festivals$.value;
-        // Use the incoming data, a randomized ID, and a default value of `false` to create the new to-do
-        const newFestival: IFestival = {
-            ...Festival,
-            id: `Festival-${Math.floor(Math.random() * 10000)}`,
-            date: new Date(),
-            location: 'Amsterdam',
-            is18Plus: true,
-        };
-        this.Festivals$.next([...current, newFestival]);
-        return newFestival;
+    async findAll(): Promise<IFestival[]> {
+        this.logger.log(`Finding all festivals`);
+        const items = await this.festivalModel
+            .find()
+            //.populate('cook', 'name emailAddress gender isActive profileImgUrl')
+            .exec();
+        return items;
+    }
+
+    async findOne(_id: string): Promise<IFestival | null> {
+        this.logger.log(`finding festival with id ${_id}`);
+        const item = await this.festivalModel.findOne({ _id }).exec();
+        if (!item) {
+            this.logger.debug('Festival not found');
+        }
+        return item;
+    }
+
+    async create(req: any): Promise<IFestival | null> {
+        const festival = req.body;
+        const user_id = req.user.user_id;
+
+        if (festival && user_id) {
+            this.logger.log(`Create festival ${festival.name} for ${user_id}`);
+            const user = await this.userModel
+                .findOne({ _id: user_id })
+                .select('-password -festivals -role -__v -isActive')
+                .exec();
+            const createdItem = {
+                ...festival,
+                //cook: user
+            };
+            return this.festivalModel.create(createdItem);
+        }
+        return null;
+    }
+
+    async update(_id: string, festival: UpdateFestivalDto): Promise<IFestival | null> {
+        this.logger.log(`Update festival ${festival.name}`);
+        return this.festivalModel.findByIdAndUpdate({ _id }, festival);
     }
 }

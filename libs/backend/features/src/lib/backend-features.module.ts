@@ -4,6 +4,8 @@ import { FestivalService } from './festival/festival.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Festival, FestivalSchema } from './festival/festival.schema';
 import { JwtModule } from '@nestjs/jwt';
+import { User, UserSchema } from '@festival-planner/backend/user';
+import { AuthModule } from '@festival-planner/backend/auth';
 
 @Module({
   imports: [
@@ -18,4 +20,4 @@ import { JwtModule } from '@nestjs/jwt';
   providers: [FestivalService],
   exports: [FestivalService],
 })
-export class FestivalModule {}
+export class BackendFeaturesMealModule {}

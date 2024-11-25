@@ -17,7 +17,7 @@
                 "tsConfig": "apps/festival-planner-web/tsconfig.app.json",
                 "assets": [{
                     "glob": "**/*",
-                    "input": "apps/festival-planner-web/public"
+                    "input": "apps/festival-planner-web/public/assets"
                 }],
                 "styles": ["apps/festival-planner-web/src/styles.css"],
                 "scripts": []

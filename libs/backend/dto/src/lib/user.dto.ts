@@ -25,7 +25,7 @@ export class CreateUserDto implements IUserRegistration {
 }
 
 export class UpsertUserDto implements IUpsertUser {
-    id!: Id;
+    _id!: Id;
 
     @IsString()
     @IsNotEmpty()

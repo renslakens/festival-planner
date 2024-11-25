@@ -2,9 +2,9 @@ import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { User as UserModel, UserDocument } from './user.schema';
-import { IUser, IUserInfo } from '@avans-nx-workshop/shared/api';
-// import { Meal, MealDocument } from '@avans-nx-workshop/backend/features';
-import { CreateUserDto, UpdateUserDto } from '@avans-nx-workshop/backend/dto';
+import { IUser, IUserInfo } from '@festival-planner/shared/api';
+import { Festival, FestivalDocument } from '@festival-planner/backend/features';
+import { CreateUserDto, UpdateUserDto } from '@festival-planner/backend/dto';
 
 @Injectable()
 export class UserService {
