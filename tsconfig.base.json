@@ -17,17 +17,12 @@
     "paths": {
       "@festival-planner/backend/auth": ["libs/backend/auth/src/index.ts"],
       "@festival-planner/backend/dto": ["libs/backend/dto/src/index.ts"],
-      "@festival-planner/backend/features": [
-        "libs/backend/features/src/index.ts"
-      ],
+      "@festival-planner/backend/features": ["libs/backend/features/src/index.ts"],
       "@festival-planner/backend/neo4j": ["libs/backend/neo4j/src/index.ts"],
       "@festival-planner/backend/user": ["libs/backend/user/src/index.ts"],
       "@festival-planner/common": ["libs/frontend/common/src/index.ts"],
       "@festival-planner/features": ["libs/frontend/features/src/index.ts"],
       "@festival-planner/shared/api": ["libs/shared/api/src/index.ts"],
-      "@festival-planner/shared/util-env": [
-        "libs/shared/util-env/src/index.ts"
-      ],
       "@festival-planner/ui": ["libs/frontend/ui/src/index.ts"]
     }
   },

@@ -9,7 +9,7 @@ export class Festival implements IFestival {
     @IsMongoId()
     _id!: number;
 
-    @Prop()
+    @Prop({ required: true })
     name!: string;
 
     @Prop()

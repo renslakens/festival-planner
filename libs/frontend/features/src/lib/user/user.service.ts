@@ -1,68 +1,25 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, delay } from 'rxjs';
-import { IUserInfo, UserGender, UserRole } from '@avans-nx-workshop/shared/api';
-
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { IUserInfo } from '@festival-planner/shared/api';
 
 @Injectable({
     providedIn: 'root',
 })
 export class UserService {
-    users: IUserInfo[] = [
-        {
-            _id: '1',
-            name: 'Nick Suijkerbuijk',
-            emailAddress: 'n.suijkerbuijk@gmail.com',
-            profileImgUrl: 'url',
-            role: UserRole.Guest,
-            gender: UserGender.Male,
-            isActive: true,
-            password: 'password'
-        },
-        {
-            _id: '2',
-            name: 'Rens Lakens',
-            emailAddress: 'r.lakens@gmail.com',
-            profileImgUrl: 'url',
-            role: UserRole.Admin,
-            gender: UserGender.Male,
-            isActive: true,
-            password: 'password'
-        },
-        {
-            _id: '3',
-            name: 'Gido Adriolo',
-            emailAddress: 'g.adriolo@gmail.com',
-            profileImgUrl: 'url',
-            role: UserRole.Admin,
-            gender: UserGender.Male,
-            isActive: true,
-            password: 'password'
-        }
-    ];
-    constructor() {
-        console.log('Service constructor aangeroepen');
+    private apiUrl = `${process.env['dataApiUrl']}/user`;
+
+    constructor(private http: HttpClient) { }
+
+    getUsers(): Observable<IUserInfo[]> {
+        return this.http.get<IUserInfo[]>(this.apiUrl);
     }
 
-    getUsers(): IUserInfo[] {
-        console.log('getUsers aangeroepen');
-        return this.users;
+    getUserById(id: string): Observable<IUserInfo> {
+        return this.http.get<IUserInfo>(`${this.apiUrl}/${id}`);
     }
 
-    getUsersAsObservable(): Observable<IUserInfo[]> {
-        console.log('getUsersAsObservable aangeroepen');
-        // 'of' is een rxjs operator die een Observable
-        // maakt van de gegeven data.
-        return of(this.users);
-    }
-
-    getUsersAsync(): Observable<IUserInfo[]> {
-        console.log('getUsersAsync aangeroepen');
-        return of(this.users).pipe(delay(2000));
-    }
-
-
-    getUserById(_id: string): IUserInfo {
-        console.log('getUserById aangeroepen');
-        return this.users.filter((user) => user._id === _id)[0];
+    updateUser(updatedUser: Partial<IUserInfo>): Observable<boolean> {
+        return this.http.put<boolean>(`${this.apiUrl}/${updatedUser._id}`, updatedUser);
     }
 }

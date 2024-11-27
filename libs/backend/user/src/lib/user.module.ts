@@ -9,7 +9,7 @@ import { UserService } from './user/user.service';
   imports: [
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
-      { name: Festival.name, schema: FestivalSchema }
+      // { name: Festival.name, schema: FestivalSchema }
     ])
   ],
   controllers: [UserController],

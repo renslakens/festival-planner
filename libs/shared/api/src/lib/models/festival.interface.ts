@@ -14,3 +14,7 @@ export type ICreateFestival = Pick<
     'name' | 'description' | 'date' | 'location' | 'is18Plus'
 >;
 export type IUpdateFestival = Partial<Omit<IFestival, 'id'>>;
+
+export interface IFestivalResponse {
+    results: IFestival;
+}

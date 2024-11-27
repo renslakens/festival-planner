@@ -5,13 +5,28 @@ import { FestivalListComponent } from './festival/festival-list/festival-list.co
 import { FestivalDetailComponent } from './festival/festival-detail/festival-detail.component';
 import { FestivalService } from './festival/festival.service';
 import { AboutComponent } from './about/about.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { AuthService } from './auth/auth.service';
+import { UserService } from './user/user.service';
+import { UserDetailsComponent } from './user/user-details/user-details.component';
+import { UserListComponent } from './user/user-list/user-list.component';
+import { UserEditComponent } from './user/user-edit/user-edit.component';
 
 @NgModule({
-    imports: [
-        CommonModule, FestivalDetailComponent, AboutComponent, HttpClientModule
+    imports: [CommonModule, RouterModule, ReactiveFormsModule, FestivalDetailComponent, AboutComponent, HttpClientModule],
+    declarations: [
+        UserDetailsComponent,
+        UserListComponent,
+        UserEditComponent,
+        
+        FestivalListComponent,
     ],
-    declarations: [FestivalListComponent],
-    providers: [FestivalService],
+    providers: [
+        FestivalService,
+        AuthService,
+        UserService,
+    ],
     exports: [FestivalListComponent, FestivalDetailComponent, AboutComponent]
 })
 export class FeaturesModule { }

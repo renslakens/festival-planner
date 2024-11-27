@@ -15,18 +15,10 @@
             },
             "configurations": {
                 "development": {
-                    "buildTarget": "data-api:build:development",
-                    "fileReplacements": [{
-                        "replace": "libs/shared/util-env/src/lib/environment.ts",
-                        "with": "libs/shared/util-env/src/lib/environment.development.ts"
-                    }]
+                    "buildTarget": "data-api:build:development"
                 },
                 "production": {
-                    "buildTarget": "data-api:build:production",
-                    "fileReplacements": [{
-                        "replace": "libs/shared/util-env/src/lib/environment.ts",
-                        "with": "libs/shared/util-env/src/lib/environment.production.ts"
-                    }]
+                    "buildTarget": "data-api:build:production"
                 }
             }
         },

@@ -1,72 +1,55 @@
-import { Observable, throwError } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { map, catchError, tap } from 'rxjs/operators';
-import { ApiResponse, IFestival } from '@festival-planner/shared/api';
 import { Injectable } from '@angular/core';
-import { environment } from '@festival-planner/shared/util-env';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { IFestival, IFestivalResponse, FestivalListResponse } from '@festival-planner/shared/api';
+import { AuthService } from '@festival-planner/features';
 
-/**
- * See https://angular.io/guide/http#requesting-data-from-a-server
- */
-export const httpOptions = {
-    observe: 'body',
-    responseType: 'json',
-};
-
-/**
- *
- *
- */
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 export class FestivalService {
-    endpoint = environment.dataApiUrl + '/festival';
+    private apiUrl = `${process.env['dataApiUrl']}/festival`;
 
-    constructor(private readonly http: HttpClient) {}
+    constructor(private http: HttpClient, private authService: AuthService) { }
 
-    /**
-     * Get all items.
-     *
-     * @options options - optional URL queryparam options
-     */
-    public list(options?: any): Observable<IFestival[] | null> {
-        console.log(`list ${this.endpoint}`);
-
-        return this.http
-            .get<ApiResponse<IFestival[]>>(this.endpoint, {
-                ...options,
-                ...httpOptions,
-            })
-            .pipe(
-                map((response: any) => response.results as IFestival[]),
-                tap(console.log),
-                catchError(this.handleError)
-            );
+    private createAuthHeaders(): HttpHeaders {
+        const token = this.authService.getToken();
+        console.log
+        if (!token) {
+            console.error('No JWT token found');
+        }
+        console.log('found token ' + token)
+        return new HttpHeaders({
+            Authorization: `Bearer ${token || ''}`, // Voeg token toe aan de header
+        }
+        );
     }
 
-    /**
-     * Get a single item from the service.
-     *
-     */
-    public read(id: string | null, options?: any): Observable<IFestival> {
-        console.log(`read ${this.endpoint}`);
-        return this.http
-            .get<ApiResponse<IFestival>>(this.endpoint, {
-                ...options,
-                ...httpOptions,
-            })
-            .pipe(
-                tap(console.log),
-                map((response: any) => response.results as IFestival),
-                catchError(this.handleError)
-            );
+    getFestivals(): Observable<FestivalListResponse> {
+        const headers = this.createAuthHeaders();
+        return this.http.get<FestivalListResponse>(this.apiUrl, { headers });
     }
 
-    /**
-     * Handle errors.
-     */
-    public handleError(error: HttpErrorResponse): Observable<any> {
-        console.log('handleError in FestivalService', error);
+    getFestivalById(id: string): Observable<IFestivalResponse> {
+        const headers = this.createAuthHeaders();
+        return this.http.get<IFestivalResponse>(`${this.apiUrl}/${id}`, { headers });
+    }
 
-        return throwError(() => new Error(error.message));
+    createFestival(festival: IFestival): Observable<IFestival> {
+        const headers = this.createAuthHeaders();
+        console.log('Sending festival to backend:', festival);
+        return this.http.post<IFestival>(this.apiUrl, festival, { headers });
+    }
+
+    updateFestival(id: string, festival: IFestival): Observable<IFestival> {
+        const headers = this.createAuthHeaders();
+        return this.http.put<IFestival>(`${this.apiUrl}/${id}`, festival, { headers });
+    }
+
+    deleteFestival(id: string): Observable<void> {
+        const headers = this.createAuthHeaders();
+        return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers });
     }
 }
+
+export default FestivalService;

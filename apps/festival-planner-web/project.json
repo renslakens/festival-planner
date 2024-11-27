@@ -35,20 +35,12 @@
                             "maximumError": "4kb"
                         }
                     ],
-                    "fileReplacements": [{
-                        "replace": "libs/shared/util-env/src/lib/environment.ts",
-                        "with": "libs/shared/util-env/src/lib/environment.prod.ts"
-                    }],
                     "outputHashing": "all"
                 },
                 "development": {
                     "optimization": false,
                     "extractLicenses": false,
-                    "sourceMap": true,
-                    "fileReplacements": [{
-                        "replace": "libs/shared/util-env/src/lib/environment.ts",
-                        "with": "libs/shared/util-env/src/lib/environment.dev.ts"
-                    }]
+                    "sourceMap": true
                 }
             },
             "defaultConfiguration": "production"
