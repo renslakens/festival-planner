@@ -15,7 +15,7 @@ export type UserDocument = User & Document;
 @Schema()
 export class User implements IUser {
     @IsMongoId()
-    _id!: number;
+    _id!: string;
 
     @Prop({
         required: true,
@@ -72,7 +72,7 @@ export class User implements IUser {
 
     @Prop({
         default: [],
-        type: [MongooseSchema.Types.ObjectId],
+        type: [Object],
         ref: 'Festival'
     })
     festivals: IFestival[] = [];

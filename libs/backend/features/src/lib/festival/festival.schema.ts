@@ -7,7 +7,7 @@ export type FestivalDocument = Festival & Document;
 @Schema()
 export class Festival implements IFestival {
     @IsMongoId()
-    _id!: number;
+    _id!: string;
 
     @Prop({ required: true })
     name!: string;
