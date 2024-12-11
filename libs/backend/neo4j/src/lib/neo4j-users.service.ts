@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Neo4jService } from 'nest-neo4j/dist';
+import * as graphQl from '../queries/graphQl.queries';
 
 @Injectable()
 export class Neo4JUserService {
@@ -10,7 +11,7 @@ export class Neo4JUserService {
     async findAll(): Promise<any> {
         this.logger.log('findAll users');
         const results = await this.neo4jService.read(
-            `MATCH people=()-[:WorksIn]->(t:Team {name:'Informatica'}) RETURN people;`
+            graphQl.GET_ALL_USERS
         );
         const users = results.records.map(
             (record: any) => record._fields[0].start.properties
