@@ -23,6 +23,9 @@ export class Festival implements IFestival {
 
     @Prop()
     is18Plus!: boolean;
+
+    @Prop()
+    stages!: string[];
 }
 
 export const FestivalSchema = SchemaFactory.createForClass(Festival);

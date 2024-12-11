@@ -30,6 +30,10 @@ export class CreateFestivalDto implements ICreateFestival {
     @IsOptional()
     @IsBoolean()
     is18Plus!: boolean;
+
+    @IsOptional()
+    @IsString()
+    stages!: string[];
 }
 
 export class UpdateFestivalDto implements IUpdateFestival {
@@ -52,5 +56,9 @@ export class UpdateFestivalDto implements IUpdateFestival {
     @IsOptional()
     @IsBoolean()
     is18Plus!: boolean;
+
+    @IsOptional()
+    @IsString()
+    stages!: string[];
 }
 

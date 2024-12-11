@@ -7,7 +7,9 @@ import {
 } from '@festival-planner/backend/user';
 import { IStage } from '@festival-planner/shared/api';
 import { Stage as StageModel, StageDocument } from './stage.schema';
+import { Festival as FestivalModel } from '../festival/festival.schema';
 import { UpdateStageDto } from '@festival-planner/backend/dto';
+import { FestivalDocument } from '../festival/festival.schema';
 
 @Injectable()
 export class StageService {
@@ -15,6 +17,7 @@ export class StageService {
 
     constructor(
         @InjectModel(StageModel.name) private stageModel: Model<StageDocument>,
+        @InjectModel(FestivalModel.name) private festivalModel: Model<FestivalDocument>,
         @InjectModel(UserModel.name) private userModel: Model<UserDocument>
     ) {}
 
@@ -52,16 +55,33 @@ export class StageService {
                 throw new HttpException(`Stage ${stage.name} already exists`, 400);
             }
 
+            // Check if festival exists
+            const festival = await this.festivalModel.findOne({ _id: stage.festivalId }).exec();
+            if (!festival) {
+                this.logger.warn(`Festival ${stage.festivalId} not found`);
+                throw new HttpException(`Festival ${stage.festivalId} not found`, 400);
+            }
+
             this.logger.log(`Create stage ${stage.name} for ${user_id}`);
-            const user = await this.userModel
-                .findOne({ _id: user_id })
-                .select('-password -stages -role -__v -isActive')
-                .exec();
+
+            // const user = await this.userModel
+            //     .findOne({ _id: user_id })
+            //     .select('-password -stages -role -__v -isActive')
+            //     .exec();
             const createdItem = {
                 ...stage,
                 //cook: user
             };
-            return this.stageModel.create(createdItem);
+
+            const createdStage = await this.stageModel.create(createdItem);
+
+            // Add stage to festival
+            await this.festivalModel.updateOne(
+                { _id: stage.festivalId },
+                { $push: { stages: (createdStage)._id } }
+            );
+
+            return createdStage
         }
         return null;
     }
