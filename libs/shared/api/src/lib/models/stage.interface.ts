@@ -5,11 +5,12 @@ export interface IStage {
     name: string;
     capacity: number;
     covered: boolean;
+    festivalId: Id;
 }
 
 export type ICreateStage = Pick<
     IStage,
-    'name' | 'capacity' | 'covered'
+    'name' | 'capacity' | 'covered' | 'festivalId'
 >;
 export type IUpdateStage = Partial<Omit<IStage, 'id'>>;
 

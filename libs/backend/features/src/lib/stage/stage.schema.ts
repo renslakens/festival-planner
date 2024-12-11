@@ -18,6 +18,9 @@ export class Stage implements IStage {
 
     @Prop({ required: true })
     covered!: boolean;
+
+    @Prop({ required: true })
+    festivalId!: string;
 }
 
 export const StageSchema = SchemaFactory.createForClass(Stage);
