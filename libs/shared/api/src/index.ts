@@ -7,3 +7,4 @@ export * from './lib/models/auth.interface';
 export * from './lib/models/ticket.interface';
 export * from './lib/models/stage.interface';
 export * from './lib/models/artist.interface';
+export * from './lib/models/performance.interface';

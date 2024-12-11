@@ -7,3 +7,4 @@ export * from "./lib/filters/http-exception.filter";
 export * from "./lib/ticket.dto";
 export * from "./lib/stage.dto";
 export * from "./lib/artist.dto";
+export * from "./lib/performance.dto";

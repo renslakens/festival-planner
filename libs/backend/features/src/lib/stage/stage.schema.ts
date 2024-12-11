@@ -21,6 +21,9 @@ export class Stage implements IStage {
 
     @Prop({ required: true })
     festivalId!: string;
+
+    @Prop()
+    performances!: string[];
 }
 
 export const StageSchema = SchemaFactory.createForClass(Stage);

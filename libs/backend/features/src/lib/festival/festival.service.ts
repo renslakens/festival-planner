@@ -46,6 +46,12 @@ export class FestivalService {
         const user_id = req.user.user_id;
 
         if (festival && user_id) {
+            const existingFestival = await this.festivalModel.findOne({ name: festival.name }).exec();
+            if (existingFestival) {
+                this.logger.warn(`Festival ${festival.name} already exists`);
+                throw new HttpException(`Festival ${festival.name} already exists`, 400);
+            }
+
             this.logger.log(`Create festival ${festival.name} for ${user_id}`);
             const user = await this.userModel
                 .findOne({ _id: user_id })

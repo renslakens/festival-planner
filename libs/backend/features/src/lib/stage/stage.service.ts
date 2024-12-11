@@ -81,7 +81,7 @@ export class StageService {
                 { $push: { stages: (createdStage)._id } }
             );
 
-            return createdStage
+            return createdStage;
         }
         return null;
     }

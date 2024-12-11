@@ -26,6 +26,10 @@ export class CreateStageDto implements ICreateStage {
     @IsNotEmpty()
     @IsString()
     festivalId!: string;
+
+    @IsOptional()
+    @IsString()
+    performances!: string[];
 }
 
 export class UpdateStageDto implements IUpdateStage {
@@ -44,5 +48,9 @@ export class UpdateStageDto implements IUpdateStage {
     @IsOptional()
     @IsString()
     festivalId!: string;
+
+    @IsOptional()
+    @IsString()
+    performances!: string[];
 }
 
