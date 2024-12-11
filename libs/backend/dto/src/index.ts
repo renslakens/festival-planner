@@ -6,3 +6,4 @@ export * from "./lib/filters/all-exceptions.filter";
 export * from "./lib/filters/http-exception.filter";
 export * from "./lib/ticket.dto";
 export * from "./lib/stage.dto";
+export * from "./lib/artist.dto";

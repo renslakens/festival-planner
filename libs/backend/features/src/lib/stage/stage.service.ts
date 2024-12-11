@@ -46,6 +46,12 @@ export class StageService {
         const user_id = req.user.user_id;
 
         if (stage && user_id) {
+            const existingStage = await this.stageModel.findOne({ name: stage.name }).exec();
+            if (existingStage) {
+                this.logger.warn(`Stage ${stage.name} already exists`);
+                throw new HttpException(`Stage ${stage.name} already exists`, 400);
+            }
+
             this.logger.log(`Create stage ${stage.name} for ${user_id}`);
             const user = await this.userModel
                 .findOne({ _id: user_id })

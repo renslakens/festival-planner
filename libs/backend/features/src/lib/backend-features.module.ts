@@ -12,6 +12,9 @@ import { TicketService } from './ticket/ticket.service';
 import { Stage, StageSchema } from './stage/stage.schema';
 import { StageController } from './stage/stage.controller';
 import { StageService } from './stage/stage.service';
+import { Artist, ArtistSchema } from './artist/artist.schema';
+import { ArtistController } from './artist/artist.controller';
+import { ArtistService } from './artist/artist.service';
 
 @Module({
   imports: [
@@ -19,13 +22,14 @@ import { StageService } from './stage/stage.service';
       { name: Festival.name, schema: FestivalSchema },
       { name: Ticket.name, schema: TicketSchema },
       { name: Stage.name, schema: StageSchema },
+      { name: Artist.name, schema: ArtistSchema },
       { name: User.name, schema: UserSchema },
     ]),
     JwtModule,
     AuthModule
   ],
-  controllers: [FestivalController, TicketController, StageController],
-  providers: [FestivalService, TicketService, StageService],
-  exports: [FestivalService, TicketService, StageService],
+  controllers: [FestivalController, TicketController, StageController, ArtistController],
+  providers: [FestivalService, TicketService, StageService, ArtistService],
+  exports: [FestivalService, TicketService, StageService, ArtistService],
 })
 export class BackendFeaturesMealModule {}
