@@ -15,13 +15,13 @@ export class Festival implements IFestival {
     @Prop()
     description!: string;
 
-    @Prop()
+    @Prop({ required: true })
     date!: Date;
 
-    @Prop()
+    @Prop( { required: true })
     location!: string;
 
-    @Prop()
+    @Prop( { required: true })
     is18Plus!: boolean;
 
     @Prop()

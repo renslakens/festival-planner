@@ -4,7 +4,7 @@ import { FestivalService } from './festival/festival.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Festival, FestivalSchema } from './festival/festival.schema';
 import { JwtModule } from '@nestjs/jwt';
-import { User, UserSchema } from '@festival-planner/backend/user';
+import { User, UserModule, UserSchema } from '@festival-planner/backend/user';
 import { AuthModule } from '@festival-planner/backend/auth';
 import { Ticket, TicketSchema } from './ticket/ticket.schema';
 import { TicketController } from './ticket/ticket.controller';
@@ -30,7 +30,8 @@ import { PerformanceController } from './performance/performance.controller';
       { name: User.name, schema: UserSchema },
     ]),
     JwtModule,
-    AuthModule
+    AuthModule,
+    UserModule,
   ],
   controllers: [FestivalController, TicketController, StageController, ArtistController, PerformanceController],
   providers: [FestivalService, TicketService, StageService, ArtistService, PerformanceService],

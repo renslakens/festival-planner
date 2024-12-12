@@ -3,13 +3,13 @@ import { FestivalService } from './festival.service';
 import { Get, Param, Post, UseGuards } from '@nestjs/common';
 import { IFestival } from '@festival-planner/shared/api';
 import { CreateFestivalDto } from '@festival-planner/backend/dto';
-import { AuthGuard } from '@festival-planner/backend/auth';
+import { AdminGuard, AuthGuard } from '@festival-planner/backend/auth';
 
 @Controller('festival')
 export class FestivalController {
     private readonly logger = new Logger(FestivalController.name);
 
-    constructor(private festivalService: FestivalService) {}
+    constructor(private festivalService: FestivalService) { }
 
     @Get('')
     getAll(): Promise<IFestival[]> {
@@ -32,9 +32,14 @@ export class FestivalController {
      * @returns
      */
     @Post('')
-    @UseGuards(AuthGuard)
+    @UseGuards(AdminGuard)
     create(@Request() req: any): Promise<IFestival | null> {
-        this.logger.log('req.user.user_id = ', req.user.user_id);
+        this.logger.log('req.user:', req.user);
+        if (!req.user) {
+            this.logger.error('User is not set in the request object');
+        }
+
+        this.logger.log('req.user.user_id = ', req.user._id);
         return this.festivalService.create(req);
     }
 }

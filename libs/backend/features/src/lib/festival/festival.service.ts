@@ -39,13 +39,11 @@ export class FestivalService {
             this.logger.debug('Festival not found');
         }
         return item;
-
-        // TODO: alle gebruikers ophalen die een ticket hebben voor dit festival met neo4j in rcmnd-api
     }
 
     async create(req: any): Promise<IFestival | null> {
         const festival = req.body;
-        const user_id = req.user.user_id;
+        const user_id = req.user._id;
 
         if (festival && user_id) {
             const existingFestival = await this.festivalModel.findOne({ name: festival.name }).exec();

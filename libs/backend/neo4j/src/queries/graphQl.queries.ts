@@ -16,7 +16,7 @@ RETURN f.name AS festivalName,
         }) AS visitors;
 `
 
-export const ADD_USER_TO_FESTIVAL = `
+export const ADD_USER_TO_FESTIVAL: (userId: string) => `
 MERGE (u:User {id: $userId})
 ON CREATE SET 
     u.name = $userName,
