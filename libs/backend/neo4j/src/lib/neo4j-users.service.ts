@@ -8,14 +8,22 @@ export class Neo4JUserService {
 
     constructor(private readonly neo4jService: Neo4jService) {}
 
-    async findAll(): Promise<any> {
-        this.logger.log('findAll users');
+    async findAll(festivalId: string): Promise<any> {
+        this.logger.log('findAll visitors to festival');
         const results = await this.neo4jService.read(
-            graphQl.GET_ALL_USERS
+            graphQl.GET_ALL_VISITORS_TO_FESTIVAL(festivalId)
         );
-        const users = results.records.map(
+        const visitors = results.records.map(
             (record: any) => record._fields[0].start.properties
         );
-        return users;
+        return visitors;
+    }
+
+    async addUserToFestival(userId: string, festivalId: string): Promise<any> {
+        this.logger.log(`add user ${userId} to festival ${festivalId}`);
+        const results = await this.neo4jService.write(
+            graphQl.ADD_USER_TO_FESTIVAL(userId, festivalId)
+        );
+        return results;
     }
 }

@@ -106,6 +106,8 @@ export class TicketService {
             await user.save();
         }
 
+        // TODO: call naar neo4j om ticket toe te voegen met user in rcmnd-api
+
         // Update ticket with userId to assign the ticket to the user
         ticket.userId = userId;
         ticket.purchaseDate = new Date();

@@ -1,6 +1,6 @@
 import { Controller, Logger, Request } from '@nestjs/common';
 import { FestivalService } from './festival.service';
-import { Get, Param, Post, Body, UseGuards } from '@nestjs/common';
+import { Get, Param, Post, UseGuards } from '@nestjs/common';
 import { IFestival } from '@festival-planner/shared/api';
 import { CreateFestivalDto } from '@festival-planner/backend/dto';
 import { AuthGuard } from '@festival-planner/backend/auth';

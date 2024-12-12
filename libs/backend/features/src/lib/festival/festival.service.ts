@@ -39,6 +39,8 @@ export class FestivalService {
             this.logger.debug('Festival not found');
         }
         return item;
+
+        // TODO: alle gebruikers ophalen die een ticket hebben voor dit festival met neo4j in rcmnd-api
     }
 
     async create(req: any): Promise<IFestival | null> {
