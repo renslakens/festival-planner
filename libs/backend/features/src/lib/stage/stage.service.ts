@@ -44,6 +44,15 @@ export class StageService {
         return item;
     }
 
+    async findStagesByFestivalId(festivalId: string): Promise<IStage[]> {
+        this.logger.log(`finding stages with festival id ${festivalId}`);
+        const items = await this.stageModel.find({ festivalId }).exec();
+        if (!items) {
+            this.logger.debug('Stages not found');
+        }
+        return items;
+    }
+
     async create(req: any): Promise<IStage | null> {
         const stage = req.body;
         const user_id = req.user.user_id;
@@ -89,5 +98,10 @@ export class StageService {
     async update(_id: string, stage: UpdateStageDto): Promise<IStage | null> {
         this.logger.log(`Update stage ${stage.name}`);
         return this.stageModel.findByIdAndUpdate({ _id }, stage);
+    }
+
+    async delete(_id: string): Promise<IStage | null> {
+        this.logger.log(`Delete stage with id ${_id}`);
+        return this.stageModel.findByIdAndDelete({ _id });
     }
 }

@@ -1,6 +1,6 @@
-import { Controller, Logger, Put, Request } from '@nestjs/common';
+import { Controller, Delete, Logger, Put, Request } from '@nestjs/common';
 import { Get, Param, Post, Body, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@festival-planner/backend/auth';
+import { AdminGuard, AuthGuard } from '@festival-planner/backend/auth';
 import { ITicket } from '@festival-planner/shared/api';
 import { TicketService } from './ticket.service';
 import { UpdateTicketDto } from '@festival-planner/backend/dto';
@@ -22,13 +22,13 @@ export class TicketController {
     }
 
     @Put(':id')
-    @UseGuards(AuthGuard)
+    @UseGuards(AdminGuard)
     update(@Param('id') id: string, @Body() ticket: UpdateTicketDto): Promise<ITicket | null> {
         return this.ticketService.update(id, ticket);
     }
 
     @Post('')
-    @UseGuards(AuthGuard)
+    @UseGuards(AdminGuard)
     create(@Request() req: any): Promise<ITicket | null> {
         this.logger.log('req.user.user_id = ', req.user.user_id);
         return this.ticketService.create(req);
@@ -41,5 +41,11 @@ export class TicketController {
         @Request() req: any // Inject the request object to access `req.user`
     ): Promise<ITicket | null> {
         return this.ticketService.purchaseTicket(id, req.user.user_id);
+    }
+
+    @Delete(':id')
+    @UseGuards(AdminGuard)
+    delete(@Param('id') id: string): Promise<ITicket | null> {
+        return this.ticketService.delete(id);
     }
 }

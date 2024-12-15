@@ -45,6 +45,15 @@ export class PerformanceService {
         return item;
     }
 
+    async findPerformancesByStageId(stageId: string): Promise<IPerformance[]> {
+        this.logger.log(`finding performances with stage id ${stageId}`);
+        const items = await this.performanceModel.find({ stageId }).exec();
+        if (!items) {
+            this.logger.debug('Performances not found');
+        }
+        return items;
+    }
+
     async create(req: any): Promise<IPerformance | null> {
         const performance = req.body;
         const user_id = req.user.user_id;
@@ -96,5 +105,10 @@ export class PerformanceService {
     async update(_id: string, performance: UpdatePerformanceDto): Promise<IPerformance | null> {
         this.logger.log(`Update performance with description ${performance.description}`);
         return this.performanceModel.findByIdAndUpdate({ _id }, performance);
+    }
+
+    async delete(_id: string): Promise<IPerformance | null> {
+        this.logger.log(`Delete performance with id ${_id}`);
+        return this.performanceModel.findByIdAndDelete({ _id });
     }
 }

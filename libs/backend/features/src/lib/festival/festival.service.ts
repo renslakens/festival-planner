@@ -70,4 +70,9 @@ export class FestivalService {
         this.logger.log(`Update festival ${festival.name}`);
         return this.festivalModel.findByIdAndUpdate({ _id }, festival);
     }
+
+    async delete(_id: string): Promise<IFestival | null> {
+        this.logger.log(`Delete festival with id ${_id}`);
+        return this.festivalModel.findByIdAndDelete({ _id });
+    }
 }

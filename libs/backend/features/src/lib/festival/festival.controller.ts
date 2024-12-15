@@ -1,4 +1,4 @@
-import { Body, Controller, Logger, Put, Request } from '@nestjs/common';
+import { Body, Controller, Delete, Logger, Put, Request } from '@nestjs/common';
 import { FestivalService } from './festival.service';
 import { Get, Param, Post, UseGuards } from '@nestjs/common';
 import { IFestival } from '@festival-planner/shared/api';
@@ -37,5 +37,11 @@ export class FestivalController {
 
         this.logger.log('req.user.user_id = ', req.user._id);
         return this.festivalService.create(req);
+    }
+
+    @Delete(':id')
+    @UseGuards(AdminGuard)
+    delete(@Param('id') id: string): Promise<IFestival | null> {
+        return this.festivalService.delete(id);
     }
 }

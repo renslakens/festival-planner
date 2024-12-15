@@ -1,6 +1,6 @@
-import { Controller, Logger, Put, Request } from '@nestjs/common';
+import { Controller, Delete, Logger, Put, Request } from '@nestjs/common';
 import { Get, Param, Post, Body, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@festival-planner/backend/auth';
+import { AdminGuard, AuthGuard } from '@festival-planner/backend/auth';
 import { IStage } from '@festival-planner/shared/api';
 import { StageService } from './stage.service';
 import { UpdateStageDto } from '@festival-planner/backend/dto';
@@ -21,16 +21,27 @@ export class StageController {
         return this.stageService.findOne(id);
     }
 
+    @Get('festival/:id')
+    getStagesByFestivalId(@Param('id') id: string): Promise<IStage[] | null> {
+        return this.stageService.findStagesByFestivalId(id);
+    }
+
     @Put(':id')
-    @UseGuards(AuthGuard)
+    @UseGuards(AdminGuard)
     update(@Param('id') id: string, @Body() stage: UpdateStageDto): Promise<IStage | null> {
         return this.stageService.update(id, stage);
     }
 
     @Post('')
-    @UseGuards(AuthGuard)
+    @UseGuards(AdminGuard)
     create(@Request() req: any): Promise<IStage | null> {
         this.logger.log('req.user.user_id = ', req.user.user_id);
         return this.stageService.create(req);
+    }
+
+    @Delete(':id')
+    @UseGuards(AdminGuard)
+    delete(@Param('id') id: string): Promise<IStage | null> {
+        return this.stageService.delete(id);
     }
 }

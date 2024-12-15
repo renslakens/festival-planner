@@ -70,4 +70,9 @@ export class ArtistService {
         this.logger.log(`Update artist ${artist.name}`);
         return this.artistModel.findByIdAndUpdate({ _id }, artist);
     }
+
+    async delete(_id: string): Promise<IArtist | null> {
+        this.logger.log(`Delete artist with id ${_id}`);
+        return this.artistModel.findByIdAndDelete({ _id });
+    }
 }

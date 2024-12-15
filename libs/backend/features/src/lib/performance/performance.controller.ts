@@ -1,6 +1,6 @@
-import { Controller, Logger, Put, Request } from '@nestjs/common';
+import { Controller, Delete, Logger, Put, Request } from '@nestjs/common';
 import { Get, Param, Post, Body, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@festival-planner/backend/auth';
+import { AdminGuard, AuthGuard } from '@festival-planner/backend/auth';
 import { IPerformance } from '@festival-planner/shared/api';
 import { PerformanceService } from './performance.service';
 import { UpdatePerformanceDto } from '@festival-planner/backend/dto';
@@ -21,16 +21,27 @@ export class PerformanceController {
         return this.performanceService.findOne(id);
     }
 
+    @Get('stage/:id')
+    getPerformancesByStageId(@Param('id') id: string): Promise<IPerformance[] | null> {
+        return this.performanceService.findPerformancesByStageId(id);
+    }
+
     @Put(':id')
-    @UseGuards(AuthGuard)
+    @UseGuards(AdminGuard)
     update(@Param('id') id: string, @Body() performance: UpdatePerformanceDto): Promise<IPerformance | null> {
         return this.performanceService.update(id, performance);
     }
 
     @Post('')
-    @UseGuards(AuthGuard)
+    @UseGuards(AdminGuard)
     create(@Request() req: any): Promise<IPerformance | null> {
         this.logger.log('req.user.user_id = ', req.user.user_id);
         return this.performanceService.create(req);
+    }
+
+    @Delete(':id')
+    @UseGuards(AdminGuard)
+    delete(@Param('id') id: string): Promise<IPerformance | null> {
+        return this.performanceService.delete(id);
     }
 }

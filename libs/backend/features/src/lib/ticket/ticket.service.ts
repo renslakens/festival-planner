@@ -66,6 +66,11 @@ export class TicketService {
         return this.ticketModel.findByIdAndUpdate({ _id }, ticket);
     }
 
+    async delete(_id: string): Promise<ITicket | null> {
+        this.logger.log(`Delete ticket with id ${_id}`);
+        return this.ticketModel.findByIdAndDelete({ _id });
+    }
+
     async purchaseTicket(ticketId: string, userId: string): Promise<ITicket | null> {
         this.logger.log(`Purchase ticket ${ticketId} for user ${userId}`);
 
