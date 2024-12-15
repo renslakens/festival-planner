@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "deploy": "nx run festival-planner-web:build:production",
-    "build": "nx run-many -t build",
+    "build": "nx run-many -t build --exclude festival-planner-web",
     "test": "nx run-many -t test"
   },
   "private": true,
