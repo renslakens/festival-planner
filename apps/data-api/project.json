@@ -5,6 +5,21 @@
     "projectType": "application",
     "tags": [],
     "targets": {
+        "build": {
+            "executor": "@nx/webpack:webpack",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "target": "node",
+                "compiler": "tsc",
+                "outputPath": "dist/apps/data-api",
+                "main": "apps/data-api/src/main.ts",
+                "tsConfig": "apps/data-api/tsconfig.app.json",
+                "isolatedConfig": true,
+                "webpackConfig": "apps/data-api/webpack.config.js",
+                "generatePackageJson": true,
+                "assets": ["apps/data-api/src/assets"]
+            }
+        },
         "serve": {
             "executor": "@nx/js:node",
             "defaultConfiguration": "development",
