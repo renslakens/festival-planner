@@ -5,6 +5,7 @@ import { AuthModule } from '@festival-planner/backend/auth';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Logger } from '@nestjs/common';
 import { config } from 'dotenv';
+import { Neo4jModule, Neo4jScheme } from 'nest-neo4j/dist';
 
 @Module({
     imports: [
@@ -21,6 +22,13 @@ import { config } from 'dotenv';
                 connection._events.connected();
                 return connection;
             }
+        }),
+        Neo4jModule.forRoot({
+            scheme: process.env.NEO4J_SCHEME as Neo4jScheme,
+            host: process.env.NEO4J_HOST || 'localhost',
+            port: process.env.NEO4J_PORT || 7687,
+            username: process.env.NEO4J_USERNAME || 'neo4j',
+            password: process.env.NEO4J_PASSWORD || 'neo4j',
         }),
         UserModule
     ],
