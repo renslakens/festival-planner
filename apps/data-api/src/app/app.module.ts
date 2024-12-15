@@ -11,24 +11,17 @@ import { Neo4jModule, Neo4jScheme } from 'nest-neo4j/dist';
     imports: [
         BackendFeaturesMealModule,
         AuthModule,
-        MongooseModule.forRoot(process.env.MONGO_DB_CONNECTION_STRING || "mongodb://localhost:27017/festival-planner", {
+        MongooseModule.forRoot(process.env.MONGO_DB_CONNECTION_STRING, {
             connectionFactory: (connection) => {
                 connection.on('connected', () => {
                     console.log('Mongo is connected');
                     Logger.verbose(
-                        `Mongoose db connected to ${process.env.MONGO_DB_CONNECTION_STRING || "mongodb://localhost:27017/festival-planner"}`
+                        `Mongoose db connected to ${process.env.MONGO_DB_CONNECTION_STRING}`
                     );
                 });
                 connection._events.connected();
                 return connection;
             }
-        }),
-        Neo4jModule.forRoot({
-            scheme: process.env.NEO4J_SCHEME as Neo4jScheme,
-            host: process.env.NEO4J_HOST || 'localhost',
-            port: process.env.NEO4J_PORT || 7687,
-            username: process.env.NEO4J_USERNAME || 'neo4j',
-            password: process.env.NEO4J_PASSWORD || 'neo4j',
         }),
         UserModule
     ],

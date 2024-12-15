@@ -39,6 +39,8 @@ export class AdminGuard implements CanActivate {
                 throw new UnauthorizedException('Insufficient permissions');
             }
 
+            
+
             // Assign the user to the request object for downstream use
             request['user'] = user;
         } catch (error) {
