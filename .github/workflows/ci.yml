@@ -31,13 +31,13 @@ jobs:
               run: |
                   echo ${GITHUB_WORKSPACE}
                   cd ${GITHUB_WORKSPACE}/dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
-                  cd ${GITHUB_WORKSPACE}/dist/apps/festival-planner-web/ && zip ${GITHUB_WORKSPACE}/festival-planner-web-release.zip ./* -r
+                  # cd ${GITHUB_WORKSPACE}/dist/apps/festival-planner-web/ && zip ${GITHUB_WORKSPACE}/festival-planner-web-release.zip ./* -r
 
-            - name: Upload festival-planner-web artifact for deployment job
-              uses: actions/upload-artifact@v4
-              with:
-                  name: festival-planner-web
-                  path: festival-planner-web-release.zip
+            # - name: Upload festival-planner-web artifact for deployment job
+            #   uses: actions/upload-artifact@v4
+            #   with:
+            #       name: festival-planner-web
+            #       path: festival-planner-web-release.zip
 
             - name: Upload data-api artifact for deployment job
               uses: actions/upload-artifact@v4
@@ -45,33 +45,33 @@ jobs:
                   name: data-api
                   path: data-api-release.zip
 
-    deploy-festival-planner-web:
-        runs-on: ubuntu-latest
-        name: Deploy Angular Frontend
-        needs: build
-        environment:
-            name: 'Production'
+    # deploy-festival-planner-web:
+    #     runs-on: ubuntu-latest
+    #     name: Deploy Angular Frontend
+    #     needs: build
+    #     environment:
+    #         name: 'Production'
 
-        steps:
-            - name: Download artifact from build job
-              uses: actions/download-artifact@v4
-              with:
-                  name: festival-planner-web
+    #     steps:
+    #         - name: Download artifact from build job
+    #           uses: actions/download-artifact@v4
+    #           with:
+    #               name: festival-planner-web
 
-            - name: Unzip artifact for deployment
-              run: unzip festival-planner-web-release.zip
+    #         - name: Unzip artifact for deployment
+    #           run: unzip festival-planner-web-release.zip
 
-            - name: Deploy to static azure web app
-              id: builddeploy
-              uses: Azure/static-web-apps-deploy@v1
-              with:
-                  azure_static_web_apps_api_token: ${{ secrets.ANGULAR_PUBLISHTOKEN }}
-                  repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
-                  action: 'upload'
-                  app_location: '/' # App source code path
-                  api_location: '' # Api source code path - optional
-                  output_location: 'dist/apps/festival-planner-web' # Built app content directory - optional
-                  github_id_token: ${{ steps.idtoken.outputs.result }}
+    #         - name: Deploy to static azure web app
+    #           id: builddeploy
+    #           uses: Azure/static-web-apps-deploy@v1
+    #           with:
+    #               azure_static_web_apps_api_token: ${{ secrets.ANGULAR_PUBLISHTOKEN }}
+    #               repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+    #               action: 'upload'
+    #               app_location: '/' # App source code path
+    #               api_location: '' # Api source code path - optional
+    #               output_location: 'dist/apps/festival-planner-web' # Built app content directory - optional
+    #               github_id_token: ${{ steps.idtoken.outputs.result }}
 
     deploy-data-api:
         runs-on: ubuntu-latest
