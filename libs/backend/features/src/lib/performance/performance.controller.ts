@@ -1,8 +1,9 @@
-import { Controller, Logger, Request } from '@nestjs/common';
+import { Controller, Logger, Put, Request } from '@nestjs/common';
 import { Get, Param, Post, Body, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@festival-planner/backend/auth';
 import { IPerformance } from '@festival-planner/shared/api';
 import { PerformanceService } from './performance.service';
+import { UpdatePerformanceDto } from '@festival-planner/backend/dto';
 
 @Controller('performance')
 export class PerformanceController {
@@ -20,16 +21,12 @@ export class PerformanceController {
         return this.performanceService.findOne(id);
     }
 
-    /**
-     * Create a new Meal. The cook is the user that creates the new document in the DB.
-     * De _id van de user wordt via het token meegestuurd - dus NIET als veld in de body!
-     * De AuthGuard is een filter dat via middleware wordt aangeroepen voordat de Controller
-     * het reqest ontvangt. De AuthGuard geeft de rout handling door via de next() functie.
-     *
-     * @param req Het binnenkomend request. Deze bevat de req.body die in het request is gestuurd,
-     * én bevat de user_id die door de AuthGuard uit het Bearer token is gelezen. Bekijk de AuthGuard!
-     * @returns
-     */
+    @Put(':id')
+    @UseGuards(AuthGuard)
+    update(@Param('id') id: string, @Body() performance: UpdatePerformanceDto): Promise<IPerformance | null> {
+        return this.performanceService.update(id, performance);
+    }
+
     @Post('')
     @UseGuards(AuthGuard)
     create(@Request() req: any): Promise<IPerformance | null> {

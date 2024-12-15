@@ -1,8 +1,8 @@
-import { Controller, Logger, Request } from '@nestjs/common';
+import { Body, Controller, Logger, Put, Request } from '@nestjs/common';
 import { FestivalService } from './festival.service';
 import { Get, Param, Post, UseGuards } from '@nestjs/common';
 import { IFestival } from '@festival-planner/shared/api';
-import { CreateFestivalDto } from '@festival-planner/backend/dto';
+import { CreateFestivalDto, UpdateFestivalDto } from '@festival-planner/backend/dto';
 import { AdminGuard, AuthGuard } from '@festival-planner/backend/auth';
 
 @Controller('festival')
@@ -21,16 +21,12 @@ export class FestivalController {
         return this.festivalService.findOne(id);
     }
 
-    /**
-     * Create a new Meal. The cook is the user that creates the new document in the DB.
-     * De _id van de user wordt via het token meegestuurd - dus NIET als veld in de body!
-     * De AuthGuard is een filter dat via middleware wordt aangeroepen voordat de Controller
-     * het reqest ontvangt. De AuthGuard geeft de rout handling door via de next() functie.
-     *
-     * @param req Het binnenkomend request. Deze bevat de req.body die in het request is gestuurd,
-     * én bevat de user_id die door de AuthGuard uit het Bearer token is gelezen. Bekijk de AuthGuard!
-     * @returns
-     */
+    @Put(':id')
+    @UseGuards(AdminGuard)
+    update(@Param('id') id: string, @Body() festival: UpdateFestivalDto): Promise<IFestival | null> {
+        return this.festivalService.update(id, festival);
+    }
+
     @Post('')
     @UseGuards(AdminGuard)
     create(@Request() req: any): Promise<IFestival | null> {

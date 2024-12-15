@@ -3,6 +3,7 @@ import { Get, Param, Post, Body, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@festival-planner/backend/auth';
 import { ITicket } from '@festival-planner/shared/api';
 import { TicketService } from './ticket.service';
+import { UpdateTicketDto } from '@festival-planner/backend/dto';
 
 @Controller('ticket')
 export class TicketController {
@@ -18,6 +19,12 @@ export class TicketController {
     @Get(':id')
     getOne(@Param('id') id: string): Promise<ITicket | null> {
         return this.ticketService.findOne(id);
+    }
+
+    @Put(':id')
+    @UseGuards(AuthGuard)
+    update(@Param('id') id: string, @Body() ticket: UpdateTicketDto): Promise<ITicket | null> {
+        return this.ticketService.update(id, ticket);
     }
 
     @Post('')
