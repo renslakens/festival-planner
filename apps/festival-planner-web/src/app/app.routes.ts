@@ -1,8 +1,10 @@
 import { Route } from '@angular/router';
-import { AboutComponent } from '../../../../libs/frontend/features/src/lib/about/about.component';
-import { FestivalListComponent } from '../../../../libs/frontend/features/src/lib/festival/festival-list/festival-list.component';
+import { AboutComponent } from '@festival-planner/features';
+import { FestivalListComponent } from '@festival-planner/features';
 
 export const appRoutes: Route[] = [
+    { path: '', redirectTo: 'festivals', pathMatch: 'full' },
+
     { path: 'about', component: AboutComponent },
     { path: 'festivals', component: FestivalListComponent },
 ];

@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IFestival, IFestivalResponse, FestivalListResponse } from '@festival-planner/shared/api';
-import { AuthService } from '@festival-planner/features';
+import { IFestival, FestivalListResponse } from '@festival-planner/shared/api';
+import { AuthService } from '../auth/auth.service';
+import { commonEnvironment } from '@festival-planner/util-env';
 
 @Injectable({
     providedIn: 'root',
 })
 export class FestivalService {
-    private apiUrl = `${process.env['dataApiUrl']}/festival`;
+    private apiUrl = `${commonEnvironment.apiUrl}/festivals`;
 
     constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -30,10 +31,10 @@ export class FestivalService {
         return this.http.get<FestivalListResponse>(this.apiUrl, { headers });
     }
 
-    getFestivalById(id: string): Observable<IFestivalResponse> {
-        const headers = this.createAuthHeaders();
-        return this.http.get<IFestivalResponse>(`${this.apiUrl}/${id}`, { headers });
-    }
+    // getFestivalById(id: string): Observable<IFestivalResponse> {
+    //     const headers = this.createAuthHeaders();
+    //     return this.http.get<IFestivalResponse>(`${this.apiUrl}/${id}`, { headers });
+    // }
 
     createFestival(festival: IFestival): Observable<IFestival> {
         const headers = this.createAuthHeaders();

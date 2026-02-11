@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IUserCredentials, IUserIdentity } from '@festival-planner/shared/api';
 import { jwtDecode } from 'jwt-decode';
-import * as dotenv from 'dotenv';
+import { commonEnvironment } from '@festival-planner/util-env';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
-    private apiUrl = `${process.env['dataApiUrl']}/auth`;
+    private apiUrl = `${commonEnvironment.apiUrl}/auth`;
     private readonly tokenKey = 'authToken'; // Sleutel voor opslag in localStorage
 
     constructor(private http: HttpClient) { }

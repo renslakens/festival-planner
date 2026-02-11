@@ -6,23 +6,25 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'festival-planner-festival-list',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './festival-list.component.html',
-  styleUrl: './festival-list.component.css',
+  styleUrls: ['./festival-list.component.css'],
 })
 export class FestivalListComponent implements OnInit, OnDestroy {
   festivals: IFestival[] | null = null;
   subscription: Subscription | undefined = undefined;
 
-  constructor(private festivalService: FestivalService) {}
+  constructor(private festivalService: FestivalService) { }
 
   ngOnInit(): void {
-    this.subscription = this.festivalService.list().subscribe((results) => {
+    this.subscription = this.festivalService.getFestivals().subscribe((results) => {
       console.log(`festivals returned: ${results}`);
       this.festivals = results;
     })
   }
 
   ngOnDestroy(): void {
-    if(this.subscription) this.subscription.unsubscribe();
+    if (this.subscription) this.subscription.unsubscribe();
   }
 }

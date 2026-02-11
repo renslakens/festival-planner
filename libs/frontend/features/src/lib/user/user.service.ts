@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IUserInfo } from '@festival-planner/shared/api';
+import { commonEnvironment } from '@festival-planner/util-env';
 
 @Injectable({
     providedIn: 'root',
 })
 export class UserService {
-    private apiUrl = `${process.env['dataApiUrl']}/user`;
+    private apiUrl = `${commonEnvironment.apiUrl}/user`;
 
     constructor(private http: HttpClient) { }
 

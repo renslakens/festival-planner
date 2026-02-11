@@ -15,10 +15,10 @@
             </tr>
         </thead>
         <tbody>
-            @for (user of users; track user.id) {
+            @for (user of users; track user._id) {
             <tr>
-                <td>{{user.id}}</td>
-                <td><a routerLink="{{user.id}}">{{user.name}}</a></td>
+                <td>{{user._id}}</td>
+                <td><a routerLink="{{user._id}}">{{user.name}}</a></td>
                 <td>{{user.emailAddress}}</td>
                 <td>{{user.isActive}}</td>
             </tr>

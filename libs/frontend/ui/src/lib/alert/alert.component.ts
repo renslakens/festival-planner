@@ -1,17 +1,21 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { AlertService, Alert } from './alert.service';
 import { Subscription } from 'rxjs';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-alert',
+  standalone: true,
+  imports: [CommonModule, NgbModule],
   templateUrl: 'alert.component.html',
 })
 export class AlertComponent implements OnInit, OnDestroy {
-  alert: Alert;
+  alert!: Alert;
   staticAlertClosed = false;
-  subs: Subscription;
+  subs!: Subscription;
 
-  constructor(private alertService: AlertService) {}
+  constructor(private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.subs = this.alertService.alert$.subscribe((alert) => {

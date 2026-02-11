@@ -4,3 +4,6 @@ export * from './lib/user/user-list/user-list.component';
 export * from './lib/user/user-details/user-details.component';
 export * from './lib/user/user-edit/user-edit.component';
 export * from './lib/festival/festival.service';
+export * from './lib/festival/festival-list/festival-list.component';
+export * from './lib/festival/festival-detail/festival-detail.component';
+export * from './lib/about/about.component';

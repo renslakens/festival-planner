@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { FestivalListComponent } from './festival/festival-list/festival-list.component';
 import { FestivalDetailComponent } from './festival/festival-detail/festival-detail.component';
 import { FestivalService } from './festival/festival.service';
@@ -14,13 +13,18 @@ import { UserListComponent } from './user/user-list/user-list.component';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
 
 @NgModule({
-    imports: [CommonModule, RouterModule, ReactiveFormsModule, FestivalDetailComponent, AboutComponent, HttpClientModule],
+    imports: [
+        CommonModule,
+        RouterModule,
+        ReactiveFormsModule,
+        FestivalListComponent,
+        FestivalDetailComponent,
+        AboutComponent
+    ],
     declarations: [
         UserDetailsComponent,
         UserListComponent,
         UserEditComponent,
-        
-        FestivalListComponent,
     ],
     providers: [
         FestivalService,

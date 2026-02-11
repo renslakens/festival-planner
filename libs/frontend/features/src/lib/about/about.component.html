@@ -1,14 +1,60 @@
-<div class="container">
-    <div class="d-flex justify-content-between mt-3">
-        <h1>About</h1>
-    </div>
-    <hr>
-    <div>
-        <img class="d-block" src="/assets/festival-erd.png" alt="erd">
-        <p>Image wilt niet inladen?</p>
-        <h2>User journeys + context</h2>
-        <p>Festival kan geörganiseerd worden<br> Meerdere artiesten kunnen hier optreden.<br> Gebruiker kan zien wanneer festivals plaatsvinden met wie er optreden op welk podium.<br> Gebruiker kan zich aanmelden voor een festival.</p>
-        <p> Een festival wordt aangemaakt door een admin.</p>
-        <p>Als gebruiker kom je op de website en zie je een overzicht van alle festivals die je gepland hebt.</p>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h1 class="card-title text-primary">Over Festival Planner</h1>
+            <p class="lead">
+                Een Full-Stack Enterprise applicatie ontwikkeld voor het HBO Informatica assessment.
+                Dit platform combineert document-georiënteerde opslag met graaf-technologie voor geavanceerde
+                query-mogelijkheden.
+            </p>
+
+            <hr>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h3><i class="bi bi-diagram-3-fill"></i> Architectuur & Design</h3>
+                    <p>
+                        Dit project maakt gebruik van een <strong>Polyglot Persistence</strong> architectuur:
+                    </p>
+                    <ul>
+                        <li><strong>MongoDB:</strong> Fungeert als de <em>Source of Truth</em> voor entiteiten zoals
+                            Festivals, Users en Tickets. Hier wordt data robuust en consistent opgeslagen.</li>
+                        <li><strong>Neo4j:</strong> Wordt gebruikt voor het modelleren van complexe relaties (<em>Graph
+                                Database</em>). Dit maakt queries mogelijk zoals: <em>"Toon alle Rock-optredens op
+                                buitenpodia na 20:00"</em>.</li>
+                        <li><strong>NestJS & Angular:</strong> Een moderne TypeScript stack binnen een Nx Monorepo zorgt
+                            voor type-safety van database tot frontend.</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h3><i class="bi bi-person-badge-fill"></i> User Journeys</h3>
+                    <ul>
+                        <li><strong>Bezoeker:</strong> Kan festivals bekijken, filteren op genre/datum en tickets kopen.
+                            Ziet persoonlijke aanbevelingen op basis van vrienden (Neo4j).</li>
+                        <li><strong>Organisator:</strong> Beheert festivals, podia en artiesten. Heeft toegang tot een
+                            dashboard met verkoopstatistieken.</li>
+                        <li><strong>Admin:</strong> Volledige controle over gebruikersbeheer en platform-brede
+                            instellingen.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <h3>Datamodel (ERD)</h3>
+                <p>Hieronder is het conceptuele model van de applicatie weergegeven, verdeeld over de document-store en
+                    graph-store.</p>
+                <img src="/assets/festival-erd.png" alt="Entity Relationship Diagram"
+                    class="img-fluid border rounded shadow-sm" style="max-height: 400px;">
+                <small class="text-muted d-block mt-2">
+                    * Blauwe entiteiten bevinden zich in MongoDB. Relatielijnen representeren de edges in Neo4j.
+                </small>
+            </div>
+
+            <div class="alert alert-info mt-4">
+                <strong>Technische verantwoording:</strong> De keuze voor Neo4j naast MongoDB is gemaakt om de N+1 query
+                problemen bij diepe relaties (User -> Ticket -> Festival -> Show -> Artist) te voorkomen en performante
+                recommendation engines mogelijk te maken.
+            </div>
+        </div>
     </div>
 </div>
