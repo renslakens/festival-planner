@@ -16,4 +16,7 @@ export type ICreateFestival = Pick<
 >;
 export type IUpdateFestival = Partial<Omit<IFestival, 'id'>>;
 
-export type IFestivalResponse = IFestival;
+export interface IFestivalResponse {
+    results: IFestival;
+    info?: any;
+}

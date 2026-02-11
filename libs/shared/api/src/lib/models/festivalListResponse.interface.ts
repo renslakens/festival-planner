@@ -1,3 +1,10 @@
 import { IFestival } from "./festival.interface";
 
-export type FestivalListResponse = IFestival[];
+export interface IFestivalListResponse {
+    results: IFestival[];
+    info: {
+        version: string;
+        type: string;
+        count: number;
+    };
+}

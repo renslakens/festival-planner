@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { IFestival } from '@festival-planner/shared/api';
 import { FestivalService } from '../festival.service';
 import { Subscription } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'festival-planner-festival-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './festival-list.component.html',
   styleUrls: ['./festival-list.component.css'],
 })
@@ -18,9 +19,9 @@ export class FestivalListComponent implements OnInit, OnDestroy {
   constructor(private festivalService: FestivalService) { }
 
   ngOnInit(): void {
-    this.subscription = this.festivalService.getFestivals().subscribe((results) => {
-      console.log(`festivals returned: ${results}`);
-      this.festivals = results;
+    this.subscription = this.festivalService.getFestivals().subscribe((response) => {
+      console.log(`festivals returned: ${response.results}`);
+      this.festivals = response.results;
     })
   }
 

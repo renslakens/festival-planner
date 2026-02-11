@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { IFestival, FestivalListResponse } from '@festival-planner/shared/api';
+import { map, Observable } from 'rxjs';
+import { IFestival, IFestivalListResponse, IFestivalResponse } from '@festival-planner/shared/api';
 import { AuthService } from '../auth/auth.service';
 import { commonEnvironment } from '@festival-planner/util-env';
 
@@ -26,15 +26,17 @@ export class FestivalService {
         );
     }
 
-    getFestivals(): Observable<FestivalListResponse> {
+    getFestivals(): Observable<IFestivalListResponse> {
         const headers = this.createAuthHeaders();
-        return this.http.get<FestivalListResponse>(this.apiUrl, { headers });
+        return this.http.get<IFestivalListResponse>(this.apiUrl, { headers });
     }
 
-    // getFestivalById(id: string): Observable<IFestivalResponse> {
-    //     const headers = this.createAuthHeaders();
-    //     return this.http.get<IFestivalResponse>(`${this.apiUrl}/${id}`, { headers });
-    // }
+    getFestivalById(id: string): Observable<IFestival> {
+        const headers = this.createAuthHeaders();
+        return this.http.get<IFestivalResponse>(`${this.apiUrl}/${id}`, { headers }).pipe(
+            map(response => response.results)
+        );
+    }
 
     createFestival(festival: IFestival): Observable<IFestival> {
         const headers = this.createAuthHeaders();

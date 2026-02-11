@@ -1,0 +1,58 @@
+<div class="container mt-5" *ngIf="festival; else loading">
+    <div class="card shadow">
+        <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
+            <h2 class="mb-0">{{ festival.name }}</h2>
+            <span *ngIf="festival.is18Plus" class="badge bg-warning text-dark">18+</span>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <h5 class="text-muted">Beschrijving</h5>
+                    <p>{{ festival.description }}</p>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <strong><i class="bi bi-calendar-event"></i> Datum:</strong><br>
+                            {{ festival.date | date:'fullDate' }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <strong><i class="bi bi-geo-alt"></i> Locatie:</strong><br>
+                            {{ festival.location }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 border-start">
+                    <h5>Details</h5>
+                    <ul class="list-group list-group-flush mb-4">
+                        <li class="list-group-item">
+                            Podia: <span class="badge bg-secondary float-end">{{ festival.stages?.length || 0 }}</span>
+                        </li>
+                    </ul>
+
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-warning" disabled>Bewerken (Binnenkort)</button>
+                        <button class="btn btn-danger" disabled>Verwijderen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <a routerLink="/festivals" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Terug naar overzicht
+            </a>
+        </div>
+    </div>
+</div>
+
+<ng-template #loading>
+    <div class="text-center mt-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Laden...</span>
+        </div>
+    </div>
+</ng-template>
