@@ -5,11 +5,11 @@ import { IStage } from '@festival-planner/shared/api';
 import { StageService } from './stage.service';
 import { UpdateStageDto } from '@festival-planner/backend/dto';
 
-@Controller('stage')
+@Controller('stages')
 export class StageController {
     private readonly logger = new Logger(StageController.name);
 
-    constructor(private stageService: StageService) {}
+    constructor(private stageService: StageService) { }
 
     @Get('')
     getAll(): Promise<IStage[]> {

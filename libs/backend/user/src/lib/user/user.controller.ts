@@ -12,7 +12,7 @@ import { IUserInfo, IUser } from '@festival-planner/shared/api';
 import { CreateUserDto, UpdateUserDto } from '@festival-planner/backend/dto';
 import { UserExistGuard } from './user-exists.guard';
 
-@Controller('user')
+@Controller('users')
 export class UserController {
     constructor(private readonly userService: UserService) { }
 

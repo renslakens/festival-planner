@@ -5,7 +5,7 @@ import { IFestival } from '@festival-planner/shared/api';
 import { CreateFestivalDto, UpdateFestivalDto } from '@festival-planner/backend/dto';
 import { AdminGuard, AuthGuard } from '@festival-planner/backend/auth';
 
-@Controller('festival')
+@Controller('festivals')
 export class FestivalController {
     private readonly logger = new Logger(FestivalController.name);
 

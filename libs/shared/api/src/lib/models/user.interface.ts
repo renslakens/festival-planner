@@ -16,11 +16,16 @@ export enum UserGender {
     Unknown = 'Unknown'
 }
 
+export interface IUserLogin {
+    emailAddress: string;
+    password: string;
+}
+
 /**
  * Minimal user information
  */
 
-export interface IUserIdentity{// extends IEntity {
+export interface IUserIdentity {// extends IEntity {
     name: string;
     emailAddress: string;
     profileImgUrl: string;

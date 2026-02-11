@@ -5,11 +5,11 @@ import { IPerformance } from '@festival-planner/shared/api';
 import { PerformanceService } from './performance.service';
 import { UpdatePerformanceDto } from '@festival-planner/backend/dto';
 
-@Controller('performance')
+@Controller('performances')
 export class PerformanceController {
     private readonly logger = new Logger(PerformanceController.name);
 
-    constructor(private performanceService: PerformanceService) {}
+    constructor(private performanceService: PerformanceService) { }
 
     @Get('')
     getAll(): Promise<IPerformance[]> {

@@ -1,0 +1,47 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Inloggen</h3>
+
+                    <div *ngIf="error" class="alert alert-danger">
+                        {{ error }}
+                    </div>
+
+                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email adres</label>
+                            <input type="email" id="email" class="form-control" formControlName="emailAddress"
+                                [ngClass]="{'is-invalid': loginForm.get('emailAddress')?.invalid && loginForm.get('emailAddress')?.touched}">
+                            <div class="invalid-feedback">
+                                Vul een geldig emailadres in.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Wachtwoord</label>
+                            <input type="password" id="password" class="form-control" formControlName="password"
+                                [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}">
+                            <div class="invalid-feedback">
+                                Wachtwoord is verplicht (min. 4 tekens).
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">
+                                Inloggen
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="mt-3 text-center">
+                        <small>Nog geen account? <a routerLink="/register">Registreer hier</a></small>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

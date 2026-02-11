@@ -5,7 +5,7 @@ import { ITicket } from '@festival-planner/shared/api';
 import { TicketService } from './ticket.service';
 import { UpdateTicketDto } from '@festival-planner/backend/dto';
 
-@Controller('ticket')
+@Controller('tickets')
 export class TicketController {
     private readonly logger = new Logger(TicketController.name);
 

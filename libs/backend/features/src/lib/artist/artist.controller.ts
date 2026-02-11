@@ -5,11 +5,11 @@ import { IArtist } from '@festival-planner/shared/api';
 import { ArtistService } from './artist.service';
 import { UpdateArtistDto } from '@festival-planner/backend/dto';
 
-@Controller('artist')
+@Controller('artists')
 export class ArtistController {
     private readonly logger = new Logger(ArtistController.name);
 
-    constructor(private artistService: ArtistService) {}
+    constructor(private artistService: ArtistService) { }
 
     @Get('')
     getAll(): Promise<IArtist[]> {
