@@ -22,7 +22,10 @@ async function bootstrap() {
     app.enableCors(corsOptions);
 
     app.useGlobalInterceptors(new ApiResponseInterceptor());
-    app.useGlobalPipes(new ValidationPipe());
+    app.useGlobalPipes(new ValidationPipe({
+        transform: true,
+        transformOptions: { enableImplicitConversion: true }
+    }));
 
     // General exception handling
     // app.useGlobalFilters(new HttpExceptionFilter());

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FestivalService } from '../festival.service';
-import { IFestival } from '@festival-planner/shared/api';
-import { Observable } from 'rxjs';
+import { IFestival, IStage } from '@festival-planner/shared/api';
+import { StageService } from '@festival-planner/features';
 
 @Component({
   selector: 'lib-festival-detail',
@@ -14,14 +14,15 @@ import { Observable } from 'rxjs';
 })
 export class FestivalDetailComponent implements OnInit {
   festival: IFestival | null = null;
+  stages: IStage[] = [];
 
   constructor(
     private route: ActivatedRoute,
-    private festivalService: FestivalService
+    private festivalService: FestivalService,
+    private stageService: StageService,
   ) { }
 
   ngOnInit(): void {
-    // Haal ID uit URL (bv: /festivals/6759f220...)
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {
@@ -29,6 +30,13 @@ export class FestivalDetailComponent implements OnInit {
         next: (data) => this.festival = data,
         error: (err) => {
           console.error('Error loading festival', err);
+        }
+      });
+
+      this.stageService.getStagesByFestivalId(id).subscribe({
+        next: (data) => this.stages = data,
+        error: (err) => {
+          console.error('Error loading stages', err);
         }
       });
     }

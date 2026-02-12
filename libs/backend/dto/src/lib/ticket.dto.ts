@@ -4,6 +4,7 @@ import {
     IsOptional,
     IsDate
 } from 'class-validator';
+import { Type } from 'class-transformer';
 import {
     ICreateTicket,
     IUpdateTicket
@@ -16,6 +17,7 @@ export class CreateTicketDto implements ICreateTicket {
 
     @IsNotEmpty()
     @IsDate()
+    @Type(() => Date)
     purchaseDate!: Date;
 
     @IsNotEmpty()
@@ -35,6 +37,7 @@ export class UpdateTicketDto implements IUpdateTicket {
 
     @IsOptional()
     @IsDate()
+    @Type(() => Date)
     purchaseDate!: Date;
 
     @IsOptional()

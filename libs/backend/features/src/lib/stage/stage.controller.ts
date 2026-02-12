@@ -3,7 +3,7 @@ import { Get, Param, Post, Body, UseGuards } from '@nestjs/common';
 import { AdminGuard, AuthGuard } from '@festival-planner/backend/auth';
 import { IStage } from '@festival-planner/shared/api';
 import { StageService } from './stage.service';
-import { UpdateStageDto } from '@festival-planner/backend/dto';
+import { CreateStageDto, UpdateStageDto } from '@festival-planner/backend/dto';
 
 @Controller('stages')
 export class StageController {
@@ -34,9 +34,13 @@ export class StageController {
 
     @Post('')
     @UseGuards(AdminGuard)
-    create(@Request() req: any): Promise<IStage | null> {
-        this.logger.log('req.user.user_id = ', req.user.user_id);
-        return this.stageService.create(req);
+    create(@Body() createStageDto: CreateStageDto, @Request() req: any): Promise<IStage | null> {
+        // Probeer verschillende properties voor de user ID (afhankelijk van je auth strategy)
+        const userId = req.user?.user_id || req.user?.sub || req.user?._id || 'unknown_user';
+        this.logger.log(`Creating stage for user: ${userId}`);
+
+        // Geef DTO en userId los mee aan de service
+        return this.stageService.create(createStageDto, userId);
     }
 
     @Delete(':id')

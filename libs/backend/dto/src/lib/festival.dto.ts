@@ -5,6 +5,7 @@ import {
     IsOptional,
     IsDate
 } from 'class-validator';
+import { Type } from 'class-transformer';
 import {
     ICreateFestival,
     IUpdateFestival
@@ -17,6 +18,7 @@ export class CreateFestivalDto implements ICreateFestival {
 
     @IsNotEmpty()
     @IsDate()
+    @Type(() => Date)
     date!: Date;
 
     @IsNotEmpty()
@@ -43,6 +45,7 @@ export class UpdateFestivalDto implements IUpdateFestival {
 
     @IsOptional()
     @IsDate()
+    @Type(() => Date)
     date!: Date;
 
     @IsOptional()
@@ -61,4 +64,3 @@ export class UpdateFestivalDto implements IUpdateFestival {
     @IsString()
     stages!: string[];
 }
-

@@ -6,6 +6,7 @@ import {
     IsBoolean,
     IsDate
 } from 'class-validator';
+import { Type } from 'class-transformer';
 import {
     ICreatePerformance,
     IUpdatePerformance
@@ -14,6 +15,7 @@ import {
 export class CreatePerformanceDto implements ICreatePerformance {
     @IsNotEmpty()
     @IsDate()
+    @Type(() => Date)
     dateTime!: Date;
 
     @IsNotEmpty()
@@ -40,6 +42,7 @@ export class CreatePerformanceDto implements ICreatePerformance {
 export class UpdatePerformanceDto implements IUpdatePerformance {
     @IsOptional()
     @IsDate()
+    @Type(() => Date)
     dateTime!: Date;
 
     @IsOptional()
