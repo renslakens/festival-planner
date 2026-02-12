@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { AboutComponent, FestivalDetailComponent, FestivalEditComponent, LoginComponent, StageEditComponent } from '@festival-planner/features';
+import { AboutComponent, ArtistEditComponent, ArtistListComponent, FestivalDetailComponent, FestivalEditComponent, LoginComponent, StageEditComponent } from '@festival-planner/features';
 import { FestivalListComponent } from '@festival-planner/features';
 
 export const appRoutes: Route[] = [
@@ -13,9 +13,8 @@ export const appRoutes: Route[] = [
     { path: 'festivals/:id', component: FestivalDetailComponent },
     { path: 'festivals/:id/stages/new', component: StageEditComponent },
     { path: 'festivals/:id/edit', component: FestivalEditComponent },
-
-    // { path: 'stages', component: StageListComponent },
-
-    // { path: 'stages/:id', component: StageDetailComponent },
     { path: 'stages/:id/edit', component: StageEditComponent },
+    { path: 'artists', component: ArtistListComponent },
+    { path: 'artists/new', component: ArtistEditComponent },
+    { path: 'artists/:id/edit', component: ArtistEditComponent },
 ];

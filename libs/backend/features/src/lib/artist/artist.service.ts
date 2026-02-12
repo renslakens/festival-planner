@@ -7,7 +7,7 @@ import {
 } from '@festival-planner/backend/user';
 import { IArtist } from '@festival-planner/shared/api';
 import { Artist as ArtistModel, ArtistDocument } from './artist.schema';
-import { UpdateArtistDto } from '@festival-planner/backend/dto';
+import { CreateArtistDto, UpdateArtistDto } from '@festival-planner/backend/dto';
 
 @Injectable()
 export class ArtistService {
@@ -16,7 +16,7 @@ export class ArtistService {
     constructor(
         @InjectModel(ArtistModel.name) private artistModel: Model<ArtistDocument>,
         @InjectModel(UserModel.name) private userModel: Model<UserDocument>
-    ) {}
+    ) { }
 
     /**
      * Zie https://mongoosejs.com/docs/populate.html#population
@@ -41,29 +41,13 @@ export class ArtistService {
         return item;
     }
 
-    async create(req: any): Promise<IArtist | null> {
-        const artist = req.body;
-        const user_id = req.user.user_id;
-
-        if (artist && user_id) {
-            const existingArtist = await this.artistModel.findOne({ name: artist.name }).exec();
-            if (existingArtist) {
-                this.logger.warn(`Artist ${artist.name} already exists`);
-                throw new HttpException(`Artist ${artist.name} already exists`, 400);
-            }
-
-            this.logger.log(`Create artist ${artist.name} for ${user_id}`);
-            const user = await this.userModel
-                .findOne({ _id: user_id })
-                .select('-password -artists -role -__v -isActive')
-                .exec();
-            const createdItem = {
-                ...artist,
-                //cook: user
-            };
-            return this.artistModel.create(createdItem);
+    async create(artistDto: CreateArtistDto): Promise<IArtist | null> {
+        // Check of artiest al bestaat
+        const existing = await this.artistModel.findOne({ name: artistDto.name }).exec();
+        if (existing) {
+            throw new HttpException(`Artist ${artistDto.name} already exists`, 400);
         }
-        return null;
+        return this.artistModel.create(artistDto);
     }
 
     async update(_id: string, artist: UpdateArtistDto): Promise<IArtist | null> {

@@ -1,0 +1,27 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Artiesten</h1>
+        <a routerLink="/artists/new" class="btn btn-primary">
+            <i class="bi bi-person-plus"></i> Nieuwe Artiest
+        </a>
+    </div>
+
+    <div class="row">
+        @for (artist of artists; track artist._id) {
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ artist.name }}</h5>
+                    <span class="badge bg-secondary mb-2">{{ artist.genre }}</span>
+                    <p class="card-text small">{{ artist.description }}</p>
+                </div>
+                <div class="card-footer bg-white text-center">
+                    <a [routerLink]="['/artists', artist._id, 'edit']" class="btn btn-outline-secondary btn-sm">
+                        Bewerken
+                    </a>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>

@@ -3,7 +3,7 @@ import { Get, Param, Post, Body, UseGuards } from '@nestjs/common';
 import { AdminGuard, AuthGuard } from '@festival-planner/backend/auth';
 import { IArtist } from '@festival-planner/shared/api';
 import { ArtistService } from './artist.service';
-import { UpdateArtistDto } from '@festival-planner/backend/dto';
+import { CreateArtistDto, UpdateArtistDto } from '@festival-planner/backend/dto';
 
 @Controller('artists')
 export class ArtistController {
@@ -29,9 +29,8 @@ export class ArtistController {
 
     @Post('')
     @UseGuards(AdminGuard)
-    create(@Request() req: any): Promise<IArtist | null> {
-        this.logger.log('req.user.user_id = ', req.user.user_id);
-        return this.artistService.create(req);
+    create(@Body() createArtistDto: CreateArtistDto): Promise<IArtist | null> {
+        return this.artistService.create(createArtistDto);
     }
 
     @Delete(':id')
