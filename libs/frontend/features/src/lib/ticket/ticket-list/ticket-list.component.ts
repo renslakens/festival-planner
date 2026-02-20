@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TicketService } from '../ticket.service';
-import { ITicket } from '@festival-planner/shared/api';
+import { IFestival, IFestivalListResponse, ITicket } from '@festival-planner/shared/api';
 import { AuthService } from '../../auth/auth.service';
+import { FestivalService } from '@festival-planner/features';
 
 @Component({
   selector: 'lib-ticket-list',
@@ -13,12 +14,14 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class TicketListComponent implements OnInit {
   tickets: ITicket[] = [];
+  festivals: IFestival[] = [];
   isLoggedIn = false;
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
   constructor(
     private ticketService: TicketService,
+    private festivalService: FestivalService,
     private authService: AuthService
   ) { }
 
@@ -29,14 +32,29 @@ export class TicketListComponent implements OnInit {
       this.isLoggedIn = true;
     }
 
+    this.loadFestivals();
+
     this.loadTickets();
   }
 
   loadTickets(): void {
     this.ticketService.getTickets().subscribe({
-      next: (results) => this.tickets = results,
+      next: (results) => this.tickets = results.filter(ticket => !ticket.userId),
       error: (err) => console.error('Fout bij ophalen tickets', err)
     });
+  }
+
+  loadFestivals(): void {
+    this.festivalService.getFestivals().subscribe({
+      next: (response: IFestivalListResponse) => {
+        this.festivals = response.results || [];
+      }
+    });
+  }
+
+  getFestivalName(festivalId: string): string {
+    const festival = this.festivals.find(f => f._id === festivalId);
+    return festival ? festival.name : 'Onbekend Festival';
   }
 
   buyTicket(ticketId: string): void {
@@ -49,10 +67,9 @@ export class TicketListComponent implements OnInit {
     this.successMessage = null;
 
     this.ticketService.purchaseTicket(ticketId).subscribe({
-      next: (purchasedTicket) => {
+      next: () => {
         this.successMessage = "Ticket succesvol gekocht! Veel plezier!";
-        // Optioneel: herlaad tickets als er een 'voorraad' is die afneemt
-        // this.loadTickets(); 
+        this.loadTickets();
       },
       error: (err) => {
         console.error(err);
