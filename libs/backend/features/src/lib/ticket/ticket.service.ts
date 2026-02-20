@@ -42,20 +42,18 @@ export class TicketService {
         return item;
     }
 
-    async create(createTicketDto: CreateTicketDto, userId: string): Promise<ITicket | null> {
-        if (createTicketDto && userId) {
-            this.logger.log(`Create ticket ${createTicketDto.name} for ${userId}`);
-            const user = await this.userModel
-                .findOne({ _id: userId })
-                .select('-password -tickets -role -__v -isActive')
-                .exec();
-            const createdItem = {
-                ...createTicketDto,
-                //cook: user
-            };
-            return this.ticketModel.create(createdItem);
+    async create(ticketDto: CreateTicketDto, adminId: string): Promise<ITicket | null> {
+        this.logger.log(`Create ticket ${ticketDto.name} requested by admin ${adminId}`);
+
+        const festival = await this.festivalModel.findById(ticketDto.festivalId).exec();
+        if (!festival) {
+            this.logger.warn(`Festival ${ticketDto.festivalId} not found`);
+            throw new HttpException(`Festival ${ticketDto.festivalId} not found`, 404);
         }
-        return null;
+
+        const createdTicket = await this.ticketModel.create(ticketDto);
+
+        return createdTicket;
     }
 
     async update(_id: string, ticket: UpdateTicketDto): Promise<ITicket | null> {
@@ -85,7 +83,7 @@ export class TicketService {
         }
 
         // Fetch the festival corresponding to the ticket
-        const festival = await this.festivalModel.findById(ticket.festivalId).exec(); // Assuming you have a `FestivalModel`
+        const festival = await this.festivalModel.findById(ticket.festivalId).exec();
         if (!festival) {
             this.logger.error(`Festival with id ${ticket.festivalId} not found`);
             throw new HttpException(`Festival not found`, 404);

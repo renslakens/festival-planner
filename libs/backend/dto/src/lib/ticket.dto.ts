@@ -2,7 +2,8 @@ import {
     IsNotEmpty,
     IsString,
     IsOptional,
-    IsDate
+    IsDate,
+    IsNumber
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import {
@@ -16,18 +17,12 @@ export class CreateTicketDto implements ICreateTicket {
     name!: string;
 
     @IsNotEmpty()
-    @IsDate()
-    @Type(() => Date)
-    purchaseDate!: Date;
-
-    @IsNotEmpty()
+    @IsNumber()
     price!: number;
 
     @IsNotEmpty()
+    @IsString()
     festivalId!: string;
-
-    @IsNotEmpty()
-    userId!: string;
 }
 
 export class UpdateTicketDto implements IUpdateTicket {
@@ -36,17 +31,19 @@ export class UpdateTicketDto implements IUpdateTicket {
     name!: string;
 
     @IsOptional()
-    @IsDate()
     @Type(() => Date)
+    @IsDate()
     purchaseDate!: Date;
 
     @IsOptional()
+    @IsNumber()
     price!: number;
 
     @IsOptional()
+    @IsString()
     festivalId!: string;
 
     @IsOptional()
+    @IsString()
     userId!: string;
 }
-
