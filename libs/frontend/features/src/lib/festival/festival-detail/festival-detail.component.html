@@ -35,15 +35,23 @@
                     </div>
 
                     <ul class="list-group list-group-flush mb-4" *ngIf="stages.length > 0; else noStages">
-                        <li class="list-group-item d-flex justify-content-between align-items-center"
-                            *ngFor="let stage of stages">
-                            <div>
-                                <strong>{{ stage.name }}</strong><br>
-                                <small class="text-muted">{{ stage.covered ? 'Overdekt' : 'Buiten' }} - {{ stage.capacity }} pers.</small>
+                        <li class="list-group-item" *ngFor="let stage of stages">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>{{ stage.name }}</strong>
+                                    <small class="d-block text-muted">{{ stage.covered ? 'Overdekt' : 'Buiten' }} - {{ stage.capacity }} pers.</small>
+                                </div>
+                                <div>
+                                    <a [routerLink]="['/stages', stage._id, 'performances', 'new']"
+                                        class="btn btn-sm btn-outline-info me-2" title="Programma toevoegen">
+                                        <i class="bi bi-calendar-plus"></i>
+                                    </a>
+                                    <a [routerLink]="['/stages', stage._id, 'edit']" class="btn btn-sm btn-link">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                </div>
                             </div>
-                            <a [routerLink]="['/stages', stage._id, 'edit']" class="btn btn-link btn-sm text-secondary">
-                                <i class="bi bi-pencil"></i>
-                            </a>
+
                         </li>
                     </ul>
 
@@ -60,22 +68,6 @@
                         <button class="btn btn-danger" disabled>Verwijderen</button>
                     </div>
                 </div>
-
-                <!-- <div class="col-md-4 border-start">
-                    <h5>Details</h5>
-                    <ul class="list-group list-group-flush mb-4">
-                        <li class="list-group-item">
-                            Podia: <span class="badge bg-secondary float-end">{{ festival.stages?.length || 0 }}</span>
-                        </li>
-                    </ul>
-
-                    <div class="d-grid gap-2">
-                        <a [routerLink]="['/festivals', festival._id, 'edit']" class="btn btn-warning">
-                            <i class="bi bi-pencil-square"></i> Bewerken
-                        </a>
-                        <button class="btn btn-danger" disabled>Verwijderen</button>
-                    </div>
-                </div> -->
             </div>
         </div>
 

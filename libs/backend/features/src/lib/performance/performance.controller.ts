@@ -3,7 +3,7 @@ import { Get, Param, Post, Body, UseGuards } from '@nestjs/common';
 import { AdminGuard, AuthGuard } from '@festival-planner/backend/auth';
 import { IPerformance } from '@festival-planner/shared/api';
 import { PerformanceService } from './performance.service';
-import { UpdatePerformanceDto } from '@festival-planner/backend/dto';
+import { CreatePerformanceDto, UpdatePerformanceDto } from '@festival-planner/backend/dto';
 
 @Controller('performances')
 export class PerformanceController {
@@ -34,9 +34,9 @@ export class PerformanceController {
 
     @Post('')
     @UseGuards(AdminGuard)
-    create(@Request() req: any): Promise<IPerformance | null> {
-        this.logger.log('req.user.user_id = ', req.user.user_id);
-        return this.performanceService.create(req);
+    create(@Body() createDto: CreatePerformanceDto, @Request() req: any): Promise<IPerformance | null> {
+        const userId = req.user?.user_id || req.user?.sub || 'unknown';
+        return this.performanceService.create(createDto, userId);
     }
 
     @Delete(':id')

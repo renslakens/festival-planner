@@ -20,7 +20,7 @@ export class PerformanceService {
         @InjectModel(StageModel.name) private stageModel: Model<StageDocument>,
         @InjectModel(ArtistModel.name) private artistModel: Model<ArtistDocument>,
         @InjectModel(UserModel.name) private userModel: Model<UserDocument>
-    ) {}
+    ) { }
 
     /**
      * Zie https://mongoosejs.com/docs/populate.html#population
@@ -54,52 +54,23 @@ export class PerformanceService {
         return items;
     }
 
-    async create(req: any): Promise<IPerformance | null> {
-        const performance = req.body;
-        const user_id = req.user.user_id;
+    async create(performanceDto: CreatePerformanceDto, userId: string): Promise<IPerformance | null> {
+        this.logger.log(`Create performance requested by ${userId}`);
 
-        if (performance && user_id) {
-            const existingPerformance = await this.performanceModel.findOne({ description: performance.description }).exec();
-            if (existingPerformance) {
-                this.logger.warn(`Performance ${performance.description} already exists`);
-                throw new HttpException(`Performance ${performance.description} already exists`, 400);
-            }
+        const stage = await this.stageModel.findById(performanceDto.stageId).exec();
+        if (!stage) throw new HttpException(`Stage not found`, 404);
 
-            // Check if stage exists
-            const stage = await this.stageModel.findOne({ _id: performance.stageId }).exec();
-            if (!stage) {
-                this.logger.warn(`Stage ${performance.stageId} does not exist`);
-                throw new HttpException(`Stage ${performance.stageId} does not exist`, 400);
-            }
+        const artist = await this.artistModel.findById(performanceDto.artistId).exec();
+        if (!artist) throw new HttpException(`Artist not found`, 404);
 
-            // Check if artist exists
-            const artist = await this.artistModel.findOne({ _id: performance.artistId }).exec();
-            if (!artist) {
-                this.logger.warn(`Artist ${performance.artistId} does not exist`);
-                throw new HttpException(`Artist ${performance.artistId} does not exist`, 400);
-            }
+        const createdPerformance = await this.performanceModel.create(performanceDto);
 
-            this.logger.log(`Creating performance with description ${performance.description} for ${user_id}`);
-            const user = await this.userModel
-                .findOne({ _id: user_id })
-                .select('-password -performances -role -__v -isActive')
-                .exec();
-            const createdItem = {
-                ...performance,
-                //cook: user
-            };
+        await this.stageModel.updateOne(
+            { _id: performanceDto.stageId },
+            { $push: { performances: createdPerformance._id } }
+        );
 
-            const createdPerformance = await this.performanceModel.create(createdItem);
-
-            // Add performance to stage
-            await this.stageModel.updateOne(
-                { _id: performance.stageId },
-                { $push: { performances: createdPerformance._id } }
-            );
-
-            return createdPerformance;
-        }
-        return null;
+        return createdPerformance;
     }
 
     async update(_id: string, performance: UpdatePerformanceDto): Promise<IPerformance | null> {

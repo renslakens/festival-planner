@@ -1,0 +1,46 @@
+<div class="container mt-5">
+    <div class="card shadow-sm col-md-8 mx-auto">
+        <div class="card-header bg-info text-white">
+            <h3 class="mb-0">Optreden Toevoegen</h3>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+                <div class="mb-3">
+                    <label class="form-label">Artiest</label>
+                    <select class="form-select" formControlName="artistId">
+                        <option value="" disabled>Kies een artiest...</option>
+                        <option *ngFor="let artist of artists" [value]="artist._id">
+                            {{ artist.name }} ({{ artist.genre }})
+                        </option>
+                    </select>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Datum & Tijd</label>
+                        <input type="datetime-local" class="form-control" formControlName="dateTime">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Duur (minuten)</label>
+                        <input type="number" class="form-control" formControlName="period">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Beschrijving / Titel</label>
+                    <input type="text" class="form-control" formControlName="description"
+                        placeholder="bv. Headlineshow">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Speciale Kenmerken</label>
+                    <input type="text" class="form-control" formControlName="specialFeatures"
+                        placeholder="bv. Vuurwerk, Gastoptreden">
+                </div>
+
+                <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Opslaan</button>
+            </form>
+        </div>
+    </div>
+</div>

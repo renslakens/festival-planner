@@ -1,17 +1,26 @@
 export * from './lib/features.module';
+
+export * from './lib/about/about.component';
+
 export * from './lib/auth/auth.service';
 export * from './lib/auth/login/login.component';
+
 export * from './lib/user/user.service';
 export * from './lib/user/user-list/user-list.component';
 export * from './lib/user/user-details/user-details.component';
 export * from './lib/user/user-edit/user-edit.component';
+
 export * from './lib/festival/festival.service';
 export * from './lib/festival/festival-list/festival-list.component';
 export * from './lib/festival/festival-edit/festival-edit.component';
 export * from './lib/festival/festival-detail/festival-detail.component';
+
 export * from './lib/stage/stage.service';
 export * from './lib/stage/stage-edit/stage-edit.component';
+
+export * from './lib/performance/performance.service';
+export * from './lib/performance/performance-edit/performance-edit.component';
+
 export * from './lib/artist/artist.service';
 export * from './lib/artist/artist-list/artist-list.component';
 export * from './lib/artist/artist-edit/artist-edit.component';
-export * from './lib/about/about.component';
