@@ -33,6 +33,11 @@ export class TicketService {
         return items;
     }
 
+    async findTicketsByUserId(userId: string): Promise<ITicket[]> {
+        this.logger.log(`Finding tickets for user ${userId}`);
+        return this.ticketModel.find({ userId: userId }).exec();
+    }
+
     async findOne(_id: string): Promise<ITicket | null> {
         this.logger.log(`finding ticket with id ${_id}`);
         const item = await this.ticketModel.findOne({ _id }).exec();

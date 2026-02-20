@@ -16,6 +16,13 @@ export class TicketController {
         return this.ticketService.findAll();
     }
 
+    @Get('my/all')
+    @UseGuards(AuthGuard)
+    getMyTickets(@Request() req: any): Promise<ITicket[]> {
+        const userId = req.user?.user_id || req.user?.sub;
+        return this.ticketService.findTicketsByUserId(userId);
+    }
+
     @Get(':id')
     getOne(@Param('id') id: string): Promise<ITicket | null> {
         return this.ticketService.findOne(id);
