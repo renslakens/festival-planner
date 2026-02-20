@@ -36,8 +36,26 @@ export class AuthService {
         });
     }
 
-    register(user: IUserCredentials): Observable<IUserIdentity> {
-        return this.http.post<IUserIdentity>(`${this.apiUrl}/register`, user);
+    register(credentials: IUserCredentials): Observable<IUserIdentity> {
+        return new Observable((observer) => {
+            this.http.post<IUserIdentity>(`${this.apiUrl}/register`, credentials).subscribe({
+                next: (response: any) => {
+                    const token = response.results?.token;
+                    if (token) {
+                        this.setToken(token);
+                        console.log('Token opgeslagen na registratie:', token);
+                        observer.next(response);
+                    } else {
+                        console.error('Geen token ontvangen in de registratie respons');
+                        observer.error('No token in registration response');
+                    }
+                },
+                error: (err) => {
+                    console.error('Registratie fout:', err);
+                    observer.error(err);
+                },
+            });
+        });
     }
 
     // Opslaan van het token

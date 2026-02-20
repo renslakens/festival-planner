@@ -3,7 +3,9 @@ export * from './lib/features.module';
 export * from './lib/about/about.component';
 
 export * from './lib/auth/auth.service';
+export * from './lib/auth/auth.guard';
 export * from './lib/auth/login/login.component';
+export * from './lib/auth/register/register.component';
 
 export * from './lib/user/user.service';
 export * from './lib/user/user-list/user-list.component';
