@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { AboutComponent, ArtistEditComponent, ArtistListComponent, FestivalDetailComponent, FestivalEditComponent, LoginComponent, PerformanceEditComponent, StageEditComponent, TicketEditComponent, TicketListComponent } from '@festival-planner/features';
+import { AboutComponent, ArtistEditComponent, ArtistListComponent, FestivalDetailComponent, FestivalEditComponent, LoginComponent, PerformanceEditComponent, StageEditComponent, TicketEditComponent, TicketListComponent, TicketMyListComponent } from '@festival-planner/features';
 import { FestivalListComponent } from '@festival-planner/features';
 
 export const appRoutes: Route[] = [
@@ -23,5 +23,6 @@ export const appRoutes: Route[] = [
 
     { path: 'tickets', component: TicketListComponent },
     { path: 'tickets/new', component: TicketEditComponent },
-    { path: 'tickets/:id/edit', component: TicketEditComponent }
+    { path: 'tickets/:id/edit', component: TicketEditComponent },
+    { path: 'tickets/my', component: TicketMyListComponent }
 ];
