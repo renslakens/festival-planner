@@ -3,7 +3,7 @@ import { Get, Param, Post, Body, UseGuards } from '@nestjs/common';
 import { AdminGuard, AuthGuard } from '@festival-planner/backend/auth';
 import { ITicket } from '@festival-planner/shared/api';
 import { TicketService } from './ticket.service';
-import { UpdateTicketDto } from '@festival-planner/backend/dto';
+import { CreateTicketDto, UpdateTicketDto } from '@festival-planner/backend/dto';
 
 @Controller('tickets')
 export class TicketController {
@@ -29,18 +29,21 @@ export class TicketController {
 
     @Post('')
     @UseGuards(AdminGuard)
-    create(@Request() req: any): Promise<ITicket | null> {
-        this.logger.log('req.user.user_id = ', req.user.user_id);
-        return this.ticketService.create(req);
+    create(@Body() createTicketDto: CreateTicketDto, @Request() req: any): Promise<ITicket | null> {
+        const userId = req.user?.user_id || req.user?.sub;
+        this.logger.log(`Creating ticket. req.user.user_id = ${userId}`);
+        return this.ticketService.create(createTicketDto, userId);
     }
 
     @Post(':id/purchase')
-    @UseGuards(AuthGuard)
+    @UseGuards(AuthGuard) // Iedere ingelogde gebruiker mag kopen
     purchaseTicket(
-        @Param('id') id: string, // Use string if the ID is a MongoDB ObjectId
-        @Request() req: any // Inject the request object to access `req.user`
+        @Param('id') id: string,
+        @Request() req: any
     ): Promise<ITicket | null> {
-        return this.ticketService.purchaseTicket(id, req.user.user_id);
+        const userId = req.user?.user_id || req.user?.sub;
+        this.logger.log(`User ${userId} purchasing ticket ${id}`);
+        return this.ticketService.purchaseTicket(id, userId);
     }
 
     @Delete(':id')

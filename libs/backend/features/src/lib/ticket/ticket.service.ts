@@ -8,7 +8,7 @@ import {
 import { Ticket as TicketModel, TicketDocument } from './ticket.schema';
 import { Festival as FestivalModel, FestivalDocument } from '../festival/festival.schema';
 import { ITicket } from '@festival-planner/shared/api';
-import { UpdateTicketDto } from '@festival-planner/backend/dto';
+import { CreateTicketDto, UpdateTicketDto } from '@festival-planner/backend/dto';
 
 @Injectable()
 export class TicketService {
@@ -42,18 +42,15 @@ export class TicketService {
         return item;
     }
 
-    async create(req: any): Promise<ITicket | null> {
-        const ticket = req.body;
-        const user_id = req.user.user_id;
-
-        if (ticket && user_id) {
-            this.logger.log(`Create ticket ${ticket.name} for ${user_id}`);
+    async create(createTicketDto: CreateTicketDto, userId: string): Promise<ITicket | null> {
+        if (createTicketDto && userId) {
+            this.logger.log(`Create ticket ${createTicketDto.name} for ${userId}`);
             const user = await this.userModel
-                .findOne({ _id: user_id })
+                .findOne({ _id: userId })
                 .select('-password -tickets -role -__v -isActive')
                 .exec();
             const createdItem = {
-                ...ticket,
+                ...createTicketDto,
                 //cook: user
             };
             return this.ticketModel.create(createdItem);
