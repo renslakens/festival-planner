@@ -1,0 +1,38 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Tickets Beschikbaar</h1>
+        <button class="btn btn-outline-primary" *ngIf="isLoggedIn" disabled>
+            Nieuw Ticket Aanmaken (Admin)
+        </button>
+    </div>
+
+    <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+    <div class="row">
+        @for (ticket of tickets; track ticket._id) {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-primary">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4 class="mb-0">{{ ticket.name }}</h4>
+                </div>
+                <div class="card-body text-center">
+                    <h2 class="card-title text-success">€ {{ ticket.price }}</h2>
+                    <p class="card-text text-muted">Toegang tot het festival. Geldig voor 1 persoon.</p>
+                </div>
+                <div class="card-footer bg-white border-0 text-center pb-3">
+                    <button class="btn btn-primary w-100 btn-lg" (click)="buyTicket(ticket._id)"
+                        [disabled]="!isLoggedIn">
+                        <i class="bi bi-cart-check"></i> Koop Ticket
+                    </button>
+                    <small *ngIf="!isLoggedIn" class="text-danger d-block mt-2">Log in om te kopen</small>
+                </div>
+            </div>
+        </div>
+        } @empty {
+        <div class="col-12 text-center mt-5">
+            <p class="text-muted">Er zijn momenteel geen tickets beschikbaar.</p>
+        </div>
+        }
+    </div>
+</div>

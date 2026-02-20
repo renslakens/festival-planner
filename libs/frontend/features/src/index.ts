@@ -24,3 +24,6 @@ export * from './lib/performance/performance-edit/performance-edit.component';
 export * from './lib/artist/artist.service';
 export * from './lib/artist/artist-list/artist-list.component';
 export * from './lib/artist/artist-edit/artist-edit.component';
+
+export * from './lib/ticket/ticket.service';
+export * from './lib/ticket/ticket-list/ticket-list.component';
