@@ -77,6 +77,20 @@ export class AuthService {
         console.log('Token verwijderd uit localStorage');
     }
 
+    getCurrentUser(): IUserIdentity | null {
+        const token = this.getToken();
+        if (token) {
+            try {
+                const decoded: any = jwtDecode(token);
+                return decoded;
+            } catch (error) {
+                console.error('Fout bij het decoderen van het token:', error);
+                return null;
+            }
+        }
+        return null;
+    }
+
     getLoggedInUserId(): string | null {
         const token = this.getToken();
         if (token) {

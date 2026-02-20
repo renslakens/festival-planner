@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FestivalService } from '../festival.service';
 import { IFestival, IStage } from '@festival-planner/shared/api';
-import { StageService } from '@festival-planner/features';
+import { AuthService, StageService } from '@festival-planner/features';
 
 @Component({
   selector: 'lib-festival-detail',
@@ -15,15 +15,21 @@ import { StageService } from '@festival-planner/features';
 export class FestivalDetailComponent implements OnInit {
   festival: IFestival | null = null;
   stages: IStage[] = [];
+  isAdmin = false;
 
   constructor(
     private route: ActivatedRoute,
     private festivalService: FestivalService,
     private stageService: StageService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+
+    const user = this.authService.getCurrentUser();
+    console.log('Current user:', user);
+    this.isAdmin = user?.role === 'Admin';
 
     if (id) {
       this.festivalService.getFestivalById(id).subscribe({
