@@ -16,6 +16,7 @@ export class TicketListComponent implements OnInit {
   tickets: ITicket[] = [];
   festivals: IFestival[] = [];
   isLoggedIn = false;
+  isAdmin = false;
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
@@ -31,6 +32,7 @@ export class TicketListComponent implements OnInit {
       console.debug('Gebruiker is ingelogd, userId:', this.authService.getLoggedInUserId());
       this.isLoggedIn = true;
     }
+    this.isAdmin = this.authService.getCurrentUser()?.role === 'Admin';
 
     this.loadFestivals();
 

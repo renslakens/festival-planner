@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ArtistService } from '../artist.service';
 import { IArtist } from '@festival-planner/shared/api';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'lib-artist-list',
@@ -12,10 +13,12 @@ import { IArtist } from '@festival-planner/shared/api';
 })
 export class ArtistListComponent implements OnInit {
   artists: IArtist[] = [];
+  isAdmin = false;
 
-  constructor(private artistService: ArtistService) { }
+  constructor(private artistService: ArtistService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.getCurrentUser()?.role === 'Admin';
     this.artistService.getArtists().subscribe(results => this.artists = results);
   }
 }
