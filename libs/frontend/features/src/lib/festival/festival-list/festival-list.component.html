@@ -10,7 +10,7 @@
         @for (festival of festivals; track festival._id) {
         <div class="col-md-4 mb-4">
             <div class="card h-100 shadow-sm">
-                <div class="card-header bg-light">
+                <div class="card-header">
                     <h5 class="card-title mb-0">{{ festival.name }}</h5>
                 </div>
 
@@ -39,7 +39,7 @@
                     </div>
                 </div>
 
-                <div class="card-footer bg-white border-top-0">
+                <div class="card-footer border-top-0">
                     <a [routerLink]="['/festivals', festival._id]" class="btn btn-outline-primary w-100">
                         Details Bekijken
                     </a>

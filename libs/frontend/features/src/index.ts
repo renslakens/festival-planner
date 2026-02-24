@@ -1,5 +1,6 @@
 export * from './lib/features.module';
 
+export * from './lib/home/home.component';
 export * from './lib/about/about.component';
 
 export * from './lib/auth/auth.service';

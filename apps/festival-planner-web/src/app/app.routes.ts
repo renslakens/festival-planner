@@ -1,9 +1,9 @@
 import { Route } from '@angular/router';
-import { AboutComponent, ArtistEditComponent, ArtistListComponent, authGuard, FestivalDetailComponent, FestivalEditComponent, LoginComponent, PerformanceEditComponent, RegisterComponent, StageEditComponent, TicketEditComponent, TicketListComponent, TicketMyListComponent } from '@festival-planner/features';
+import { AboutComponent, ArtistEditComponent, ArtistListComponent, authGuard, FestivalDetailComponent, FestivalEditComponent, HomeComponent, LoginComponent, PerformanceEditComponent, RegisterComponent, StageEditComponent, TicketEditComponent, TicketListComponent, TicketMyListComponent } from '@festival-planner/features';
 import { FestivalListComponent } from '@festival-planner/features';
 
 export const appRoutes: Route[] = [
-    { path: '', redirectTo: 'festivals', pathMatch: 'full' },
+    { path: '', component: HomeComponent },
 
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
