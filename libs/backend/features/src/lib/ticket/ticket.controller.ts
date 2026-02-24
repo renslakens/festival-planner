@@ -23,6 +23,11 @@ export class TicketController {
         return this.ticketService.findTicketsByUserId(userId);
     }
 
+    @Get('festival/:id')
+    getTicketsByFestivalId(@Param('id') festivalId: string): Promise<ITicket[]> {
+        return this.ticketService.findTicketsByFestivalId(festivalId);
+    }
+
     @Get(':id')
     getOne(@Param('id') id: string): Promise<ITicket | null> {
         return this.ticketService.findOne(id);

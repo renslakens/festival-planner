@@ -47,6 +47,10 @@ export class TicketService {
         return item;
     }
 
+    async findTicketsByFestivalId(festivalId: string): Promise<ITicket[]> {
+        return this.ticketModel.find({ festivalId }).exec();
+    }
+
     async create(ticketDto: CreateTicketDto, adminId: string): Promise<ITicket | null> {
         this.logger.log(`Create ticket ${ticketDto.name} requested by admin ${adminId}`);
 
