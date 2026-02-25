@@ -35,7 +35,7 @@ export class PerformanceController {
     @Post('')
     @UseGuards(AdminGuard)
     create(@Body() createDto: CreatePerformanceDto, @Request() req: any): Promise<IPerformance | null> {
-        const userId = req.user?.user_id || req.user?.sub || 'unknown';
+        const userId = req.user?.user_id || req.user?.sub;
         return this.performanceService.create(createDto, userId);
     }
 

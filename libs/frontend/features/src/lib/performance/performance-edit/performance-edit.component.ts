@@ -16,6 +16,7 @@ export class PerformanceEditComponent implements OnInit {
   form: FormGroup;
   stageId: string | null = null;
   artists: IArtist[] = [];
+  errorMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -28,13 +29,12 @@ export class PerformanceEditComponent implements OnInit {
       specialFeatures: [''],
       dateTime: [null, Validators.required],
       period: [60, [Validators.required, Validators.min(15)]],
-      artistId: ['', Validators.required],
-      stageId: ['', Validators.required]
+      artistId: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
-    this.stageId = this.route.snapshot.paramMap.get('stageId');
+    this.stageId = this.route.snapshot.paramMap.get('id');
     if (this.stageId) {
       this.form.patchValue({ stageId: this.stageId });
     }
@@ -44,14 +44,28 @@ export class PerformanceEditComponent implements OnInit {
     });
   }
 
+  back(): void {
+    window.history.back();
+  }
+
   onSubmit(): void {
     if (this.form.valid) {
-      this.performanceService.createPerformance(this.form.value).subscribe({
+      const formData = {
+        ...this.form.value,
+        stageId: this.stageId
+      }
+
+      this.performanceService.createPerformance(formData).subscribe({
         next: () => {
-          window.history.back();
+          this.back();
         },
-        error: (err) => console.error('Fout:', err)
+        error: (err) => {
+          console.error('Fout bij opslaan:', err);
+          this.errorMessage = 'Opslaan mislukt. Check of alle velden zijn ingevuld.';
+        }
       });
+    } else {
+      this.errorMessage = 'Formulier is ongeldig of Stage ID ontbreekt.';
     }
   }
 }

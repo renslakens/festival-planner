@@ -39,7 +39,10 @@
                         placeholder="bv. Vuurwerk, Gastoptreden">
                 </div>
 
-                <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Opslaan</button>
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="button" (click)="back()" class="btn btn-secondary">Annuleren</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Opslaan</button>
+                </div>
             </form>
         </div>
     </div>
