@@ -15,7 +15,7 @@
                     <span class="badge bg-secondary mb-2">{{ artist.genre }}</span>
                     <p class="card-text small">{{ artist.description }}</p>
                 </div>
-                <div class="card-footer bg-white text-center">
+                <div *ngIf="isAdmin" class="card-footer bg-white text-center">
                     <a [routerLink]="['/artists', artist._id, 'edit']" class="btn btn-outline-secondary btn-sm">
                         Bewerken
                     </a>
