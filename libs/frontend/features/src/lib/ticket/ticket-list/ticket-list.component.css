@@ -1,0 +1,61 @@
+/*
+.ticket-card {
+    background: linear-gradient(145deg, #1b1d24, #15171e);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 160px;
+}
+
+.ticket-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 0, 85, 0.3);
+}
+
+.ticket-title {
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.ticket-price {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #ff0055;
+    text-shadow: 0 0 10px rgba(255, 0, 85, 0.2);
+}
+
+.ticket-edge-left, .ticket-edge-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-color: #0f1014;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.ticket-edge-left {
+    left: -10px;
+    box-shadow: inset -2px 0 5px rgba(0,0,0,0.5);
+}
+
+.ticket-edge-right {
+    right: -10px;
+    box-shadow: inset 2px 0 5px rgba(0,0,0,0.5);
+}
+
+.ticket-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 65%;
+    width: 100%;
+    height: 1px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    z-index: 0;
+} */

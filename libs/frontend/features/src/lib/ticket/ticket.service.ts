@@ -29,6 +29,13 @@ export class TicketService {
         );
     }
 
+    getTicketsByFestivalId(festivalId: string): Observable<ITicket[]> {
+        const url = `${this.apiUrl}/festival/${festivalId}`;
+        return this.http.get<any>(url, { headers: this.getHeaders() }).pipe(
+            map(res => res.results)
+        );
+    }
+
     purchaseTicket(ticketId: string): Observable<ITicket> {
         const url = `${this.apiUrl}/${ticketId}/purchase`;
         // We sturen een lege body {} mee, omdat het een POST is

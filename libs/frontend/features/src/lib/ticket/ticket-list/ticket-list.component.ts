@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TicketService } from '../ticket.service';
@@ -13,6 +13,8 @@ import { FestivalService } from '@festival-planner/features';
   templateUrl: './ticket-list.component.html',
 })
 export class TicketListComponent implements OnInit {
+  @Input() festivalId: string | null = null;
+
   tickets: ITicket[] = [];
   festivals: IFestival[] = [];
   isLoggedIn = false;
@@ -27,7 +29,6 @@ export class TicketListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // Check of gebruiker is ingelogd (zodat we de "Koop" knop kunnen tonen/verbergen)
     if (this.authService.getLoggedInUserId()) {
       console.debug('Gebruiker is ingelogd, userId:', this.authService.getLoggedInUserId());
       this.isLoggedIn = true;
@@ -40,8 +41,14 @@ export class TicketListComponent implements OnInit {
   }
 
   loadTickets(): void {
-    this.ticketService.getTickets().subscribe({
-      next: (results) => this.tickets = results.filter(ticket => !ticket.userId),
+    const request$ = this.festivalId
+      ? this.ticketService.getTicketsByFestivalId(this.festivalId)
+      : this.ticketService.getTickets();
+
+    request$.subscribe({
+      next: (results) => {
+        this.tickets = results.filter(ticket => !ticket.userId);
+      },
       error: (err) => console.error('Fout bij ophalen tickets', err)
     });
   }

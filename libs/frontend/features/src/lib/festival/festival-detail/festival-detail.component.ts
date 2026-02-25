@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FestivalService } from '../festival.service';
-import { IFestival, IStage } from '@festival-planner/shared/api';
-import { AuthService, StageService } from '@festival-planner/features';
+import { IFestival, IStage, ITicket } from '@festival-planner/shared/api';
+import { AuthService, StageService, TicketService } from '@festival-planner/features';
+import { TicketListComponent } from '../../ticket/ticket-list/ticket-list.component';
 
 @Component({
   selector: 'lib-festival-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, TicketListComponent],
   templateUrl: './festival-detail.component.html',
   styleUrls: ['./festival-detail.component.css'],
 })
@@ -16,11 +17,13 @@ export class FestivalDetailComponent implements OnInit {
   festival: IFestival | null = null;
   stages: IStage[] = [];
   isAdmin = false;
+  isLoggedIn = false;
 
   constructor(
     private route: ActivatedRoute,
     private festivalService: FestivalService,
     private stageService: StageService,
+    private ticketService: TicketService,
     private authService: AuthService
   ) { }
 
@@ -28,7 +31,7 @@ export class FestivalDetailComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     const user = this.authService.getCurrentUser();
-    console.log('Current user:', user);
+    this.isLoggedIn = !!user;
     this.isAdmin = user?.role === 'Admin';
 
     if (id) {
@@ -46,5 +49,5 @@ export class FestivalDetailComponent implements OnInit {
         }
       });
     }
-  }
+  };
 }

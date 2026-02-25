@@ -1,47 +1,50 @@
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4" *ngIf="!festivalId">
         <h1>Tickets Beschikbaar</h1>
-        <a routerLink="/tickets/new" class="btn btn-outline-primary" *ngIf="isAdmin">
-            Nieuw Ticket Aanmaken
+        <a routerLink="/tickets/new" class="btn btn-outline-primary" *ngIf="isLoggedIn">
+            Nieuw Ticket
         </a>
     </div>
 
-    <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
-    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="alert alert-success mb-4">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="alert alert-danger mb-4">{{ errorMessage }}</div>
 
-    <div class="row">
-        @for (ticket of tickets; track ticket._id) {
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm border-primary">
-                <div class="card-header bg-primary text-white text-center">
-                    <h4 class="mb-0">{{ ticket.name }}</h4>
-                </div>
-                <div class="card-body text-center">
-                    <h2 class="card-title text-success">€ {{ ticket.price }}</h2>
+    <div class="row g-4"> @for (ticket of tickets; track ticket._id) {
+        <div class="col-md-6 col-lg-4">
 
-                    <hr>
+            <div class="card">
+                <!-- <div class="ticket-edge-left"></div>
+                <div class="ticket-edge-right"></div> -->
 
-                    <h5 class="text-dark mb-3">
-                        <i class="bi bi-music-note-list text-primary"></i>
-                        {{ getFestivalName(ticket.festivalId) }}
-                    </h5>
+                <div class="card-body d-flex flex-column justify-content-between p-4">
+                    <div>
+                        <h4 class="card-title mb-2">{{ ticket.name }}</h4>
+                        <p class="text-muted small mb-0" *ngIf="!festivalId && ticket.festivalId">
+                            <i class="bi bi-music-note-beamed me-1"></i> {{ getFestivalName(ticket.festivalId) }}
+                        </p>
+                    </div>
 
-                    <p class="card-text text-muted">Toegang tot het festival. Geldig voor 1 persoon.</p>
-                </div>
-                <div class="card-footer border-0 text-center pb-3">
-                    <button class="btn btn-primary w-100 btn-lg" (click)="buyTicket(ticket._id)"
-                        [disabled]="!isLoggedIn">
-                        <i class="bi bi-cart-check"></i> Koop Ticket
-                    </button>
-                    <small *ngIf="!isLoggedIn" class="text-danger d-block mt-2">Log in om te kopen</small>
+                    <div class="d-flex justify-content-between align-items-end mt-4">
+                        <div>
+                            <small class="d-block text-muted text-uppercase fw-bold mb-1"
+                                style="font-size: 0.7rem;">Prijs</small>
+                            <span>€ {{ ticket.price | number:'1.2-2' }}</span>
+                        </div>
+
+                        <button (click)="buyTicket(ticket._id)"
+                            class="btn btn-primary btn-sm px-4 py-2 rounded-pill fw-bold shadow-sm"
+                            [disabled]="!isLoggedIn">
+                            {{ isLoggedIn ? 'Kopen' : 'Login' }}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
         } @empty {
-        <div class="col-12 text-center mt-5">
-            <div class="alert alert-light p-4">
-                <i class="bi bi-ticket-detailed text-muted" style="font-size: 3rem;"></i>
-                <p class="text-muted mt-3 lead">Er zijn momenteel geen tickets beschikbaar.</p>
+        <div class="col-12">
+            <div class="alert alert-dark border-secondary text-center p-5 rounded-3">
+                <i class="bi text-muted fs-1 display-4"></i>
+                <p class="mt-3 text-muted lead mb-0">Er zijn momenteel geen tickets beschikbaar.</p>
             </div>
         </div>
         }
