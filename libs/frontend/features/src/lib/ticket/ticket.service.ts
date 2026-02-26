@@ -22,6 +22,12 @@ export class TicketService {
         );
     }
 
+    getTicketById(id: string): Observable<ITicket> {
+        return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() }).pipe(
+            map(res => res.results)
+        );
+    }
+
     getMyTickets(): Observable<ITicket[]> {
         const url = `${this.apiUrl}/my/all`;
         return this.http.get<any>(url, { headers: this.getHeaders() }).pipe(
@@ -46,6 +52,12 @@ export class TicketService {
 
     createTicket(ticket: ITicket): Observable<ITicket> {
         return this.http.post<any>(this.apiUrl, ticket, { headers: this.getHeaders() }).pipe(
+            map(res => res.results)
+        );
+    }
+
+    updateTicket(id: string, ticket: ITicket): Observable<ITicket> {
+        return this.http.put<any>(`${this.apiUrl}/${id}`, ticket, { headers: this.getHeaders() }).pipe(
             map(res => res.results)
         );
     }

@@ -16,11 +16,13 @@ export class TicketEditComponent implements OnInit {
   form: FormGroup;
   festivals: IFestival[] = [];
   submitted = false;
+  isEditMode = false;
 
   constructor(
     private fb: FormBuilder,
     private ticketService: TicketService,
     private festivalService: FestivalService,
+    private route: ActivatedRoute,
     private router: Router
   ) {
     this.form = this.fb.group({
@@ -31,20 +33,43 @@ export class TicketEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.festivalService.getFestivals().subscribe({
-      next: (response) => {
-        this.festivals = response.results;
+    this.route.paramMap.subscribe(params => {
+      const ticketId = params.get('ticketId');
+      if (ticketId) {
+        this.ticketService.getTicketById(ticketId).subscribe({
+          next: (ticket) => {
+            this.form.patchValue({
+              name: ticket.name,
+              price: ticket.price,
+              festivalId: ticket.festivalId
+            });
+            this.isEditMode = true;
+          },
+          error: (err) => console.error('Error loading ticket', err)
+        });
       }
+    });
+
+    this.festivalService.getFestivals().subscribe({
+      next: (response) => this.festivals = response.results || [],
+      error: (err) => console.error('Fout bij ophalen festivals', err)
     });
   }
 
   onSubmit(): void {
     this.submitted = true;
     if (this.form.valid) {
-      this.ticketService.createTicket(this.form.value).subscribe({
-        next: () => this.router.navigate(['/tickets']),
-        error: (err) => console.error(err)
-      });
+      if (this.isEditMode) {
+        this.ticketService.updateTicket(this.route.snapshot.params['ticketId'], this.form.value).subscribe({
+          next: () => this.router.navigate(['/tickets']),
+          error: (err) => console.error(err)
+        });
+      } else {
+        this.ticketService.createTicket(this.form.value).subscribe({
+          next: () => this.router.navigate(['/tickets']),
+          error: (err) => console.error(err)
+        });
+      }
     }
   }
 }
