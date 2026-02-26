@@ -48,6 +48,7 @@ export class PerformanceService {
     async findPerformancesByStageId(stageId: string): Promise<IPerformance[]> {
         this.logger.log(`finding performances with stage id ${stageId}`);
         const items = await this.performanceModel.find({ stageId }).populate('artistId').exec();
+        console.log('found performances:', items);
         if (!items) {
             this.logger.debug('Performances not found');
         }

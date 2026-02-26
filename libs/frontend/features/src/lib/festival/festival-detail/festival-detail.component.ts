@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FestivalService } from '../festival.service';
 import { IArtist, IFestival, IPerformance, IStage, ITicket } from '@festival-planner/shared/api';
-import { AuthService, PerformanceService, StageService, TicketService } from '@festival-planner/features';
+import { ArtistService, AuthService, PerformanceService, StageService, TicketService } from '@festival-planner/features';
 import { TicketListComponent } from '../../ticket/ticket-list/ticket-list.component';
 
 @Component({
@@ -25,6 +25,7 @@ export class FestivalDetailComponent implements OnInit {
     private festivalService: FestivalService,
     private stageService: StageService,
     private performanceService: PerformanceService,
+    private artistService: ArtistService,
     private authService: AuthService
   ) { }
 
@@ -50,10 +51,5 @@ export class FestivalDetailComponent implements OnInit {
         });
       });
     }
-  }
-
-  getArtistName(perf: IPerformance): string {
-    const artist = perf.artistId as unknown as IArtist;
-    return artist.name ? artist.name : 'Laden...';
   }
 }

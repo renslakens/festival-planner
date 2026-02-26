@@ -69,7 +69,7 @@
                                         <span class="duration text-muted">{{ perf.period }} min</span>
                                     </div>
                                     <div class="info-col">
-                                        <h6 class="artist-name mb-0">{{ getArtistName(perf) }}</h6>
+                                        <h6 class="artist-name mb-0">{{ $any(perf.artistId).name || 'Laden...' }}</h6>
                                         <small class="text-muted">{{ perf.description }}</small>
                                     </div>
                                 </div>
