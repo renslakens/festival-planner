@@ -9,6 +9,7 @@ export interface IPerformance {
     description: string;
     stageId: Id;
     artistId: Id | IArtist;
+    ownerId: Id;
 }
 
 export type ICreatePerformance = Pick<

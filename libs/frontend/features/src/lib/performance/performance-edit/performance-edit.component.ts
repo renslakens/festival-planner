@@ -17,6 +17,7 @@ export class PerformanceEditComponent implements OnInit {
   stageId: string | null = null;
   artists: IArtist[] = [];
   errorMessage: string | null = null;
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -26,7 +27,7 @@ export class PerformanceEditComponent implements OnInit {
   ) {
     this.form = this.fb.group({
       description: ['', Validators.required],
-      specialFeatures: [''],
+      specialFeatures: ['', Validators.required],
       dateTime: [null, Validators.required],
       period: [60, [Validators.required, Validators.min(15)]],
       artistId: ['', Validators.required]
@@ -34,7 +35,7 @@ export class PerformanceEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.stageId = this.route.snapshot.paramMap.get('id');
+    this.stageId = this.route.snapshot.paramMap.get('stageId');
     if (this.stageId) {
       this.form.patchValue({ stageId: this.stageId });
     }
@@ -49,6 +50,8 @@ export class PerformanceEditComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.submitted = true;
+
     if (this.form.valid) {
       const formData = {
         ...this.form.value,

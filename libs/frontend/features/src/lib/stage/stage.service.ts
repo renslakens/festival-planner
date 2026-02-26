@@ -26,6 +26,12 @@ export class StageService {
         );
     }
 
+    getStageById(id: string): Observable<IStage> {
+        return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() }).pipe(
+            map(response => response.results)
+        );
+    }
+
     getStagesByFestivalId(festivalId: string): Observable<IStage[]> {
         const url = `${this.apiUrl}/festival/${festivalId}`;
         return this.http.get<any>(url, { headers: this.getHeaders() }).pipe(

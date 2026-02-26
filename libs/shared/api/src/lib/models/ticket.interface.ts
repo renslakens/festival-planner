@@ -7,6 +7,7 @@ export interface ITicket {
     price: number;
     festivalId: Id;
     userId?: Id;
+    ownerId: Id;
 }
 
 export type ICreateTicket = Pick<

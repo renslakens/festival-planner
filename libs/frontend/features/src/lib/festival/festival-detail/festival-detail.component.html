@@ -1,80 +1,104 @@
 <div class="festival-page" *ngIf="festival; else loading">
 
-  <div class="festival-hero">
-    <div class="hero-overlay"></div>
-    <div class="container hero-content text-center">
-      <span class="badge bg-primary mb-3 px-3 py-2" *ngIf="festival.is18Plus">18+ Event</span>
-      <h1 class="display-3 fw-bold text-white mb-2">{{ festival.name }}</h1>
-      
-      <div class="d-flex justify-content-center gap-4 mt-4 text-white-50">
-        <div class="d-flex align-items-center">
-            <i class="bi bi-calendar-event fs-4 me-2 text-primary"></i>
-            <span class="fs-5">{{ festival.date | date:'dd MMMM yyyy' }}</span>
-        </div>
-        <div class="d-flex align-items-center">
-            <i class="bi bi-geo-alt fs-4 me-2 text-primary"></i>
-            <span class="fs-5">{{ festival.location }}</span>
-        </div>
-      </div>
-    </div>
-  </div>
+    <div class="festival-hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content text-center">
+            <span class="badge bg-primary mb-3 px-3 py-2" *ngIf="festival.is18Plus">18+ Event</span>
+            <h1 class="display-3 fw-bold text-white mb-2">{{ festival.name }}</h1>
 
-  <div class="container mt-5">
-    
-    <div class="row mb-5">
-        <div class="col-lg-8 mx-auto text-center">
-            <p class="lead text-muted">{{ festival.description }}</p>
-            
-            <div *ngIf="isAdmin" class="mt-4 p-3 border border-dark rounded bg-dark d-inline-block">
-                <span class="text-muted me-3 small text-uppercase fw-bold">Beheer:</span>
-                <a [routerLink]="['/festivals', festival._id, 'edit']" class="btn btn-sm btn-outline-warning me-2">
-                    <i class="bi bi-pencil"></i> Edit Festival
-                </a>
-                <a [routerLink]="['/festivals', festival._id, 'stages', 'new']" class="btn btn-sm btn-outline-success">
-                    <i class="bi bi-plus-lg"></i> Add Stage
-                </a>
+            <div class="d-flex justify-content-center gap-4 mt-4 text-white-50">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-calendar-event fs-4 me-2 text-primary"></i>
+                    <span class="fs-5">{{ festival.date | date:'dd MMMM yyyy' }}</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-geo-alt fs-4 me-2 text-primary"></i>
+                    <span class="fs-5">{{ festival.location }}</span>
+                </div>
             </div>
         </div>
     </div>
 
-    <hr class="border-secondary mb-5 opacity-25">
+    <div class="container mt-5">
 
-    <div class="d-flex justify-content-between align-items-end mb-4">
-        <h2 class="text-white fw-bold m-0"><i class="bi bi-soundwave me-2 text-primary"></i> Line-up</h2>
-    </div>
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <p class="lead text-muted">{{ festival.description }}</p>
 
-    <div class="row g-4" *ngIf="stages.length > 0; else noStages">
-        @for (stage of stages; track stage._id) {
+                <div *ngIf="isAdmin && isOwner" class="mt-4 p-3 border border-dark rounded bg-dark d-inline-block">
+                    <span class="text-muted me-3 small text-uppercase fw-bold">Beheer:</span>
+                    <a [routerLink]="['/festivals', festival._id, 'edit']" class="btn btn-sm btn-outline-warning me-2">
+                        <i class="bi bi-pencil"></i> Edit Festival
+                    </a>
+                    <button (click)="deleteFestival()" class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i> Delete Festival
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <hr class="border-secondary mb-5 opacity-25">
+
+        <div class="d-flex justify-content-between align-items-end mb-4">
+            <h2 class="text-white fw-bold m-0"><i class="bi bi-soundwave me-2 text-primary"></i> Line-up</h2>
+            <a *ngIf="isAdmin" [routerLink]="['/festivals', festival._id, 'stages', 'new']"
+                class="btn btn-sm btn-outline-success">
+                <i class="bi bi-plus-lg"></i> Add stage
+            </a>
+        </div>
+
+        <div class="row g-4" *ngIf="stages.length > 0; else noStages">
+            @for (stage of stages; track stage._id) {
             <div class="col-md-6 col-xl-4">
                 <div class="stage-card h-100">
                     <div class="stage-header d-flex justify-content-between align-items-center">
                         <div>
                             <h4 class="mb-0 text-white">{{ stage.name }}</h4>
-                            <small class="text-secondary">{{ stage.covered ? 'Overdekt' : 'Buiten' }} • {{ stage.capacity }} cap.</small>
+                            <small class="text-secondary">{{ stage.covered ? 'Overdekt' : 'Buiten' }} • {{
+                                stage.capacity }} cap.</small>
                         </div>
                         <div *ngIf="isAdmin">
-                            <a [routerLink]="['/stages', stage._id, 'performances', 'new']" class="btn btn-sm btn-dark text-white border-0" title="Act toevoegen">
-                                <i class="bi bi-plus-lg"></i>
+                            <a [routerLink]="['/stages', stage._id, 'performances', 'new']"
+                                class="btn btn-sm btn-outline-success" title="Act toevoegen">
+                                <i class="bi bi-plus-lg">+</i>
                             </a>
+                            <a [routerLink]="['/stages', stage._id, 'edit']" class="btn btn-sm btn-outline-warning ms-2"
+                                title="Podium bewerken">
+                                <i class="bi bi-pencil">✏️</i>
+                            </a>
+                            <button (click)="deleteStage(stage._id)" class="btn btn-sm btn-outline-danger ms-2" title="Podium verwijderen">
+                                <i class="bi bi-trash">🗑️</i>
+                            </button>
                         </div>
                     </div>
 
                     <div class="stage-body">
                         <div class="timeline" *ngIf="performancesByStage[stage._id]?.length; else noPerfs">
-                            
-                            @for (perf of performancesByStage[stage._id]; track perf._id) {
-                                <div class="timeline-item">
-                                    <div class="time-col">
-                                        <span class="start-time">{{ perf.dateTime | date:'HH:mm' }}</span>
-                                        <span class="duration text-muted">{{ perf.period }} min</span>
-                                    </div>
-                                    <div class="info-col">
-                                        <h6 class="artist-name mb-0">{{ $any(perf.artistId).name || 'Laden...' }}</h6>
-                                        <small class="text-muted">{{ perf.description }}</small>
-                                    </div>
-                                </div>
-                            }
 
+                            @for (perf of performancesByStage[stage._id]; track perf._id) {
+                            <div class="timeline-item">
+                                <div class="time-col">
+                                    <span class="start-time">{{ perf.dateTime | date:'HH:mm' }}</span>
+                                    <span class="duration text-muted">{{ perf.period }} min</span>
+                                </div>
+                                <div class="info-col">
+                                    <h6 class="artist-name mb-0">{{ $any(perf.artistId).name || 'Laden...' }}</h6>
+                                    <small class="text-muted">{{ perf.description }}</small>
+                                </div>
+                                <div class="features-col">
+                                    <span class="badge bg-secondary">{{ perf.specialFeatures }}</span>
+                                </div>
+                                <div *ngIf="isAdmin && isOwner" class="actions-col">
+                                    <a [routerLink]="['/performances', perf._id, 'edit']"
+                                        class="btn btn-sm btn-outline-warning me-2">
+                                        <i class="bi bi-pencil">✏️</i>
+                                    </a>
+                                    <button (click)="deletePerformance(perf._id, stage._id)"
+                                        class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash">🗑️</i>
+                                    </button>
+                                </div>
+                            </div> }
                         </div>
                         <ng-template #noPerfs>
                             <div class="text-center py-4 text-muted opacity-50">
@@ -85,23 +109,23 @@
                     </div>
                 </div>
             </div>
-        }
+            }
+        </div>
+
+        <ng-template #noStages>
+            <div class="alert alert-dark text-center">Nog geen podia aangekondigd.</div>
+        </ng-template>
+
+        <hr class="border-secondary my-5 opacity-25">
+
+        <div class="mb-5">
+            <h2 class="text-white fw-bold mb-4">
+                <i class="bi bi-ticket-perforated text-primary me-2"></i> Tickets
+            </h2>
+            <lib-ticket-list [festivalId]="festival._id"></lib-ticket-list>
+        </div>
+
     </div>
-
-    <ng-template #noStages>
-        <div class="alert alert-dark text-center">Nog geen podia aangekondigd.</div>
-    </ng-template>
-
-    <hr class="border-secondary my-5 opacity-25">
-
-    <div class="mb-5">
-        <h2 class="text-white fw-bold mb-4">
-            <i class="bi bi-ticket-perforated text-primary me-2"></i> Tickets
-        </h2>
-        <lib-ticket-list [festivalId]="festival._id"></lib-ticket-list>
-    </div>
-
-  </div>
 </div>
 
 <ng-template #loading>

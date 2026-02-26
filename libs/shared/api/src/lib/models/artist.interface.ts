@@ -6,6 +6,7 @@ export interface IArtist {
     genre: string;
     popularity: number;
     description: string;
+    ownerId: Id;
 }
 
 export type ICreateArtist = Pick<

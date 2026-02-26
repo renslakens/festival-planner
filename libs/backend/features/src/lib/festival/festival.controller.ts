@@ -23,25 +23,24 @@ export class FestivalController {
 
     @Put(':id')
     @UseGuards(AdminGuard)
-    update(@Param('id') id: string, @Body() festival: UpdateFestivalDto): Promise<IFestival | null> {
-        return this.festivalService.update(id, festival);
+    update(@Param('id') id: string, @Body() festival: UpdateFestivalDto, @Request() req: any): Promise<IFestival | null> {
+        return this.festivalService.update(id, festival, req.user._id);
     }
 
     @Post('')
     @UseGuards(AdminGuard)
     create(@Request() req: any): Promise<IFestival | null> {
-        this.logger.log('req.user:', req.user);
         if (!req.user) {
             this.logger.error('User is not set in the request object');
         }
 
         this.logger.log('req.user.user_id = ', req.user._id);
-        return this.festivalService.create(req);
+        return this.festivalService.create(req, req.user._id);
     }
 
     @Delete(':id')
     @UseGuards(AdminGuard)
-    delete(@Param('id') id: string): Promise<IFestival | null> {
-        return this.festivalService.delete(id);
+    delete(@Param('id') id: string, @Request() req: any): Promise<IFestival | null> {
+        return this.festivalService.delete(id, req.user._id);
     }
 }

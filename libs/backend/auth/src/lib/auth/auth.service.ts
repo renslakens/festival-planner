@@ -87,6 +87,7 @@ export class AuthService {
 
         // Return the created user with the token
         return {
+            user_id: createdUser._id,
             name: createdUser.name,
             emailAddress: createdUser.emailAddress,
             profileImgUrl: createdUser.profileImgUrl,

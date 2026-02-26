@@ -60,19 +60,19 @@ export class TicketService {
             throw new HttpException(`Festival ${ticketDto.festivalId} not found`, 404);
         }
 
-        const createdTicket = await this.ticketModel.create(ticketDto);
+        const createdTicket = await this.ticketModel.create({ ...ticketDto, ownerId: adminId });
 
         return createdTicket;
     }
 
-    async update(_id: string, ticket: UpdateTicketDto): Promise<ITicket | null> {
+    async update(_id: string, ticket: UpdateTicketDto, ownerId: string): Promise<ITicket | null> {
         this.logger.log(`Update ticket ${ticket.name}`);
-        return this.ticketModel.findByIdAndUpdate({ _id }, ticket);
+        return this.ticketModel.findByIdAndUpdate({ _id, ownerId: ownerId }, ticket);
     }
 
-    async delete(_id: string): Promise<ITicket | null> {
+    async delete(_id: string, ownerId: string): Promise<ITicket | null> {
         this.logger.log(`Delete ticket with id ${_id}`);
-        return this.ticketModel.findByIdAndDelete({ _id });
+        return this.ticketModel.findByIdAndDelete({ _id, ownerId: ownerId });
     }
 
     async purchaseTicket(ticketId: string, userId: string): Promise<ITicket | null> {

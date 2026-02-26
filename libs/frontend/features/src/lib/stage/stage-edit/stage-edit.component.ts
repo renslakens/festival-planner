@@ -33,32 +33,20 @@ export class StageEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Check 1: Zitten we in Edit mode? (URL: /stages/:stageId/edit)
     this.route.paramMap.subscribe((params) => {
-      const id = params.get('stageId');
-      if (id) {
+      this.stageId = params.get('stageId');
+      this.festivalId = params.get('festivalId');
+      if (this.stageId) {
         this.isEditMode = true;
-        this.stageId = id;
-        this.loadStage(id);
-      }
-    });
-
-    // Check 2: Zitten we in Create mode voor een specifiek festival? (URL: /festivals/:id/stages/new)
-    // Let op: 'id' in de route verwijst hier naar het festivalId
-    this.route.paramMap.subscribe((params) => {
-      const festId = params.get('id');
-      if (festId && !this.isEditMode) {
-        this.festivalId = festId;
+        this.loadStage(this.stageId);
       }
     });
   }
 
   loadStage(id: string): void {
-    this.stageService.getStagesByFestivalId(id).subscribe({
+    this.stageService.getStageById(id).subscribe({
       next: (stage) => {
         this.stageForm.patchValue(stage);
-        // Sla evt. festivalId op als je terug wilt navigeren
-        // this.festivalId = stage.festivalId; 
       },
       error: (err) => console.error('Error loading stage', err),
     });

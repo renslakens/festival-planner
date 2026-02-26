@@ -71,7 +71,7 @@ export class StageService {
         }
 
         // 3. Maak podium aan
-        const createdStage = await this.stageModel.create(stageDto);
+        const createdStage = await this.stageModel.create({ ...stageDto, ownerId: userId });
 
         // 4. Koppel podium aan festival
         await this.festivalModel.updateOne(
@@ -82,13 +82,13 @@ export class StageService {
         return createdStage;
     }
 
-    async update(_id: string, stage: UpdateStageDto): Promise<IStage | null> {
+    async update(_id: string, stage: UpdateStageDto, ownerId: string): Promise<IStage | null> {
         this.logger.log(`Update stage ${stage.name}`);
-        return this.stageModel.findByIdAndUpdate({ _id }, stage);
+        return this.stageModel.findByIdAndUpdate({ _id, ownerId }, stage);
     }
 
-    async delete(_id: string): Promise<IStage | null> {
+    async delete(_id: string, ownerId: string): Promise<IStage | null> {
         this.logger.log(`Delete stage with id ${_id}`);
-        return this.stageModel.findByIdAndDelete({ _id });
+        return this.stageModel.findByIdAndDelete({ _id, ownerId });
     }
 }

@@ -15,6 +15,7 @@ import { IFestival } from '@festival-planner/shared/api';
 export class TicketEditComponent implements OnInit {
   form: FormGroup;
   festivals: IFestival[] = [];
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -38,6 +39,7 @@ export class TicketEditComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.submitted = true;
     if (this.form.valid) {
       this.ticketService.createTicket(this.form.value).subscribe({
         next: () => this.router.navigate(['/tickets']),

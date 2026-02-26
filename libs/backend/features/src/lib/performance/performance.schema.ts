@@ -33,6 +33,9 @@ export class Performance implements IPerformance {
         ref: 'Artist'
     })
     artistId!: Artist | string;
+
+    @Prop({ required: true })
+    ownerId!: string;
 }
 
 export const PerformanceSchema = SchemaFactory.createForClass(Performance);

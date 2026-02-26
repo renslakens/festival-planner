@@ -26,6 +26,7 @@ export interface IUserLogin {
  */
 
 export interface IUserIdentity {// extends IEntity {
+    user_id: Id;
     name: string;
     emailAddress: string;
     profileImgUrl: string;

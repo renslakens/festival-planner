@@ -7,6 +7,7 @@ export interface IStage {
     covered: boolean;
     festivalId: Id;
     performances: Id[];
+    ownerId: Id;
 }
 
 export type ICreateStage = Pick<

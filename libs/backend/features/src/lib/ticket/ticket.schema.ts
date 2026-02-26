@@ -23,6 +23,9 @@ export class Ticket implements ITicket {
 
     @Prop()
     userId!: string;
+
+    @Prop({ required: true })
+    ownerId!: string;
 }
 
 export const TicketSchema = SchemaFactory.createForClass(Ticket);

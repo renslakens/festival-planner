@@ -64,7 +64,7 @@ export class PerformanceService {
         const artist = await this.artistModel.findById(performanceDto.artistId).exec();
         if (!artist) throw new HttpException(`Artist not found`, 404);
 
-        const createdPerformance = await this.performanceModel.create({ ...performanceDto, dateTime: new Date(performanceDto.dateTime) });
+        const createdPerformance = await this.performanceModel.create({ ...performanceDto, ownerId: userId, dateTime: new Date(performanceDto.dateTime) });
 
         await this.stageModel.updateOne(
             { _id: performanceDto.stageId },
@@ -74,13 +74,13 @@ export class PerformanceService {
         return createdPerformance;
     }
 
-    async update(_id: string, performance: UpdatePerformanceDto): Promise<IPerformance | null> {
+    async update(_id: string, performance: UpdatePerformanceDto, ownerId: string): Promise<IPerformance | null> {
         this.logger.log(`Update performance with description ${performance.description}`);
-        return this.performanceModel.findByIdAndUpdate({ _id }, { ...performance, dateTime: new Date(performance.dateTime) });
+        return this.performanceModel.findByIdAndUpdate({ _id, ownerId }, { ...performance, dateTime: new Date(performance.dateTime) });
     }
 
-    async delete(_id: string): Promise<IPerformance | null> {
+    async delete(_id: string, ownerId: string): Promise<IPerformance | null> {
         this.logger.log(`Delete performance with id ${_id}`);
-        return this.performanceModel.findByIdAndDelete({ _id });
+        return this.performanceModel.findByIdAndDelete({ _id, ownerId });
     }
 }

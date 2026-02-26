@@ -1,47 +1,55 @@
 <div class="container mt-5">
     <div class="card shadow-sm col-md-8 mx-auto">
         <div class="card-header text-white">
-            <h3 class="mb-0">Optreden Toevoegen</h3>
+            <h3 class="mb-0">Optreden toevoegen</h3>
         </div>
         <div class="card-body">
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
                 <div class="mb-3">
                     <label class="form-label">Artiest</label>
-                    <select class="form-select" formControlName="artistId">
+                    <select class="form-select" formControlName="artistId"
+                        [ngClass]="{ 'is-invalid': submitted && form.get('artistId')?.invalid }">
                         <option value="" disabled>Kies een artiest...</option>
                         <option *ngFor="let artist of artists" [value]="artist._id">
                             {{ artist.name }} ({{ artist.genre }})
                         </option>
                     </select>
+                    <div class="invalid-feedback">Artiest is verplicht.</div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Datum & Tijd</label>
-                        <input type="datetime-local" class="form-control" formControlName="dateTime">
+                        <input type="datetime-local" class="form-control" formControlName="dateTime"
+                            [ngClass]="{ 'is-invalid': submitted && form.get('dateTime')?.invalid }">
+                        <div class="invalid-feedback">Geldige datum en tijd zijn verplicht.</div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Duur (minuten)</label>
-                        <input type="number" class="form-control" formControlName="period">
+                        <input type="number" class="form-control" formControlName="period"
+                            [ngClass]="{ 'is-invalid': submitted && form.get('period')?.invalid }">
+                        <div class="invalid-feedback">Duur is verplicht en moet een positief getal zijn.</div>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Beschrijving / Titel</label>
-                    <input type="text" class="form-control" formControlName="description"
-                        placeholder="bv. Headlineshow">
+                    <input type="text" class="form-control" formControlName="description" placeholder="bv. Headlineshow"
+                        [ngClass]="{ 'is-invalid': submitted && form.get('description')?.invalid }">
+                    <div class="invalid-feedback">Beschrijving of titel is verplicht.</div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Speciale Kenmerken</label>
-                    <input type="text" class="form-control" formControlName="specialFeatures"
-                        placeholder="bv. Vuurwerk, Gastoptreden">
+                    <input type="text" class="form-control" formControlName="specialFeatures" placeholder="bv. Vuurwerk, Gastoptreden"
+                        [ngClass]="{ 'is-invalid': submitted && form.get('specialFeatures')?.invalid }">
+                    <div class="invalid-feedback">Speciale kenmerken zijn verplicht.</div>
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">
                     <button type="button" (click)="back()" class="btn btn-secondary">Annuleren</button>
-                    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Opslaan</button>
+                    <button type="submit" class="btn btn-primary">Opslaan</button>
                 </div>
             </form>
         </div>

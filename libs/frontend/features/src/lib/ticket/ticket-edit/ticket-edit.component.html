@@ -1,34 +1,40 @@
 <div class="container mt-5">
     <div class="card shadow-sm col-md-8 mx-auto">
         <div class="card-header bg-primary text-white">
-            <h3 class="mb-0">Ticket Aanmaken</h3>
+            <h3 class="mb-0">Ticket aanmaken</h3>
         </div>
         <div class="card-body">
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
                 <div class="mb-3">
                     <label class="form-label">Naam (bijv. Early Bird, Regular)</label>
-                    <input type="text" class="form-control" formControlName="name">
+                    <input type="text" class="form-control" formControlName="name"
+                        [ngClass]="{ 'is-invalid': submitted && form.get('name')?.invalid }" />
+                    <div class="invalid-feedback">Naam is verplicht.</div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Prijs (€)</label>
-                    <input type="number" step="0.01" class="form-control" formControlName="price">
+                    <input type="number" step="0.01" class="form-control" formControlName="price"
+                        [ngClass]="{ 'is-invalid': submitted && form.get('price')?.invalid }" />
+                    <div class="invalid-feedback">Prijs is verplicht en moet een geldig getal zijn.</div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Festival</label>
-                    <select class="form-select" formControlName="festivalId">
+                    <select class="form-select" formControlName="festivalId"
+                        [ngClass]="{ 'is-invalid': submitted && form.get('festivalId')?.invalid }">
                         <option value="" disabled>Kies een festival...</option>
                         <option *ngFor="let fest of festivals" [value]="fest._id">
                             {{ fest.name }}
                         </option>
                     </select>
+                    <div class="invalid-feedback">Festival is verplicht.</div>
                 </div>
 
                 <div class="d-flex justify-content-between mt-4">
                     <a routerLink="/tickets" class="btn btn-secondary">Annuleren</a>
-                    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Opslaan</button>
+                    <button type="submit" class="btn btn-primary">Opslaan</button>
                 </div>
             </form>
         </div>
