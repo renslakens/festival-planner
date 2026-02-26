@@ -17,8 +17,7 @@ export class StageService {
 
     constructor(
         @InjectModel(StageModel.name) private stageModel: Model<StageDocument>,
-        @InjectModel(FestivalModel.name) private festivalModel: Model<FestivalDocument>,
-        @InjectModel(UserModel.name) private userModel: Model<UserDocument>
+        @InjectModel(FestivalModel.name) private festivalModel: Model<FestivalDocument>
     ) { }
 
     /**
@@ -30,7 +29,6 @@ export class StageService {
         this.logger.log(`Finding all stages`);
         const items = await this.stageModel
             .find()
-            //.populate('cook', 'name emailAddress gender isActive profileImgUrl')
             .exec();
         return items;
     }
@@ -74,8 +72,7 @@ export class StageService {
         const createdStage = await this.stageModel.create({ ...stageDto, ownerId: userId });
 
         // 4. Koppel podium aan festival
-        await this.festivalModel.updateOne(
-            { _id: stageDto.festivalId },
+        await this.festivalModel.findByIdAndUpdate(stageDto.festivalId,
             { $push: { stages: createdStage._id } }
         );
 
@@ -84,11 +81,18 @@ export class StageService {
 
     async update(_id: string, stage: UpdateStageDto, ownerId: string): Promise<IStage | null> {
         this.logger.log(`Update stage ${stage.name}`);
-        return this.stageModel.findByIdAndUpdate({ _id, ownerId }, stage);
+        return this.stageModel.findByIdAndUpdate({ _id, ownerId }, stage, { new: true });
     }
 
     async delete(_id: string, ownerId: string): Promise<IStage | null> {
+        const stageToDelete = await this.stageModel.findById(_id);
+        if (!stageToDelete) {
+            this.logger.warn(`Stage with id ${_id} not found`);
+            throw new HttpException(`Stage with id ${_id} not found`, 404);
+        }
+
         this.logger.log(`Delete stage with id ${_id}`);
+        await this.festivalModel.findByIdAndUpdate(stageToDelete.festivalId, { $pull: { stages: stageToDelete._id } });
         return this.stageModel.findByIdAndDelete({ _id, ownerId });
     }
 }

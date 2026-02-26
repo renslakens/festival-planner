@@ -49,4 +49,8 @@ export class TicketService {
             map(res => res.results)
         );
     }
+
+    deleteTicket(id: string): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
+    }
 }
