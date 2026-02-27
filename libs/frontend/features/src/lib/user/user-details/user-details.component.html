@@ -58,25 +58,17 @@
 
 
             <ng-template #noFestivals>
-                <div class="alert alert-dark border-secondary text-muted mb-5">
-                    Je hebt nog geen festivals op de planning staan. <a routerLink="/festivals"
-                        class="text-primary">Bekijk de agenda.</a>
+                <div class="alert alert-dark text-center">
+                    <p class="mt-3 lead">Je hebt nog geen festivals op de planning staan.</p>
+                    <a routerLink="/festivals" class="btn btn-primary mt-2">Bekijk de agenda</a>
                 </div>
             </ng-template>
 
-            <!-- <h3 class="text-white fw-bold mb-4">
-                <i class="bi bi-ticket-detailed text-primary me-2"></i> Mijn wallet
-            </h3> -->
+            <div class="col-12 text-center mt-5">
+
+            </div>
+
             <lib-ticket-my-list></lib-ticket-my-list>
-
-
-            <!-- <ng-template #noTickets>
-                <div class="alert alert-dark border-secondary text-muted text-center p-5">
-                    <i class="bi bi-wallet2 fs-1 d-block mb-3"></i>
-                    Je wallet is leeg.
-                </div>
-            </ng-template> -->
-
         </div>
     </div>
 </div>

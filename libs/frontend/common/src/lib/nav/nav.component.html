@@ -24,9 +24,7 @@
             <li class="nav-item">
                 <a class="nav-link" routerLink="about">About</a>
             </li>
-            <a *ngIf="isLoggedIn" routerLink="/profile" class="nav-link">
-                <i class="bi bi-person-circle"></i> Mijn Profiel
-            </a>
+            <a *ngIf="isLoggedIn" routerLink="/profile" class="nav-link">Mijn Profiel</a>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item" *ngIf="!isLoggedIn">
                     <a class="nav-link" routerLink="/login" routerLinkActive="active">Inloggen</a>

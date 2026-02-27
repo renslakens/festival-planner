@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { IUserCredentials, IUserIdentity } from '@festival-planner/shared/api';
 import { jwtDecode } from 'jwt-decode';
 import { commonEnvironment } from '@festival-planner/util-env';
@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 export class AuthService {
     private apiUrl = `${commonEnvironment.apiUrl}/auth`;
     private readonly tokenKey = 'authToken'; // Sleutel voor opslag in localStorage
+    private loggedInSubject = new BehaviorSubject<boolean>(!!this.getToken());
+    public isLoggedIn$ = this.loggedInSubject.asObservable();
 
     constructor(private http: HttpClient, private router: Router) { }
 
@@ -62,6 +64,7 @@ export class AuthService {
     // Opslaan van het token
     private setToken(token: string): void {
         console.log('Token opslaan in localStorage:', token);
+        this.loggedInSubject.next(true);
         localStorage.setItem(this.tokenKey, token);
     }
 
@@ -75,6 +78,7 @@ export class AuthService {
     // Verwijderen van het token (bijvoorbeeld bij uitloggen)
     clearToken(): void {
         localStorage.removeItem(this.tokenKey);
+        this.loggedInSubject.next(false);
         this.router.navigate(['/login']);
         console.log('Token verwijderd uit localStorage');
     }
