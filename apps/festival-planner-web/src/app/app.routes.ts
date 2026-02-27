@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { AboutComponent, ArtistEditComponent, ArtistListComponent, authGuard, FestivalDetailComponent, FestivalEditComponent, HomeComponent, LoginComponent, PerformanceEditComponent, RegisterComponent, StageEditComponent, TicketEditComponent, TicketListComponent, TicketMyListComponent } from '@festival-planner/features';
+import { AboutComponent, ArtistEditComponent, ArtistListComponent, authGuard, FestivalDetailComponent, FestivalEditComponent, HomeComponent, LoginComponent, PerformanceEditComponent, RegisterComponent, StageEditComponent, TicketEditComponent, TicketListComponent, TicketMyListComponent, UserDetailsComponent, UserEditComponent } from '@festival-planner/features';
 import { FestivalListComponent } from '@festival-planner/features';
 
 export const appRoutes: Route[] = [
@@ -25,5 +25,8 @@ export const appRoutes: Route[] = [
     { path: 'tickets', component: TicketListComponent },
     { path: 'tickets/new', component: TicketEditComponent, canActivate: [authGuard] },
     { path: 'tickets/:ticketId/edit', component: TicketEditComponent, canActivate: [authGuard] },
-    { path: 'tickets/my', component: TicketMyListComponent, canActivate: [authGuard] }
+    { path: 'tickets/my', component: TicketMyListComponent, canActivate: [authGuard] },
+
+    { path: 'profile', component: UserDetailsComponent, canActivate: [authGuard] },
+    { path: 'profile/:userId/edit', component: UserEditComponent, canActivate: [authGuard] },
 ];

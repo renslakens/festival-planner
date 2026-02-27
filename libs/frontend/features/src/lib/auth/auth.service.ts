@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { IUserCredentials, IUserIdentity } from '@festival-planner/shared/api';
 import { jwtDecode } from 'jwt-decode';
 import { commonEnvironment } from '@festival-planner/util-env';
+import { Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root',
@@ -12,7 +13,7 @@ export class AuthService {
     private apiUrl = `${commonEnvironment.apiUrl}/auth`;
     private readonly tokenKey = 'authToken'; // Sleutel voor opslag in localStorage
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private router: Router) { }
 
     login(credentials: IUserCredentials): Observable<IUserIdentity> {
         return new Observable((observer) => {
@@ -74,6 +75,7 @@ export class AuthService {
     // Verwijderen van het token (bijvoorbeeld bij uitloggen)
     clearToken(): void {
         localStorage.removeItem(this.tokenKey);
+        this.router.navigate(['/login']);
         console.log('Token verwijderd uit localStorage');
     }
 

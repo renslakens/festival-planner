@@ -19,12 +19,11 @@ import { UserEditComponent } from './user/user-edit/user-edit.component';
         ReactiveFormsModule,
         FestivalListComponent,
         FestivalDetailComponent,
-        AboutComponent
+        AboutComponent,
+        UserDetailsComponent,
+        UserEditComponent
     ],
     declarations: [
-        UserDetailsComponent,
-        UserListComponent,
-        UserEditComponent,
     ],
     providers: [
         FestivalService,

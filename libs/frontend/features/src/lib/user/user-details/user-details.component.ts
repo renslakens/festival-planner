@@ -1,55 +1,67 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { IUserInfo } from '@festival-planner/shared/api';
-import { UserService } from '../user.service';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
+import { TicketService } from '../../ticket/ticket.service';
+import { FestivalService } from '../../festival/festival.service';
+import { IUser, ITicket, IFestival, IUserIdentity } from '@festival-planner/shared/api';
+import { UserService } from '@festival-planner/features';
+import { TicketMyListComponent } from '../../ticket/ticket-my-list/ticket-my-list.component';
 
 @Component({
-    selector: 'festival-planner-user-details',
-    templateUrl: './user-details.component.html',
-    styles: []
+    selector: 'lib-user-details',
+    standalone: true,
+    imports: [CommonModule, RouterModule, TicketMyListComponent],
+    templateUrl: './user-details.component.html'
 })
 export class UserDetailsComponent implements OnInit {
-    userId!: string; // Variabele om de gebruikers-ID op te slaan
-    userDetails!: IUserInfo; // Variabele om de details van de gebruiker op te slaan
+    currentUserId: string | null = null;
+    currentUser: IUserIdentity | null = null;
+    myTickets: ITicket[] = [];
+    myFestivals: IFestival[] = [];
 
-    constructor(private route: ActivatedRoute, private userService: UserService) { }
+    constructor(
+        private authService: AuthService,
+        private userService: UserService,
+        private ticketService: TicketService,
+        private festivalService: FestivalService
+    ) { }
 
     ngOnInit(): void {
-        // Haal de ID uit de routeparameters
-        this.route.paramMap.subscribe(params => {
-            const id = params.get('id');
-            if (id) {
-                this.userId = id;
-                this.getUserDetails(id); // Ophalen van gebruikersdetails
-            }
+        this.currentUserId = this.authService.getCurrentUser()?.user_id || null;
+        if (this.currentUserId) {
+            this.userService.getUserById(this.currentUserId).subscribe({
+                next: (response: any) => {
+                    this.currentUser = response.results;
+                },
+                error: (err) => {
+                    console.error('Fout bij ophalen user details:', err);
+                }
+            });
+            this.ticketService.getMyTickets().subscribe({
+                next: (tickets) => {
+                    this.myTickets = tickets;
+                    this.extractFestivalsFromTickets(tickets);
+                },
+                error: (err) => console.error('Fout bij ophalen tickets', err)
+            });
+        }
+    }
+
+    extractFestivalsFromTickets(tickets: ITicket[]): void {
+        // Haal eerst ALLE festivals op om de namen/data te matchen
+        this.festivalService.getFestivals().subscribe((response: any) => {
+            const allFestivals: IFestival[] = response.results || response;
+
+            // Zoek unieke festival ID's uit de tickets
+            const uniqueFestivalIds = [...new Set(tickets.map(t => t.festivalId))];
+
+            // Filter de volledige festival objecten eruit
+            this.myFestivals = allFestivals.filter(f => uniqueFestivalIds.includes(f._id));
         });
     }
-    errorMessage: string | null = null;
-    // Ophalen van gebruikersdetails via de UserService
-    getUserDetails(id: string): void {
-        this.userService.getUsers().subscribe({
-            next: (response: any) => {
-                // Controleer of de data een array is of een object met een 'results'-eigenschap
-                const users = Array.isArray(response) ? response : response.results;
 
-                if (Array.isArray(users)) {
-                    const user = users.find(u => u._id === id);
-                    if (user) {
-                        this.userDetails = user;
-                        console.log('User details:', user);
-                    } else {
-                        this.errorMessage = `User with ID ${id} not found.`;
-                        console.error(this.errorMessage);
-                    }
-                } else {
-                    this.errorMessage = 'Unexpected response format from API.';
-                    console.error(this.errorMessage, response);
-                }
-            },
-            error: (err) => {
-                this.errorMessage = 'Error fetching users from the API.';
-                console.error(this.errorMessage, err);
-            }
-        });
+    onLogout(): void {
+        this.authService.clearToken();
     }
 }

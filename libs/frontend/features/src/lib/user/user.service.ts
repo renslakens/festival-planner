@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IUserInfo } from '@festival-planner/shared/api';
+import { IUserIdentity, IUserInfo } from '@festival-planner/shared/api';
 import { commonEnvironment } from '@festival-planner/util-env';
 
 @Injectable({
     providedIn: 'root',
 })
 export class UserService {
-    private apiUrl = `${commonEnvironment.apiUrl}/user`;
+    private apiUrl = `${commonEnvironment.apiUrl}/users`;
 
     constructor(private http: HttpClient) { }
 
@@ -16,8 +16,8 @@ export class UserService {
         return this.http.get<IUserInfo[]>(this.apiUrl);
     }
 
-    getUserById(id: string): Observable<IUserInfo> {
-        return this.http.get<IUserInfo>(`${this.apiUrl}/${id}`);
+    getUserById(id: string): Observable<IUserIdentity> {
+        return this.http.get<IUserIdentity>(`${this.apiUrl}/${id}`);
     }
 
     updateUser(updatedUser: Partial<IUserInfo>): Observable<boolean> {
