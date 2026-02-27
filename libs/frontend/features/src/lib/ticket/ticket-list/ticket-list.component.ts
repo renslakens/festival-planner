@@ -19,6 +19,7 @@ export class TicketListComponent implements OnInit {
   festivals: IFestival[] = [];
   isLoggedIn = false;
   isAdmin = false;
+  isOwner = false;
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
@@ -48,6 +49,9 @@ export class TicketListComponent implements OnInit {
     request$.subscribe({
       next: (results) => {
         this.tickets = results.filter(ticket => !ticket.userId);
+        this.isOwner = results.some(ticket => ticket.ownerId === this.authService.getLoggedInUserId());
+        console.debug('Tickets geladen:', this.tickets);
+        console.debug('Is eigenaar van tickets:', this.isOwner);
       },
       error: (err) => console.error('Fout bij ophalen tickets', err)
     });
@@ -85,5 +89,20 @@ export class TicketListComponent implements OnInit {
         this.errorMessage = "Er is iets misgegaan bij het kopen van het ticket.";
       }
     });
+  }
+
+  deleteTicket(ticketId: string): void {
+    if (confirm('Weet je zeker dat je dit ticket wilt verwijderen?')) {
+      this.ticketService.deleteTicket(ticketId).subscribe({
+        next: () => {
+          this.successMessage = "Ticket succesvol verwijderd.";
+          this.loadTickets();
+        },
+        error: (err) => {
+          console.error('Error deleting ticket', err);
+          this.errorMessage = 'Er is een fout opgetreden bij het verwijderen van het ticket. Probeer het later opnieuw.';
+        }
+      });
+    }
   }
 }

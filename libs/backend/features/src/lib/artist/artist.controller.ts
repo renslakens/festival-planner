@@ -23,19 +23,19 @@ export class ArtistController {
 
     @Put(':id')
     @UseGuards(AdminGuard)
-    update(@Param('id') id: string, @Body() artist: UpdateArtistDto): Promise<IArtist | null> {
-        return this.artistService.update(id, artist);
+    update(@Param('id') id: string, @Body() artist: UpdateArtistDto, @Request() req: any): Promise<IArtist | null> {
+        return this.artistService.update(id, artist, req.user._id);
     }
 
     @Post('')
     @UseGuards(AdminGuard)
-    create(@Body() createArtistDto: CreateArtistDto): Promise<IArtist | null> {
-        return this.artistService.create(createArtistDto);
+    create(@Body() createArtistDto: CreateArtistDto, @Request() req: any): Promise<IArtist | null> {
+        return this.artistService.create(createArtistDto, req.user._id);
     }
 
     @Delete(':id')
     @UseGuards(AdminGuard)
-    delete(@Param('id') id: string): Promise<IArtist | null> {
-        return this.artistService.delete(id);
+    delete(@Param('id') id: string, @Request() req: any): Promise<IArtist | null> {
+        return this.artistService.delete(id, req.user._id);
     }
 }

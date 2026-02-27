@@ -28,20 +28,19 @@ export class PerformanceController {
 
     @Put(':id')
     @UseGuards(AdminGuard)
-    update(@Param('id') id: string, @Body() performance: UpdatePerformanceDto): Promise<IPerformance | null> {
-        return this.performanceService.update(id, performance);
+    update(@Param('id') id: string, @Body() performance: UpdatePerformanceDto, @Request() req: any): Promise<IPerformance | null> {
+        return this.performanceService.update(id, performance, req.user._id);
     }
 
     @Post('')
     @UseGuards(AdminGuard)
     create(@Body() createDto: CreatePerformanceDto, @Request() req: any): Promise<IPerformance | null> {
-        const userId = req.user?.user_id || req.user?.sub || 'unknown';
-        return this.performanceService.create(createDto, userId);
+        return this.performanceService.create(createDto, req.user._id);
     }
 
     @Delete(':id')
     @UseGuards(AdminGuard)
-    delete(@Param('id') id: string): Promise<IPerformance | null> {
-        return this.performanceService.delete(id);
+    delete(@Param('id') id: string, @Request() req: any): Promise<IPerformance | null> {
+        return this.performanceService.delete(id, req.user._id);
     }
 }

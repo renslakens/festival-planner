@@ -13,22 +13,24 @@ import { AuthService } from '@festival-planner/features';
 })
 export class NavComponent {
   isLoggedIn = false;
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) { }
+  private authSub: Subscription | undefined;
+
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    if (this.authService.getLoggedInUserId()) {
-      console.debug('Gebruiker is ingelogd, userId:', this.authService.getLoggedInUserId());
-      this.isLoggedIn = true;
+    this.authSub = this.authService.isLoggedIn$.subscribe(status => {
+      this.isLoggedIn = status;
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.authSub) {
+      this.authSub.unsubscribe();
     }
   }
 
   onLogout(event: Event): void {
     event.preventDefault();
     this.authService.clearToken();
-    this.isLoggedIn = false;
-    this.router.navigate(['/login']);
   }
 }

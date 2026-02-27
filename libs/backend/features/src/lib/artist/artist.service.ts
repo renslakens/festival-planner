@@ -41,22 +41,23 @@ export class ArtistService {
         return item;
     }
 
-    async create(artistDto: CreateArtistDto): Promise<IArtist | null> {
+    async create(artistDto: CreateArtistDto, ownerId: string): Promise<IArtist | null> {
         // Check of artiest al bestaat
         const existing = await this.artistModel.findOne({ name: artistDto.name }).exec();
         if (existing) {
             throw new HttpException(`Artist ${artistDto.name} already exists`, 400);
         }
-        return this.artistModel.create(artistDto);
+        this.logger.log(`Create artist ${artistDto.name} for ${ownerId}`);
+        return this.artistModel.create({ ...artistDto, ownerId });
     }
 
-    async update(_id: string, artist: UpdateArtistDto): Promise<IArtist | null> {
+    async update(_id: string, artist: UpdateArtistDto, ownerId: string): Promise<IArtist | null> {
         this.logger.log(`Update artist ${artist.name}`);
-        return this.artistModel.findByIdAndUpdate({ _id }, artist);
+        return this.artistModel.findByIdAndUpdate({ _id, ownerId }, artist);
     }
 
-    async delete(_id: string): Promise<IArtist | null> {
+    async delete(_id: string, ownerId: string): Promise<IArtist | null> {
         this.logger.log(`Delete artist with id ${_id}`);
-        return this.artistModel.findByIdAndDelete({ _id });
+        return this.artistModel.findByIdAndDelete({ _id, ownerId });
     }
 }

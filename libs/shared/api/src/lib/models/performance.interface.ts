@@ -1,3 +1,4 @@
+import { IArtist } from './artist.interface';
 import { Id } from './id.type';
 
 export interface IPerformance {
@@ -7,7 +8,8 @@ export interface IPerformance {
     specialFeatures: string;
     description: string;
     stageId: Id;
-    artistId: Id;
+    artistId: Id | IArtist;
+    ownerId: Id;
 }
 
 export type ICreatePerformance = Pick<

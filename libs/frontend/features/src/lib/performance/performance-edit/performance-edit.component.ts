@@ -15,48 +15,60 @@ import { IArtist } from '@festival-planner/shared/api';
 export class PerformanceEditComponent implements OnInit {
   form: FormGroup;
   stageId: string | null = null;
-  artists: IArtist[] = []; // Lijst voor de dropdown
+  artists: IArtist[] = [];
+  errorMessage: string | null = null;
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
     private performanceService: PerformanceService,
-    private artistService: ArtistService, // Injecteer
+    private artistService: ArtistService,
     private route: ActivatedRoute,
-    private router: Router
   ) {
     this.form = this.fb.group({
       description: ['', Validators.required],
-      specialFeatures: [''],
-      dateTime: [null, Validators.required], // Datum & Tijd
-      period: [60, [Validators.required, Validators.min(15)]], // Duur in minuten
-      artistId: ['', Validators.required], // De koppeling!
-      stageId: ['', Validators.required]
+      specialFeatures: ['', Validators.required],
+      dateTime: [null, Validators.required],
+      period: [60, [Validators.required, Validators.min(15)]],
+      artistId: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
-    // 1. Haal Stage ID uit URL (we komen van /stages/:stageId/performances/new)
     this.stageId = this.route.snapshot.paramMap.get('stageId');
     if (this.stageId) {
       this.form.patchValue({ stageId: this.stageId });
     }
 
-    // 2. Haal Artiesten op voor de dropdown
     this.artistService.getArtists().subscribe(artists => {
       this.artists = artists;
     });
   }
 
+  back(): void {
+    window.history.back();
+  }
+
   onSubmit(): void {
+    this.submitted = true;
+
     if (this.form.valid) {
-      this.performanceService.createPerformance(this.form.value).subscribe({
+      const formData = {
+        ...this.form.value,
+        stageId: this.stageId
+      }
+
+      this.performanceService.createPerformance(formData).subscribe({
         next: () => {
-          // Navigeer terug (bv. naar het festival waar de stage bij hoort is lastig te weten zonder extra call,
-          // dus we gaan 'back' of naar de festival lijst)
-          window.history.back();
+          this.back();
         },
-        error: (err) => console.error('Fout:', err)
+        error: (err) => {
+          console.error('Fout bij opslaan:', err);
+          this.errorMessage = 'Opslaan mislukt. Check of alle velden zijn ingevuld.';
+        }
       });
+    } else {
+      this.errorMessage = 'Formulier is ongeldig of Stage ID ontbreekt.';
     }
   }
 }

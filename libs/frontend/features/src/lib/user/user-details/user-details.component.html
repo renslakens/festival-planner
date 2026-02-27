@@ -1,16 +1,74 @@
-<div *ngIf="userDetails; else loading">
-    <h1>User Details</h1>
-    <p><strong>Name:</strong> {{ userDetails.name }}</p>
-    <p><strong>Email:</strong> {{ userDetails.emailAddress }}</p>
-    <p><strong>Role:</strong> {{ userDetails.role }}</p>
-    <p><strong>Gender:</strong> {{ userDetails.gender }}</p>
-    <p><strong>Status:</strong> {{ userDetails.isActive ? 'Active' : 'Inactive' }}</p>
-    <img [src]="userDetails.profileImgUrl" alt="{{ userDetails.name }}'s profile" width="100">
+<div class="container mt-5 mb-5" *ngIf="currentUser">
+
+    <div class="row g-5">
+        <div class="col-lg-4">
+            <div class="card bg-dark text-white border-secondary shadow-lg position-sticky" style="top: 2rem;">
+                <div class="card-body text-center p-5">
+                    <div class="rounded-circle bg-secondary d-inline-flex align-items-center justify-content-center mb-4"
+                        style="width: 100px; height: 100px;">
+                        <img [src]="currentUser.profileImgUrl" alt="Avatar" class="rounded-circle"
+                            style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+
+                    <h2 class="fw-bold mb-1">{{ currentUser.name || 'Gebruiker' }}</h2>
+                    <p class="text-muted mb-4">{{ currentUser.emailAddress || 'Geen email bekend' }}</p>
+                    <span class="badge bg-primary mb-4">{{ currentUser.role }}</span>
+
+                    <div class="d-grid gap-3 mt-2">
+                        <a [routerLink]="['/profile', currentUserId, 'edit']"
+                            class="btn btn-outline-light rounded-pill">
+                            <i class="bi bi-pencil-square me-2"></i> Gegevens wijzigen
+                        </a>
+
+                        <button (click)="onLogout()" class="btn btn-danger rounded-pill">
+                            <i class="bi bi-box-arrow-right me-2"></i> Uitloggen
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="container">
+                <h2 class="mb-4">Mijn agenda</h2>
+
+                <div class="row g-3 mb-5" *ngIf="myFestivals.length > 0; else noFestivals">
+                    @for (fest of myFestivals; track fest._id) {
+                    <div class="col-md-6">
+                        <a [routerLink]="['/festivals', fest._id]" class="text-decoration-none">
+                            <div class="card bg-dark border-secondary h-100 festival-card-hover">
+                                <div class="card-body d-flex align-items-center">
+                                    <div class="bg-primary bg-opacity-10 p-3 rounded me-3 text-center"
+                                        style="min-width: 70px;">
+                                        <span class="d-block fw-bold fs-5">{{ fest.date | date:'dd' }}</span>
+                                        <span class="d-block text-uppercase small">{{ fest.date | date:'MMM' }}</span>
+                                    </div>
+                                    <div>
+                                        <h5 class="text-white mb-1">{{ fest.name }}</h5>
+                                        <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>{{
+                                            fest.location}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    }
+                </div>
+            </div>
 
 
+            <ng-template #noFestivals>
+                <div class="alert alert-dark text-center">
+                    <p class="mt-3 lead">Je hebt nog geen festivals op de planning staan.</p>
+                    <a routerLink="/festivals" class="btn btn-primary mt-2">Bekijk de agenda</a>
+                </div>
+            </ng-template>
+
+            <div class="col-12 text-center mt-5">
+
+            </div>
+
+            <lib-ticket-my-list></lib-ticket-my-list>
+        </div>
+    </div>
 </div>
-<br>
-<button class="btn btn-primary" [routerLink]="['/users', userId, 'edit']">Edit</button>
-<ng-template #loading>
-    <p>Loading user details...</p>
-</ng-template>

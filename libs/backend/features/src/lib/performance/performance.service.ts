@@ -47,7 +47,8 @@ export class PerformanceService {
 
     async findPerformancesByStageId(stageId: string): Promise<IPerformance[]> {
         this.logger.log(`finding performances with stage id ${stageId}`);
-        const items = await this.performanceModel.find({ stageId }).exec();
+        const items = await this.performanceModel.find({ stageId }).populate('artistId').exec();
+        console.log('found performances:', items);
         if (!items) {
             this.logger.debug('Performances not found');
         }
@@ -63,7 +64,7 @@ export class PerformanceService {
         const artist = await this.artistModel.findById(performanceDto.artistId).exec();
         if (!artist) throw new HttpException(`Artist not found`, 404);
 
-        const createdPerformance = await this.performanceModel.create(performanceDto);
+        const createdPerformance = await this.performanceModel.create({ ...performanceDto, ownerId: userId, dateTime: new Date(performanceDto.dateTime) });
 
         await this.stageModel.updateOne(
             { _id: performanceDto.stageId },
@@ -73,13 +74,13 @@ export class PerformanceService {
         return createdPerformance;
     }
 
-    async update(_id: string, performance: UpdatePerformanceDto): Promise<IPerformance | null> {
+    async update(_id: string, performance: UpdatePerformanceDto, ownerId: string): Promise<IPerformance | null> {
         this.logger.log(`Update performance with description ${performance.description}`);
-        return this.performanceModel.findByIdAndUpdate({ _id }, performance);
+        return this.performanceModel.findByIdAndUpdate({ _id, ownerId }, { ...performance, dateTime: new Date(performance.dateTime) });
     }
 
-    async delete(_id: string): Promise<IPerformance | null> {
+    async delete(_id: string, ownerId: string): Promise<IPerformance | null> {
         this.logger.log(`Delete performance with id ${_id}`);
-        return this.performanceModel.findByIdAndDelete({ _id });
+        return this.performanceModel.findByIdAndDelete({ _id, ownerId });
     }
 }

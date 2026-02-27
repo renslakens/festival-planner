@@ -8,6 +8,7 @@ export interface IFestival {
     location: string;
     is18Plus: boolean;
     stages: Id[];
+    ownerId: Id;
 }
 
 export type ICreateFestival = Pick<

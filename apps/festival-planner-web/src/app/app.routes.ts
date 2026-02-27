@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { AboutComponent, ArtistEditComponent, ArtistListComponent, authGuard, FestivalDetailComponent, FestivalEditComponent, HomeComponent, LoginComponent, PerformanceEditComponent, RegisterComponent, StageEditComponent, TicketEditComponent, TicketListComponent, TicketMyListComponent } from '@festival-planner/features';
+import { AboutComponent, ArtistEditComponent, ArtistListComponent, authGuard, FestivalDetailComponent, FestivalEditComponent, HomeComponent, LoginComponent, PerformanceEditComponent, RegisterComponent, StageEditComponent, TicketEditComponent, TicketListComponent, TicketMyListComponent, UserDetailsComponent, UserEditComponent } from '@festival-planner/features';
 import { FestivalListComponent } from '@festival-planner/features';
 
 export const appRoutes: Route[] = [
@@ -11,19 +11,22 @@ export const appRoutes: Route[] = [
 
     { path: 'festivals', component: FestivalListComponent },
     { path: 'festivals/new', component: FestivalEditComponent, canActivate: [authGuard] },
-    { path: 'festivals/:id', component: FestivalDetailComponent },
-    { path: 'festivals/:id/stages/new', component: StageEditComponent, canActivate: [authGuard] },
-    { path: 'festivals/:id/edit', component: FestivalEditComponent, canActivate: [authGuard] },
+    { path: 'festivals/:festivalId', component: FestivalDetailComponent },
+    { path: 'festivals/:festivalId/stages/new', component: StageEditComponent, canActivate: [authGuard] },
+    { path: 'festivals/:festivalId/edit', component: FestivalEditComponent, canActivate: [authGuard] },
 
-    { path: 'stages/:id/edit', component: StageEditComponent, canActivate: [authGuard] },
-    { path: 'stages/:id/performances/new', component: PerformanceEditComponent, canActivate: [authGuard] },
+    { path: 'stages/:stageId/edit', component: StageEditComponent, canActivate: [authGuard] },
+    { path: 'stages/:stageId/performances/new', component: PerformanceEditComponent, canActivate: [authGuard] },
 
     { path: 'artists', component: ArtistListComponent },
     { path: 'artists/new', component: ArtistEditComponent, canActivate: [authGuard] },
-    { path: 'artists/:id/edit', component: ArtistEditComponent, canActivate: [authGuard] },
+    { path: 'artists/:artistId/edit', component: ArtistEditComponent, canActivate: [authGuard] },
 
     { path: 'tickets', component: TicketListComponent },
     { path: 'tickets/new', component: TicketEditComponent, canActivate: [authGuard] },
-    { path: 'tickets/:id/edit', component: TicketEditComponent, canActivate: [authGuard] },
-    { path: 'tickets/my', component: TicketMyListComponent, canActivate: [authGuard] }
+    { path: 'tickets/:ticketId/edit', component: TicketEditComponent, canActivate: [authGuard] },
+    { path: 'tickets/my', component: TicketMyListComponent, canActivate: [authGuard] },
+
+    { path: 'profile', component: UserDetailsComponent, canActivate: [authGuard] },
+    { path: 'profile/:userId/edit', component: UserEditComponent, canActivate: [authGuard] },
 ];

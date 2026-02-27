@@ -16,7 +16,7 @@ export class FestivalService {
     constructor(
         @InjectModel(FestivalModel.name) private festivalModel: Model<FestivalDocument>,
         @InjectModel(UserModel.name) private userModel: Model<UserDocument>
-    ) {}
+    ) { }
 
     /**
      * Zie https://mongoosejs.com/docs/populate.html#population
@@ -41,9 +41,9 @@ export class FestivalService {
         return item;
     }
 
-    async create(req: any): Promise<IFestival | null> {
+    async create(req: any, userId: string): Promise<IFestival | null> {
         const festival = req.body;
-        const user_id = req.user._id;
+        const user_id = userId;
 
         if (festival && user_id) {
             const existingFestival = await this.festivalModel.findOne({ name: festival.name }).exec();
@@ -59,19 +59,43 @@ export class FestivalService {
                 .exec();
             const createdItem = {
                 ...festival,
-                //cook: user
+                ownerId: user_id
             };
             return this.festivalModel.create(createdItem);
         }
         return null;
     }
 
-    async update(_id: string, festival: UpdateFestivalDto): Promise<IFestival | null> {
+    async update(_id: string, festival: UpdateFestivalDto, userId: string): Promise<IFestival | null> {
+        const festivalToUpdate = await this.festivalModel.findById(_id).exec();
+
+        if (!festivalToUpdate) {
+            this.logger.warn(`Festival with id ${_id} not found`);
+            throw new HttpException(`Festival with id ${_id} not found`, 404);
+        }
+
+        if (festivalToUpdate.ownerId !== userId) {
+            this.logger.warn(`User ${userId} is not the owner of festival ${festivalToUpdate.name}`);
+            throw new HttpException(`User is not the owner of this festival`, 403);
+        }
+
         this.logger.log(`Update festival ${festival.name}`);
-        return this.festivalModel.findByIdAndUpdate({ _id }, festival);
+        return this.festivalModel.findByIdAndUpdate({ _id }, { ...festival, ownerId: userId }, { new: true });
     }
 
-    async delete(_id: string): Promise<IFestival | null> {
+    async delete(_id: string, userId: string): Promise<IFestival | null> {
+        const festivalToDelete = await this.festivalModel.findById(_id);
+
+        if (!festivalToDelete) {
+            this.logger.warn(`Festival with id ${_id} not found`);
+            throw new HttpException(`Festival with id ${_id} not found`, 404);
+        }
+
+        if (festivalToDelete.ownerId !== userId) {
+            this.logger.warn(`User ${userId} is not the owner of festival ${festivalToDelete.name}`);
+            throw new HttpException(`User is not the owner of this festival`, 403);
+        }
+
         this.logger.log(`Delete festival with id ${_id}`);
         return this.festivalModel.findByIdAndDelete({ _id });
     }

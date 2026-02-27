@@ -18,14 +18,17 @@ export class Festival implements IFestival {
     @Prop({ required: true })
     date!: Date;
 
-    @Prop( { required: true })
+    @Prop({ required: true })
     location!: string;
 
-    @Prop( { required: true })
+    @Prop({ required: true })
     is18Plus!: boolean;
 
     @Prop()
     stages!: string[];
+
+    @Prop({ required: true })
+    ownerId!: string;
 }
 
 export const FestivalSchema = SchemaFactory.createForClass(Festival);

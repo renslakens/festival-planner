@@ -21,6 +21,9 @@ export class Artist implements IArtist {
 
     @Prop({ required: true })
     description!: string;
+
+    @Prop({ required: true })
+    ownerId!: string;
 }
 
 export const ArtistSchema = SchemaFactory.createForClass(Artist);

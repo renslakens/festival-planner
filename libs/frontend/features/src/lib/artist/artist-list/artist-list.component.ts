@@ -21,4 +21,12 @@ export class ArtistListComponent implements OnInit {
     this.isAdmin = this.authService.getCurrentUser()?.role === 'Admin';
     this.artistService.getArtists().subscribe(results => this.artists = results);
   }
+
+  deleteArtist(id: string): void {
+    if (confirm('Weet je zeker dat je deze artiest wilt verwijderen?')) {
+      this.artistService.deleteArtist(id).subscribe(() => {
+        this.artists = this.artists.filter(artist => artist._id !== id);
+      });
+    }
+  }
 }

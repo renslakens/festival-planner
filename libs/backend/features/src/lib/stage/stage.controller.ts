@@ -28,15 +28,14 @@ export class StageController {
 
     @Put(':id')
     @UseGuards(AdminGuard)
-    update(@Param('id') id: string, @Body() stage: UpdateStageDto): Promise<IStage | null> {
-        return this.stageService.update(id, stage);
+    update(@Param('id') id: string, @Body() stage: UpdateStageDto, @Request() req: any): Promise<IStage | null> {
+        return this.stageService.update(id, stage, req.user._id);
     }
 
     @Post('')
     @UseGuards(AdminGuard)
     create(@Body() createStageDto: CreateStageDto, @Request() req: any): Promise<IStage | null> {
-        // Probeer verschillende properties voor de user ID (afhankelijk van je auth strategy)
-        const userId = req.user?.user_id || req.user?.sub || req.user?._id || 'unknown_user';
+        const userId = req.user._id;
         this.logger.log(`Creating stage for user: ${userId}`);
 
         // Geef DTO en userId los mee aan de service
@@ -45,7 +44,7 @@ export class StageController {
 
     @Delete(':id')
     @UseGuards(AdminGuard)
-    delete(@Param('id') id: string): Promise<IStage | null> {
-        return this.stageService.delete(id);
+    delete(@Param('id') id: string, @Request() req: any): Promise<IStage | null> {
+        return this.stageService.delete(id, req.user._id);
     }
 }

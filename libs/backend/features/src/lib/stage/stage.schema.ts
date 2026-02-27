@@ -24,6 +24,9 @@ export class Stage implements IStage {
 
     @Prop()
     performances!: string[];
+
+    @Prop({ required: true })
+    ownerId!: string;
 }
 
 export const StageSchema = SchemaFactory.createForClass(Stage);

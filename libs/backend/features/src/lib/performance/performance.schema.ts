@@ -1,7 +1,9 @@
 
 import { IPerformance, } from "@festival-planner/shared/api";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document, Schema as MongooseSchema } from "mongoose";
 import { IsMongoId } from "class-validator";
+import { Artist } from "../artist/artist.schema";
 
 export type PerformanceDocument = Performance & Document;
 
@@ -25,8 +27,15 @@ export class Performance implements IPerformance {
     @Prop({ required: true })
     stageId!: string;
 
+    @Prop({
+        required: true,
+        type: MongooseSchema.Types.ObjectId,
+        ref: 'Artist'
+    })
+    artistId!: Artist | string;
+
     @Prop({ required: true })
-    artistId!: string;
+    ownerId!: string;
 }
 
 export const PerformanceSchema = SchemaFactory.createForClass(Performance);

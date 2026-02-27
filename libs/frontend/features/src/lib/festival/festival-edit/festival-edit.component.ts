@@ -37,7 +37,7 @@ export class FestivalEditComponent implements OnInit {
   ngOnInit(): void {
     // Check of we in edit-mode zijn
     this.route.paramMap.subscribe((params) => {
-      this.festivalId = params.get('id');
+      this.festivalId = params.get('festivalId');
       if (this.festivalId) {
         this.isEditMode = true;
         this.loadFestival(this.festivalId);
@@ -49,7 +49,6 @@ export class FestivalEditComponent implements OnInit {
     this.festivalService.getFestivalById(id).subscribe({
       next: (festival) => {
         // Vul het formulier met de data
-        // Let op: datum moet soms geformatteerd worden voor <input type="date">
         this.festivalForm.patchValue({
           name: festival.name,
           description: festival.description,
