@@ -25,16 +25,20 @@ jobs:
 
             - name: Prepare Deployment Folder
               run: |
-                  mkdir deploy_package
+                  mkdir -p ../deploy_tmp
                   
-                  cp -r dist/apps/data-api/* ./deploy_package/
+                  cp -r dist/apps/data-api/* ../deploy_tmp/
                   
-                  cp package.json package-lock.json ./deploy_package/
+                  cp package.json package-lock.json ../deploy_tmp/
                   
-                  cd deploy_package
-                  npm install --omit=dev
+                  cd ../deploy_tmp
                   
-                  zip -r ../data-api-release.zip .
+                  npm install --omit=dev --no-audit --no-fund
+                  
+                  zip -r $GITHUB_WORKSPACE/data-api-release.zip .
+                  
+                  cd $GITHUB_WORKSPACE
+                  rm -rf ../deploy_tmp
 
             - name: Azure Login
               uses: azure/login@v2
