@@ -17,6 +17,7 @@
                 "isolatedConfig": true,
                 "webpackConfig": "apps/data-api/webpack.config.js",
                 "generatePackageJson": true,
+                "bundle": true,
                 "assets": ["apps/data-api/src/assets"]
             }
         },
