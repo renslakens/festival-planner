@@ -6,13 +6,13 @@
     "tags": [],
     "targets": {
         "build": {
-            "executor": "@nx/js:tsc", 
+            "executor": "@nx/js:tsc",
             "options": {
             "outputPath": "dist/apps/data-api",
             "main": "apps/data-api/src/main.ts",
             "tsConfig": "apps/data-api/tsconfig.app.json",
             "assets": ["apps/data-api/src/assets"],
-            "updateBuildableProjectDepsInPackageJson": true
+            "rootDir": "." 
             }
         },
         "serve": {
