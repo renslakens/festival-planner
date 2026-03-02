@@ -12,7 +12,8 @@
             "main": "apps/data-api/src/main.ts",
             "tsConfig": "apps/data-api/tsconfig.app.json",
             "assets": ["apps/data-api/src/assets"],
-            "rootDir": "." 
+            "rootDir": ".",
+            "bundle": true
             }
         },
         "serve": {
