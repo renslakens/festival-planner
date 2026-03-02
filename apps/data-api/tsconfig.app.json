@@ -6,15 +6,10 @@
     "rootDirs": ["../../"],
     "types": ["node"]
   },
+  "exclude": ["src/test-setup.ts", "**/*.spec.ts"],
   "include": [
     "src/**/*.ts",
-    "../../libs/backend/**/*.ts", 
-    "../../libs/shared/**/*.ts"
-  ],
-  "exclude": [
-    "../../libs/frontend/**/*",
-    "../../node_modules",
-    "**/*.spec.ts",
-    "**/*.test.ts"
+    "../../libs/shared/**/*.ts",
+    "../../libs/backend/**/*.ts"
   ]
 }
