@@ -1,0 +1,5 @@
+**/*.eslint.config.js
+**/.eslintrc.json
+**/eslint.config.js
+**/*.spec.ts
+**/*.test.ts
