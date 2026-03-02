@@ -1,20 +1,20 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "module": "commonjs",
-    "types": ["node"],
-    "emitDecoratorMetadata": true,
-    "target": "es2021",
-    "rootDir": "../../",
-    "rootDirs": ["../../"]
+    "rootDir": "../../", 
+    "rootDirs": ["../../"],
+    "types": ["node"]
   },
-  "include": ["src/**/*.ts", "../../libs/**/*.ts"],
+  "include": [
+    "src/**/*.ts",
+    "../../libs/backend/**/*.ts", 
+    "../../libs/shared/**/*.ts"
+  ],
   "exclude": [
     "../../libs/frontend/**/*",
-    "node_modules",
+    "../../node_modules",
     "**/*.spec.ts",
-    "**/*.test.ts",
-    "jest.config.ts"
+    "**/*.test.ts"
   ]
 }
