@@ -2,6 +2,6 @@ import { IEnvironment } from "./environment.interface";
 
 export const commonEnvironmentProd: IEnvironment = {
     production: true,
-    apiUrl: 'https://api.festival-planner.com/api',
-    MONGO_URI: 'mongodb://mongo:27017/festival-planner'
+    apiUrl: 'https://festival-planner-5vf5.onrender.com/api',
+    MONGO_URI: 'mongodb+srv://rens:l7hS2Kngar9X8WIX@festival-planner.hfz1dbx.mongodb.net/?appName=festival-planner'
 };
