@@ -6,19 +6,13 @@
     "tags": [],
     "targets": {
         "build": {
-            "executor": "@nx/webpack:webpack",
-            "outputs": ["{options.outputPath}"],
+            "executor": "@nx/js:tsc", 
             "options": {
-                "target": "node",
-                "compiler": "tsc",
-                "outputPath": "dist/apps/data-api",
-                "main": "apps/data-api/src/main.ts",
-                "tsConfig": "apps/data-api/tsconfig.app.json",
-                "isolatedConfig": true,
-                "webpackConfig": "apps/data-api/webpack.config.js",
-                "generatePackageJson": true,
-                "bundle": true,
-                "assets": ["apps/data-api/src/assets"]
+            "outputPath": "dist/apps/data-api",
+            "main": "apps/data-api/src/main.ts",
+            "tsConfig": "apps/data-api/tsconfig.app.json",
+            "assets": ["apps/data-api/src/assets"],
+            "updateBuildableProjectDepsInPackageJson": true
             }
         },
         "serve": {
