@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "../../dist/apps/data-api",
     "types": ["node"],
-    "rootDir": "../../"
+    // "rootDir": "../../"
   },
   "exclude": ["src/**/*.spec.ts", "test/**/*.spec.ts"],
   "include": ["src/**/*.ts"]
