@@ -54,7 +54,7 @@ export class TicketController {
         @Request() req: any
     ): Promise<ITicket | null> {
         this.logger.log('User: ' + JSON.stringify(req.user));
-        const userId = req.user._id;
+        const userId = req.user.user_id;
         this.logger.log(`User ${userId} purchasing ticket ${id}`);
         return this.ticketService.purchaseTicket(id, userId);
     }
