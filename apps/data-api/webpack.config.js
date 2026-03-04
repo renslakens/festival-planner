@@ -1,12 +1,24 @@
 const { composePlugins, withNx } = require('@nx/webpack');
 
 module.exports = composePlugins(withNx(), (config) => {
-  // Handle NestJS lazy-loading warnings
+  // Silence the dynamic dependency warnings
   config.ignoreWarnings = [
     { module: /@nestjs\/common/ },
     { module: /@nestjs\/core/ },
     { module: /express/ },
-    { module: /mongodb/ }
+    { module: /mongodb/ },
+    /Critical dependency/
+  ];
+
+  config.externals = [
+    ...(config.externals || []),
+    '@nestjs/microservices',
+    '@nestjs/websockets',
+    '@nestjs/websockets/socket-module',
+    '@nestjs/microservices/microservices-module',
+    'cache-manager',
+    'class-transformer',
+    'class-validator',
   ];
 
   return config;
