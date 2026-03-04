@@ -36,13 +36,13 @@ export class TicketController {
     @Put(':id')
     @UseGuards(AdminGuard)
     update(@Param('id') id: string, @Body() ticket: UpdateTicketDto, @Request() req: any): Promise<ITicket | null> {
-        return this.ticketService.update(id, ticket, req.user.user_id);
+        return this.ticketService.update(id, ticket, req.user._id);
     }
 
     @Post('')
     @UseGuards(AdminGuard)
     create(@Body() createTicketDto: CreateTicketDto, @Request() req: any): Promise<ITicket | null> {
-        const userId = req.user.user_id;
+        const userId = req.user._id;
         this.logger.log(`Creating ticket. req.user._id = ${userId}`);
         return this.ticketService.create(createTicketDto, userId);
     }
@@ -54,7 +54,7 @@ export class TicketController {
         @Request() req: any
     ): Promise<ITicket | null> {
         this.logger.log('User: ' + JSON.stringify(req.user));
-        const userId = req.user.user_id;
+        const userId = req.user._id;
         this.logger.log(`User ${userId} purchasing ticket ${id}`);
         return this.ticketService.purchaseTicket(id, userId);
     }

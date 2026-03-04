@@ -80,6 +80,17 @@ export class StageService {
     }
 
     async update(_id: string, stage: UpdateStageDto, ownerId: string): Promise<IStage | null> {
+        const stageToUpdate = await this.stageModel.findById(_id);
+        if (!stageToUpdate) {
+            this.logger.warn(`Stage with id ${_id} not found`);
+            throw new HttpException(`Stage with id ${_id} not found`, 404);
+        }
+
+        if (stageToUpdate.ownerId !== ownerId) {
+            this.logger.warn(`User ${ownerId} is not the owner of stage ${_id}`);
+            throw new HttpException(`User ${ownerId} is not the owner of stage ${_id}`, 403);
+        }
+
         this.logger.log(`Update stage ${stage.name}`);
         return this.stageModel.findByIdAndUpdate({ _id, ownerId }, stage, { new: true });
     }
@@ -89,6 +100,11 @@ export class StageService {
         if (!stageToDelete) {
             this.logger.warn(`Stage with id ${_id} not found`);
             throw new HttpException(`Stage with id ${_id} not found`, 404);
+        }
+
+        if (stageToDelete.ownerId !== ownerId) {
+            this.logger.warn(`User ${ownerId} is not the owner of stage ${_id}`);
+            throw new HttpException(`User ${ownerId} is not the owner of stage ${_id}`, 403);
         }
 
         this.logger.log(`Delete stage with id ${_id}`);

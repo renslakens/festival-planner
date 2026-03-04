@@ -52,11 +52,33 @@ export class ArtistService {
     }
 
     async update(_id: string, artist: UpdateArtistDto, ownerId: string): Promise<IArtist | null> {
+        const artistToUpdate = await this.artistModel.findById(_id);
+        if (!artistToUpdate) {
+            this.logger.warn(`Artist with id ${_id} not found`);
+            throw new HttpException(`Artist with id ${_id} not found`, 404);
+        }
+
+        if (artistToUpdate.ownerId !== ownerId) {
+            this.logger.warn(`User ${ownerId} is not the owner of artist ${_id}`);
+            throw new HttpException(`User ${ownerId} is not the owner of artist ${_id}`, 403);
+        }
+
         this.logger.log(`Update artist ${artist.name}`);
         return this.artistModel.findByIdAndUpdate({ _id, ownerId }, artist);
     }
 
     async delete(_id: string, ownerId: string): Promise<IArtist | null> {
+        const artistToDelete = await this.artistModel.findById(_id);
+        if (!artistToDelete) {
+            this.logger.warn(`Artist with id ${_id} not found`);
+            throw new HttpException(`Artist with id ${_id} not found`, 404);
+        }
+
+        if (artistToDelete.ownerId !== ownerId) {
+            this.logger.warn(`User ${ownerId} is not the owner of artist ${_id}`);
+            throw new HttpException(`User ${ownerId} is not the owner of artist ${_id}`, 403);
+        }
+
         this.logger.log(`Delete artist with id ${_id}`);
         return this.artistModel.findByIdAndDelete({ _id, ownerId });
     }

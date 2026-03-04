@@ -19,9 +19,8 @@ export class FestivalDetailComponent implements OnInit {
   performancesByStage: { [stageId: string]: any[] } = {};
   isAdmin = false;
   isOwner = false;
-  isStageOwner = false;
-  isPerformanceOwner = false;
   isLoggedIn = false;
+  currentUserId: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,25 +38,22 @@ export class FestivalDetailComponent implements OnInit {
     this.isLoggedIn = !!user;
     this.isAdmin = user?.role === 'Admin';
 
+
     console.log('Current user:', user);
 
     if (id) {
       this.festivalService.getFestivalById(id).subscribe(data => {
         this.festival = data;
         this.isOwner = this.festival.ownerId === user?.user_id;
+        this.currentUserId = user?.user_id || null;
         console.log('isOwner:', this.isOwner);
       });
 
       this.stageService.getStagesByFestivalId(id).subscribe(stages => {
         this.stages = stages;
-        this.isStageOwner = stages.some(stage => stage.ownerId === user?.user_id);
-        console.log('isStageOwner:', this.isStageOwner);
 
         stages.forEach(stage => {
           this.performanceService.getPerformancesByStageId(stage._id).subscribe(perfs => {
-            this.isPerformanceOwner = perfs.some(perf => perf.ownerId === user?.user_id);
-            console.log('isPerformanceOwner:', this.isPerformanceOwner);
-
             this.performancesByStage[stage._id] = perfs.sort((a: any, b: any) =>
               new Date(a.dateTime).getTime() - new Date(b.dateTime).getTime()
             );

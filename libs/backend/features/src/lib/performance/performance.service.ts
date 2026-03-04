@@ -75,11 +75,33 @@ export class PerformanceService {
     }
 
     async update(_id: string, performance: UpdatePerformanceDto, ownerId: string): Promise<IPerformance | null> {
+        const performanceToUpdate = await this.performanceModel.findById(_id);
+        if (!performanceToUpdate) {
+            this.logger.warn(`Performance with id ${_id} not found`);
+            throw new HttpException(`Performance with id ${_id} not found`, 404);
+        }
+
+        if (performanceToUpdate.ownerId !== ownerId) {
+            this.logger.warn(`User ${ownerId} is not the owner of performance ${_id}`);
+            throw new HttpException(`User ${ownerId} is not the owner of performance ${_id}`, 403);
+        }
+
         this.logger.log(`Update performance with description ${performance.description}`);
         return this.performanceModel.findByIdAndUpdate({ _id, ownerId }, { ...performance, dateTime: new Date(performance.dateTime) });
     }
 
     async delete(_id: string, ownerId: string): Promise<IPerformance | null> {
+        const performanceToDelete = await this.performanceModel.findById(_id);
+        if (!performanceToDelete) {
+            this.logger.warn(`Performance with id ${_id} not found`);
+            throw new HttpException(`Performance with id ${_id} not found`, 404);
+        }
+
+        if (performanceToDelete.ownerId !== ownerId) {
+            this.logger.warn(`User ${ownerId} is not the owner of performance ${_id}`);
+            throw new HttpException(`User ${ownerId} is not the owner of performance ${_id}`, 403);
+        }
+
         this.logger.log(`Delete performance with id ${_id}`);
         return this.performanceModel.findByIdAndDelete({ _id, ownerId });
     }

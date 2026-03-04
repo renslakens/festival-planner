@@ -66,11 +66,33 @@ export class TicketService {
     }
 
     async update(_id: string, ticket: UpdateTicketDto, ownerId: string): Promise<ITicket | null> {
+        const ticketToUpdate = await this.ticketModel.findById(_id);
+        if (!ticketToUpdate) {
+            this.logger.warn(`Ticket with id ${_id} not found`);
+            throw new HttpException(`Ticket with id ${_id} not found`, 404);
+        }
+
+        if (ticketToUpdate.ownerId !== ownerId) {
+            this.logger.warn(`User ${ownerId} is not the owner of ticket ${_id}`);
+            throw new HttpException(`User ${ownerId} is not the owner of ticket ${_id}`, 403);
+        }
+
         this.logger.log(`Update ticket ${ticket.name}`);
         return this.ticketModel.findByIdAndUpdate({ _id, ownerId: ownerId }, ticket);
     }
 
     async delete(_id: string, ownerId: string): Promise<ITicket | null> {
+        const ticketToDelete = await this.ticketModel.findById(_id);
+        if (!ticketToDelete) {
+            this.logger.warn(`Ticket with id ${_id} not found`);
+            throw new HttpException(`Ticket with id ${_id} not found`, 404);
+        }
+
+        if (ticketToDelete.ownerId !== ownerId) {
+            this.logger.warn(`User ${ownerId} is not the owner of ticket ${_id}`);
+            throw new HttpException(`User ${ownerId} is not the owner of ticket ${_id}`, 403);
+        }
+
         this.logger.log(`Delete ticket with id ${_id}`);
         return this.ticketModel.findByIdAndDelete({ _id, ownerId: ownerId });
     }

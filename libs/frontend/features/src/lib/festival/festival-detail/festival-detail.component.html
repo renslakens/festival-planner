@@ -57,18 +57,26 @@
                             <small class="text-secondary">{{ stage.covered ? 'Overdekt' : 'Buiten' }} • {{
                                 stage.capacity }} cap.</small>
                         </div>
-                        <div *ngIf="isAdmin">
-                            <a [routerLink]="['/stages', stage._id, 'performances', 'new']"
+                        <div class="d-flex align-items-center gap-2">
+
+                            <a *ngIf="isAdmin" [routerLink]="['/stages', stage._id, 'performances', 'new']"
                                 class="btn btn-sm btn-outline-success" title="Act toevoegen">
                                 <i class="bi bi-plus-lg">+</i>
                             </a>
-                            <a [routerLink]="['/stages', stage._id, 'edit']" class="btn btn-sm btn-outline-warning ms-2"
-                                title="Podium bewerken">
-                                <i class="bi bi-pencil">✏️</i>
-                            </a>
-                            <button (click)="deleteStage(stage._id)" class="btn btn-sm btn-outline-danger ms-2" title="Podium verwijderen">
-                                <i class="bi bi-trash">🗑️</i>
-                            </button>
+
+                            <ng-container *ngIf="stage.ownerId === currentUserId">
+
+                                <a [routerLink]="['/stages', stage._id, 'edit']" class="btn btn-sm btn-outline-warning"
+                                    title="Podium bewerken">
+                                    <i class="bi bi-pencil">✏️</i>
+                                </a>
+
+                                <button (click)="deleteStage(stage._id)" class="btn btn-sm btn-outline-danger"
+                                    title="Podium verwijderen">
+                                    <i class="bi bi-trash">🗑️</i>
+                                </button>
+
+                            </ng-container>
                         </div>
                     </div>
 
@@ -88,7 +96,7 @@
                                 <div class="features-col">
                                     <span class="badge bg-secondary">{{ perf.specialFeatures }}</span>
                                 </div>
-                                <div *ngIf="isAdmin && isOwner" class="actions-col">
+                                <div *ngIf="perf.ownerId === currentUserId && isAdmin" class="actions-col">
                                     <a [routerLink]="['/performances', perf._id, 'edit']"
                                         class="btn btn-sm btn-outline-warning me-2">
                                         <i class="bi bi-pencil">✏️</i>
