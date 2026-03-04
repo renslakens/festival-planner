@@ -16,6 +16,7 @@
             "tsConfig": "apps/data-api/tsconfig.app.json",
             "assets": ["apps/data-api/src/assets"],
             "isolatedConfig": true,
+            "buildLibsFromSource": true,
             "webpackConfig": "apps/data-api/webpack.config.js",
             "generatePackageJson": true,
             "bundle": true 
