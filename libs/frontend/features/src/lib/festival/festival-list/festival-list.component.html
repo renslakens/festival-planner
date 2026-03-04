@@ -6,8 +6,37 @@
         </a>
     </div>
 
+    <div class="card bg-dark border-secondary mb-4 shadow-sm">
+        <div class="card-body">
+            <div class="row g-3 align-items-center">
+
+                <div class="col-md-8">
+                    <div class="input-group">
+                        <span class="input-group-text bg-primary text-white border-primary">
+                            <i class="bi bi-search"></i>
+                        </span>
+                        <input type="text" class="form-control bg-dark text-white border-secondary"
+                            placeholder="Zoek op festivalnaam of stad..." [(ngModel)]="searchQuery">
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div
+                        class="form-check form-switch text-white d-flex align-items-center justify-content-md-end mt-2 mt-md-0">
+                        <input class="form-check-input fs-5 me-2" type="checkbox" role="switch" id="18plusSwitch"
+                            [(ngModel)]="showOnly18Plus">
+                        <label class="form-check-label" for="18plusSwitch" style="cursor: pointer;">
+                            Toon uitsluitend 18+
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <div class="row">
-        @for (festival of festivals; track festival._id) {
+        @for (festival of filteredFestivals; track festival._id) {
         <div class="col-md-4 mb-4">
             <div class="card h-100 shadow-sm">
                 <div class="card-header">

@@ -5,18 +5,22 @@ import { FestivalService } from '../festival.service';
 import { Subscription } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'festival-planner-festival-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './festival-list.component.html',
   styleUrls: ['./festival-list.component.css'],
 })
 export class FestivalListComponent implements OnInit, OnDestroy {
-  festivals: IFestival[] | null = null;
+  festivals: IFestival[] = [];
   subscription: Subscription | undefined = undefined;
   isAdmin = false;
+
+  searchQuery: string = '';
+  showOnly18Plus: boolean = false;
 
   constructor(
     private festivalService: FestivalService,
@@ -30,6 +34,17 @@ export class FestivalListComponent implements OnInit, OnDestroy {
       console.log(`festivals returned: ${response}`);
       this.festivals = response;
     })
+  }
+
+  get filteredFestivals(): IFestival[] {
+    return this.festivals.filter(festival => {
+      const matchesSearch = festival.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        festival.location.toLowerCase().includes(this.searchQuery.toLowerCase());
+
+      const matches18Plus = this.showOnly18Plus ? festival.is18Plus === true : true;
+
+      return matchesSearch && matches18Plus;
+    });
   }
 
   ngOnDestroy(): void {
