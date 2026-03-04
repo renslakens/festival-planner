@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { BackendFeaturesMealModule } from '../../../../libs/backend/features/src/index';
-import { UserModule } from '../../../../libs/backend/user/src/index';
-import { AuthModule } from '../../../../libs/backend/auth/src/index';
+import { BackendFeaturesMealModule } from '@festival-planner/backend/features';
+import { UserModule } from '@festival-planner/backend/user';
+import { AuthModule } from '@festival-planner/backend/auth';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Logger } from '@nestjs/common';
 import { config } from 'dotenv';
