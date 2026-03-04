@@ -19,7 +19,7 @@ export class TicketListComponent implements OnInit {
   festivals: IFestival[] = [];
   isLoggedIn = false;
   isAdmin = false;
-  isOwner = false;
+  currentUserId: string | null = null;
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
@@ -33,6 +33,7 @@ export class TicketListComponent implements OnInit {
     if (this.authService.getLoggedInUserId()) {
       console.debug('Gebruiker is ingelogd, userId:', this.authService.getLoggedInUserId());
       this.isLoggedIn = true;
+      this.currentUserId = this.authService.getLoggedInUserId();
     }
     this.isAdmin = this.authService.getCurrentUser()?.role === 'Admin';
 
@@ -49,9 +50,7 @@ export class TicketListComponent implements OnInit {
     request$.subscribe({
       next: (results) => {
         this.tickets = results.filter(ticket => !ticket.userId);
-        this.isOwner = results.some(ticket => ticket.ownerId === this.authService.getLoggedInUserId());
         console.debug('Tickets geladen:', this.tickets);
-        console.debug('Is eigenaar van tickets:', this.isOwner);
       },
       error: (err) => console.error('Fout bij ophalen tickets', err)
     });
