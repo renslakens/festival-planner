@@ -15,8 +15,10 @@ import { IArtist } from '@festival-planner/shared/api';
 export class PerformanceEditComponent implements OnInit {
   form: FormGroup;
   stageId: string | null = null;
+  performanceId: string | null = null;
   artists: IArtist[] = [];
   errorMessage: string | null = null;
+  isEditMode = false;
   submitted = false;
 
   constructor(
@@ -35,18 +37,44 @@ export class PerformanceEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.stageId = this.route.snapshot.paramMap.get('stageId');
-    if (this.stageId) {
-      this.form.patchValue({ stageId: this.stageId });
-    }
+    // Check of we in edit-mode zijn
+    this.route.paramMap.subscribe((params) => {
+      this.performanceId = params.get('performanceId');
+      if (this.performanceId) {
+        this.isEditMode = true;
+        this.loadPerformance(this.performanceId);
+      }
+    });
 
     this.artistService.getArtists().subscribe(artists => {
       this.artists = artists;
     });
   }
 
+  loadPerformance(id: string): void {
+    this.performanceService.getPerformanceById(id).subscribe({
+      next: (performance) => {
+        // Vul het formulier met de data
+        this.form.patchValue({
+          description: performance.description,
+          specialFeatures: performance.specialFeatures,
+          dateTime: this.formatDate(performance.dateTime),
+          period: performance.period,
+          artistId: performance.artistId
+        });
+      },
+      error: (err) => console.error('Error loading performance', err),
+    });
+  }
+
   back(): void {
     window.history.back();
+  }
+
+  // Hulpfunctie om datum string (2024-12-15T00...) naar YYYY-MM-DD te zetten voor input
+  private formatDate(date: Date | string): string {
+    const d = new Date(date);
+    return d.toISOString();
   }
 
   onSubmit(): void {

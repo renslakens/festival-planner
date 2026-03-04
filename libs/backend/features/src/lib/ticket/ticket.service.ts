@@ -72,9 +72,12 @@ export class TicketService {
             throw new HttpException(`Ticket with id ${_id} not found`, 404);
         }
 
-        if (ticketToUpdate.ownerId !== ownerId) {
-            this.logger.warn(`User ${ownerId} is not the owner of ticket ${_id}`);
-            throw new HttpException(`User ${ownerId} is not the owner of ticket ${_id}`, 403);
+        const dbOwner = String(ticketToUpdate.ownerId).trim();
+        const requestOwner = String(ownerId).trim();
+
+        if (dbOwner !== requestOwner) {
+            this.logger.warn(`User ${requestOwner} is not the owner of ticket ${_id}`);
+            throw new HttpException(`User ${requestOwner} is not the owner of ticket ${_id}`, 403);
         }
 
         this.logger.log(`Update ticket ${ticket.name}`);
@@ -88,9 +91,12 @@ export class TicketService {
             throw new HttpException(`Ticket with id ${_id} not found`, 404);
         }
 
-        if (ticketToDelete.ownerId !== ownerId) {
-            this.logger.warn(`User ${ownerId} is not the owner of ticket ${_id}`);
-            throw new HttpException(`User ${ownerId} is not the owner of ticket ${_id}`, 403);
+        const dbOwner = String(ticketToDelete.ownerId).trim();
+        const requestOwner = String(ownerId).trim();
+
+        if (dbOwner !== requestOwner) {
+            this.logger.warn(`User ${requestOwner} is not the owner of ticket ${ticketToDelete.name}`);
+            throw new HttpException(`User ${requestOwner} is not the owner of ticket ${ticketToDelete.name}`, 403);
         }
 
         this.logger.log(`Delete ticket with id ${_id}`);

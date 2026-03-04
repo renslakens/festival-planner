@@ -16,6 +16,10 @@ export class PerformanceService {
         return new HttpHeaders({ Authorization: `Bearer ${token || ''}` });
     }
 
+    getPerformanceById(id: string): Observable<IPerformance> {
+        return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
+    }
+
     getPerformancesByStageId(stageId: string): Observable<IPerformance[]> {
         return this.http.get<any>(`${this.apiUrl}/stage/${stageId}`, { headers: this.getHeaders() });
     }

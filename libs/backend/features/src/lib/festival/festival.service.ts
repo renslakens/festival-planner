@@ -74,9 +74,12 @@ export class FestivalService {
             throw new HttpException(`Festival with id ${_id} not found`, 404);
         }
 
-        if (festivalToUpdate.ownerId !== userId) {
-            this.logger.warn(`User ${userId} is not the owner of festival ${festivalToUpdate.name}`);
-            throw new HttpException(`User is not the owner of this festival`, 403);
+        const dbOwner = String(festivalToUpdate.ownerId).trim();
+        const requestOwner = String(userId).trim();
+
+        if (dbOwner !== requestOwner) {
+            this.logger.warn(`User ${requestOwner} is not the owner of festival ${_id}`);
+            throw new HttpException(`User ${requestOwner} is not the owner of festival ${_id}`, 403);
         }
 
         this.logger.log(`Update festival ${festival.name}`);
@@ -91,9 +94,12 @@ export class FestivalService {
             throw new HttpException(`Festival with id ${_id} not found`, 404);
         }
 
-        if (festivalToDelete.ownerId !== userId) {
-            this.logger.warn(`User ${userId} is not the owner of festival ${festivalToDelete.name}`);
-            throw new HttpException(`User is not the owner of this festival`, 403);
+        const dbOwner = String(festivalToDelete.ownerId).trim();
+        const requestOwner = String(userId).trim();
+
+        if (dbOwner !== requestOwner) {
+            this.logger.warn(`User ${requestOwner} is not the owner of festival ${festivalToDelete.name}`);
+            throw new HttpException(`User ${requestOwner} is not the owner of festival ${festivalToDelete.name}`, 403);
         }
 
         this.logger.log(`Delete festival with id ${_id}`);

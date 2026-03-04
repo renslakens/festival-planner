@@ -81,9 +81,12 @@ export class PerformanceService {
             throw new HttpException(`Performance with id ${_id} not found`, 404);
         }
 
-        if (performanceToUpdate.ownerId !== ownerId) {
-            this.logger.warn(`User ${ownerId} is not the owner of performance ${_id}`);
-            throw new HttpException(`User ${ownerId} is not the owner of performance ${_id}`, 403);
+        const dbOwner = String(performanceToUpdate.ownerId).trim();
+        const requestOwner = String(ownerId).trim();
+
+        if (dbOwner !== requestOwner) {
+            this.logger.warn(`User ${requestOwner} is not the owner of performance ${_id}`);
+            throw new HttpException(`User ${requestOwner} is not the owner of performance ${_id}`, 403);
         }
 
         this.logger.log(`Update performance with description ${performance.description}`);
@@ -97,9 +100,12 @@ export class PerformanceService {
             throw new HttpException(`Performance with id ${_id} not found`, 404);
         }
 
-        if (performanceToDelete.ownerId !== ownerId) {
-            this.logger.warn(`User ${ownerId} is not the owner of performance ${_id}`);
-            throw new HttpException(`User ${ownerId} is not the owner of performance ${_id}`, 403);
+        const dbOwner = String(performanceToDelete.ownerId).trim();
+        const requestOwner = String(ownerId).trim();
+
+        if (dbOwner !== requestOwner) {
+            this.logger.warn(`User ${requestOwner} is not the owner of performance ${performanceToDelete.description}`);
+            throw new HttpException(`User ${requestOwner} is not the owner of performance ${performanceToDelete.description}`, 403);
         }
 
         this.logger.log(`Delete performance with id ${_id}`);

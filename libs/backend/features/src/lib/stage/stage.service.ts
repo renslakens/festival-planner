@@ -86,9 +86,12 @@ export class StageService {
             throw new HttpException(`Stage with id ${_id} not found`, 404);
         }
 
-        if (stageToUpdate.ownerId !== ownerId) {
-            this.logger.warn(`User ${ownerId} is not the owner of stage ${_id}`);
-            throw new HttpException(`User ${ownerId} is not the owner of stage ${_id}`, 403);
+        const dbOwner = String(stageToUpdate.ownerId).trim();
+        const requestOwner = String(ownerId).trim();
+
+        if (dbOwner !== requestOwner) {
+            this.logger.warn(`User ${requestOwner} is not the owner of stage ${_id}`);
+            throw new HttpException(`User ${requestOwner} is not the owner of stage ${_id}`, 403);
         }
 
         this.logger.log(`Update stage ${stage.name}`);
@@ -102,9 +105,12 @@ export class StageService {
             throw new HttpException(`Stage with id ${_id} not found`, 404);
         }
 
-        if (stageToDelete.ownerId !== ownerId) {
-            this.logger.warn(`User ${ownerId} is not the owner of stage ${_id}`);
-            throw new HttpException(`User ${ownerId} is not the owner of stage ${_id}`, 403);
+        const dbOwner = String(stageToDelete.ownerId).trim();
+        const requestOwner = String(ownerId).trim();
+
+        if (dbOwner !== requestOwner) {
+            this.logger.warn(`User ${requestOwner} is not the owner of stage ${_id}`);
+            throw new HttpException(`User ${requestOwner} is not the owner of stage ${_id}`, 403);
         }
 
         this.logger.log(`Delete stage with id ${_id}`);

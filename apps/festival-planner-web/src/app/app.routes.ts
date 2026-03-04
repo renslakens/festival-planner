@@ -18,6 +18,8 @@ export const appRoutes: Route[] = [
     { path: 'stages/:stageId/edit', component: StageEditComponent, canActivate: [authGuard] },
     { path: 'stages/:stageId/performances/new', component: PerformanceEditComponent, canActivate: [authGuard] },
 
+    { path: 'performances/:performanceId/edit', component: PerformanceEditComponent, canActivate: [authGuard] },
+
     { path: 'artists', component: ArtistListComponent },
     { path: 'artists/new', component: ArtistEditComponent, canActivate: [authGuard] },
     { path: 'artists/:artistId/edit', component: ArtistEditComponent, canActivate: [authGuard] },

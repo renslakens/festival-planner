@@ -14,11 +14,13 @@ import { AuthService } from '../../auth/auth.service';
 export class ArtistListComponent implements OnInit {
   artists: IArtist[] = [];
   isAdmin = false;
+  currentUserId: string | null = null;
 
   constructor(private artistService: ArtistService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.isAdmin = this.authService.getCurrentUser()?.role === 'Admin';
+    this.currentUserId = this.authService.getCurrentUser()?.user_id || null;
     this.artistService.getArtists().subscribe(results => this.artists = results);
   }
 
