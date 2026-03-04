@@ -1,20 +1,33 @@
 {
-    "extends": "./tsconfig.base.json",
-    "compilerOptions": {
-        "baseUrl": ".",
-        "paths": {
-            "@festival-planner/backend/auth": ["libs/backend/auth/src/index.ts"],
-            "@festival-planner/backend/dto": ["libs/backend/dto/src/index.ts"],
-            "@festival-planner/backend/features": [
-            "libs/backend/features/src/index.ts"
-        ],
-        "@festival-planner/backend/neo4j": ["libs/backend/neo4j/src/index.ts"],
-        "@festival-planner/backend/user": ["libs/backend/user/src/index.ts"],
-        "@festival-planner/common": ["libs/frontend/common/src/index.ts"],
-        "@festival-planner/features": ["libs/frontend/features/src/index.ts"],
-        "@festival-planner/shared/api": ["libs/shared/api/src/index.ts"],
-        "@festival-planner/ui": ["libs/frontend/ui/src/index.ts"],
-        "@festival-planner/util-env": ["libs/shared/util-env/src/index.ts"]
-        }
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@festival-planner/backend/auth": ["libs/backend/auth/src/index.ts"],
+      "@festival-planner/backend/dto": ["libs/backend/dto/src/index.ts"],
+      "@festival-planner/backend/features": [
+        "libs/backend/features/src/index.ts"
+      ],
+      "@festival-planner/backend/neo4j": ["libs/backend/neo4j/src/index.ts"],
+      "@festival-planner/backend/user": ["libs/backend/user/src/index.ts"],
+      "@festival-planner/common": ["libs/frontend/common/src/index.ts"],
+      "@festival-planner/features": ["libs/frontend/features/src/index.ts"],
+      "@festival-planner/shared/api": ["libs/shared/api/src/index.ts"],
+      "@festival-planner/ui": ["libs/frontend/ui/src/index.ts"],
+      "@festival-planner/util-env": ["libs/shared/util-env/src/index.ts"]
     }
+  },
+  "exclude": ["node_modules", "tmp"]
 }
