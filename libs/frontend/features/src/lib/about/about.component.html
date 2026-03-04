@@ -1,60 +1,250 @@
-<div class="container mt-4">
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <h1 class="card-title text-primary">Over Festival Planner</h1>
-            <p class="lead">
-                Een Full-Stack Enterprise applicatie ontwikkeld voor het HBO Informatica assessment.
-                Dit platform combineert document-georiënteerde opslag met graaf-technologie voor geavanceerde
-                query-mogelijkheden.
-            </p>
+<div class="container mt-5 mb-5 text-white">
 
-            <hr>
+    <div class="row mb-5">
 
-            <div class="row">
-                <div class="col-md-6">
-                    <h3><i class="bi bi-diagram-3-fill"></i> Architectuur & Design</h3>
-                    <p>
-                        Dit project maakt gebruik van een <strong>Polyglot Persistence</strong> architectuur:
-                    </p>
-                    <ul>
-                        <li><strong>MongoDB:</strong> Fungeert als de <em>Source of Truth</em> voor entiteiten zoals
-                            Festivals, Users en Tickets. Hier wordt data robuust en consistent opgeslagen.</li>
-                        <li><strong>Neo4j:</strong> Wordt gebruikt voor het modelleren van complexe relaties (<em>Graph
-                                Database</em>). Dit maakt queries mogelijk zoals: <em>"Toon alle Rock-optredens op
-                                buitenpodia na 20:00"</em>.</li>
-                        <li><strong>NestJS & Angular:</strong> Een moderne TypeScript stack binnen een Nx Monorepo zorgt
-                            voor type-safety van database tot frontend.</li>
-                    </ul>
+        <div class="col-lg-12 mb-4">
+            <div class="card bg-dark border-secondary h-100 p-4">
+                <div class="card-body text-center">
+                    <h4 class="card-title text-white">Rens Lakens</h4>
+                    <p class="card-text text-muted">Studentnummer: 2180513</p>
+                    <span class="badge bg-primary">Avans Hogeschool</span>
                 </div>
-                <div class="col-md-6">
-                    <h3><i class="bi bi-person-badge-fill"></i> User Journeys</h3>
-                    <ul>
-                        <li><strong>Bezoeker:</strong> Kan festivals bekijken, filteren op genre/datum en tickets kopen.
-                            Ziet persoonlijke aanbevelingen op basis van vrienden (Neo4j).</li>
-                        <li><strong>Organisator:</strong> Beheert festivals, podia en artiesten. Heeft toegang tot een
-                            dashboard met verkoopstatistieken.</li>
-                        <li><strong>Admin:</strong> Volledige controle over gebruikersbeheer en platform-brede
-                            instellingen.</li>
-                    </ul>
-                </div>
-            </div>
+                <h3 class="mb-3">Over deze applicatie</h3>
+                <p class="text-muted mb-4">
+                    Deze applicatie is gemaakt in het kader van het vak 'Clientside web frameworks' van Avans Hogeschool
+                    Breda.
+                </p>
 
-            <div class="mt-4">
-                <h3>Datamodel (ERD)</h3>
-                <p>Hieronder is het conceptuele model van de applicatie weergegeven, verdeeld over de document-store en
-                    graph-store.</p>
-                <img src="/assets/festival-erd.png" alt="Entity Relationship Diagram"
-                    class="img-fluid border rounded shadow-sm" style="max-height: 400px;">
-                <small class="text-muted d-block mt-2">
-                    * Blauwe entiteiten bevinden zich in MongoDB. Relatielijnen representeren de edges in Neo4j.
-                </small>
+                <h1 class="fw-bold mb-3">Festival Planner</h1>
+                <p>
+                    Bij dit project is het doel om een Angular frontend applicatie te realiseren in combinatie met een
+                    NestJS backend en een NoSQL (MongoDB) database.
+                </p>
+                <p>
+                    Het doel van deze applicatie is dat gebruikers de ultieme festivalervaring kunnen plannen. Ze kunnen
+                    festivals bekijken, line-ups per podium (stage) ontdekken en tickets kopen voor hun favoriete
+                    evenementen. Daarnaast fungeert de applicatie als een collaboratief platform: gebruikers kunnen zelf
+                    festivals aanmaken, podia toevoegen en optredens inplannen, waarbij strenge eigenaarschapscontroles
+                    bepalen wie wat mag wijzigen.
+                </p>
             </div>
-
-            <div class="alert alert-info mt-4">
-                <strong>Technische verantwoording:</strong> De keuze voor Neo4j naast MongoDB is gemaakt om de N+1 query
-                problemen bij diepe relaties (User -> Ticket -> Festival -> Show -> Artist) te voorkomen en performante
-                recommendation engines mogelijk te maken.
-            </div>
+            
         </div>
     </div>
+
+    <hr class="border-secondary mb-5">
+
+    <h3 class="mb-3">Entiteiten</h3>
+    <p class="text-muted mb-4">
+        Hieronder vind je het datamodel van de applicatie met de bijbehorende attributen per entiteit.
+    </p>
+
+    <div class="text-center mb-5 bg-dark border border-secondary p-3 rounded">
+        <img src="festival-erd.png" alt="Database Schema" class="img-fluid rounded" style="max-height: 400px;">
+        <p class="text-muted mt-2 small">NoSQL Data Model</p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-5">
+
+        <div class="col">
+            <div class="card bg-dark border-secondary h-100 p-3">
+                <h5 class="border-bottom border-secondary pb-2">User</h5>
+                <ul class="list-unstyled text-light mt-2">
+                    <li><code>_id</code>: string</li>
+                    <li><code>name</code>: string</li>
+                    <li><code>email</code>: string</li>
+                    <li><code>password</code>: string</li>
+                    <li><code>profileImgUrl</code>: string</li>
+                    <li><code>gender</code>: string (Male/Female/Other)</li>                    
+                    <li><code>role</code>: string (User/Admin)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card bg-dark border-secondary h-100 p-3">
+                <h5 class="border-bottom border-secondary pb-2">Festival</h5>
+                <ul class="list-unstyled text-light mt-2">
+                    <li><code>_id</code>: string</li>
+                    <li><code>name</code>: string</li>
+                    <li><code>description</code>: string</li>
+                    <li><code>date</code>: Date</li>
+                    <li><code>location</code>: string</li>
+                    <li><code>is18Plus</code>: boolean</li>
+                    <li><code>stages</code>: Stage[]</li>
+                    <li><code>ownerId</code>: string</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card bg-dark border-secondary h-100 p-3">
+                <h5 class="border-bottom border-secondary pb-2">Stage</h5>
+                <ul class="list-unstyled text-light mt-2">
+                    <li><code>_id</code>: string</li>
+                    <li><code>name</code>: string</li>
+                    <li><code>capacity</code>: number</li>
+                    <li><code>covered</code>: boolean</li>
+                    <li><code>festivalId</code>: string</li>
+                    <li><code>performances</code>: Performance[]</li>
+                    <li><code>ownerId</code>: string</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card bg-dark border-secondary h-100 p-3">
+                <h5 class="border-bottom border-secondary pb-2">Performance</h5>
+                <ul class="list-unstyled text-light mt-1 small">
+                    <li><code>_id</code>: string</li>
+                    <li><code>dateTime</code>: Date</li>
+                    <li><code>period</code>: number</li>
+                    <li><code>description</code>: string</li>
+                    <li><code>specialFeatures</code>: string</li>
+                    <li><code>stageId</code>: string</li>
+                    <li><code>artistId</code>: string</li>
+                    <li><code>ownerId</code>: string</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card bg-dark border-secondary h-100 p-3">
+                <h5 class="border-bottom border-secondary pb-2">Ticket</h5>
+                <ul class="list-unstyled text-light mt-1 small">
+                    <li><code>_id</code>: string</li>
+                    <li><code>name</code>: string</li>
+                    <li><code>price</code>: number</li>
+                    <li><code>festivalId</code>: string</li>
+                    <li><code>userId</code>: string</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card bg-dark border-secondary h-100 p-3">
+                <h5 class="border-bottom border-secondary pb-2">Artist</h5>
+                <ul class="list-unstyled text-light mt-1 small">
+                    <li><code>_id</code>: string</li>
+                    <li><code>name</code>: string</li>
+                    <li><code>genre</code>: string</li>
+                    <li><code>popularity</code>: number</li>
+                    <li><code>description</code>: string</li>
+                    <li><code>ownerId</code>: string</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <hr class="border-secondary mb-5">
+
+    <h3 class="mb-4">Functional Requirements</h3>
+    <div class="table-responsive mb-5">
+        <table class="table table-dark table-striped table-bordered border-secondary align-middle">
+            <thead class="table-active">
+                <tr>
+                    <th scope="col" style="width: 8%;">ID</th>
+                    <th scope="col" style="width: 35%;">Functional Requirement</th>
+                    <th scope="col" style="width: 47%;">Acceptatiecriteria</th>
+                    <th scope="col" style="width: 10%;">Prioriteit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>F-01</td>
+                    <td>Als gebruiker wil ik een lijst van festivals kunnen zien, zodat ik weet welke evenementen er op
+                        de planning staan.</td>
+                    <td>
+                        <ul class="mb-0 ps-3">
+                            <li>Er wordt een lijst van festivals weergegeven.</li>
+                            <li>Elk festival toont de naam, datum, locatie en of het 18+ is.</li>
+                            <li>De lijst is klikbaar om naar de festival detailpagina te gaan.</li>
+                        </ul>
+                    </td>
+                    <td><span class="badge bg-danger">Must</span></td>
+                </tr>
+                <tr>
+                    <td>F-02</td>
+                    <td>Als gebruiker wil ik de detailpagina van een festival bekijken, inclusief de podia en
+                        bijbehorende line-up.</td>
+                    <td>
+                        <ul class="mb-0 ps-3">
+                            <li>De detailpagina toont de beschrijving van het festival.</li>
+                            <li>Er is een overzicht van podia (stages) zichtbaar.</li>
+                            <li>Per podium wordt een tijdlijn/lijst van optredens (performances) getoond met artiest en
+                                tijd.</li>
+                        </ul>
+                    </td>
+                    <td><span class="badge bg-danger">Must</span></td>
+                </tr>
+                <tr>
+                    <td>F-03</td>
+                    <td>Als ingelogde gebruiker wil ik entiteiten (Festivals, Stages, Performances) kunnen aanmaken,
+                        bewerken en verwijderen, mits ik daarvan de eigenaar ben.</td>
+                    <td>
+                        <ul class="mb-0 ps-3">
+                            <li>Er zijn formulieren voor het toevoegen van deze entiteiten.</li>
+                            <li>De backend controleert op basis van het token of de <code>ownerId</code> overeenkomt met
+                                de ingelogde gebruiker.</li>
+                            <li>De UI verbergt bewerk- en verwijderknoppen voor gebruikers die geen eigenaar of admin
+                                zijn.</li>
+                        </ul>
+                    </td>
+                    <td><span class="badge bg-danger">Must</span></td>
+                </tr>
+                <tr>
+                    <td>F-04</td>
+                    <td>Als ingelogde gebruiker wil ik tickets kunnen kopen voor een festival en deze in mijn profiel
+                        bekijken.</td>
+                    <td>
+                        <ul class="mb-0 ps-3">
+                            <li>Onderaan een festivalpagina kunnen tickets gekocht worden.</li>
+                            <li>De gebruiker heeft een profielpagina (Wallet) met gekochte tickets en een agenda.</li>
+                        </ul>
+                    </td>
+                    <td><span class="badge bg-warning text-dark">Should</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="mb-4">Non-functional Requirements</h3>
+    <div class="table-responsive mb-5">
+        <table class="table table-dark table-striped table-bordered border-secondary align-middle">
+            <thead class="table-active">
+                <tr>
+                    <th scope="col" style="width: 8%;">ID</th>
+                    <th scope="col" style="width: 25%;">Non-functional</th>
+                    <th scope="col" style="width: 57%;">Toelichting</th>
+                    <th scope="col" style="width: 10%;">Prioriteit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>NFR-01</td>
+                    <td>Authenticatie & Autorisatie</td>
+                    <td>Het systeem beveiligt mutaties via JWT tokens. Alleen geauthenticeerde gebruikers kunnen data
+                        wijzigen, en autorisatie is strikt toegepast op eigenaarschap (Two-way reference & ownership).
+                    </td>
+                    <td><span class="badge bg-danger">Must</span></td>
+                </tr>
+                <tr>
+                    <td>NFR-02</td>
+                    <td>Modulariteit (Nx Monorepo)</td>
+                    <td>Het project is opgezet in een Nx Workspace waarbij de code is opgedeeld in herbruikbare
+                        libraries (API, Features, UI, Models).</td>
+                    <td><span class="badge bg-danger">Must</span></td>
+                </tr>
+                <tr>
+                    <td>NFR-03</td>
+                    <td>Gebruiksvriendelijkheid</td>
+                    <td>De applicatie gebruikt Bootstrap voor een responsief en consistent dark-mode (Appic-stijl)
+                        thema. Er is duidelijke feedback via spinners en error-messages.</td>
+                    <td><span class="badge bg-danger">Must</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>
