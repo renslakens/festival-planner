@@ -1,9 +1,10 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../dist/apps/data-api",
+    "outDir": "../../dist/out-tsc",
+    "baseUrl": "../..", 
     "types": ["node"]
   },
-  "exclude": ["src/**/*.spec.ts", "test/**/*.spec.ts"],
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts"]
 }

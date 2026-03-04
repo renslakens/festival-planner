@@ -9,24 +9,21 @@
             "executor": "@nx/webpack:webpack",
             "outputs": ["{options.outputPath}"],
             "options": {
-            "target": "node",
-            "compiler": "tsc",
-            "outputPath": "dist/apps/data-api",
-            "main": "apps/data-api/src/main.ts",
-            "tsConfig": "apps/data-api/tsconfig.app.json",
-            "assets": ["apps/data-api/src/assets"],
-            "isolatedConfig": true,
-            "buildLibsFromSource": true,
-            "webpackConfig": "apps/data-api/webpack.config.js",
-            "generatePackageJson": true,
-            "bundle": true 
+                "target": "node",
+                "compiler": "tsc",
+                "outputPath": "dist/apps/data-api",
+                "main": "apps/data-api/src/main.ts",
+                "tsConfig": "apps/data-api/tsconfig.app.json",
+                "webpackConfig": "apps/data-api/webpack.config.js",
+                "bundle": true,
+                "externalDependencies": "none" 
             },
             "configurations": {
-            "production": {
-                "optimization": true,
-                "extractLicenses": true,
-                "inspect": false
-            }
+                "production": {
+                    "optimization": true,
+                    "extractLicenses": true,
+                    "inspect": false
+                }
             }
         },
         "serve": {
