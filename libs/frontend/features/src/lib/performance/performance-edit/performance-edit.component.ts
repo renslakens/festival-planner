@@ -39,6 +39,7 @@ export class PerformanceEditComponent implements OnInit {
   ngOnInit(): void {
     // Check of we in edit-mode zijn
     this.route.paramMap.subscribe((params) => {
+      this.stageId = params.get('stageId');
       this.performanceId = params.get('performanceId');
       if (this.performanceId) {
         this.isEditMode = true;
@@ -54,7 +55,8 @@ export class PerformanceEditComponent implements OnInit {
   loadPerformance(id: string): void {
     this.performanceService.getPerformanceById(id).subscribe({
       next: (performance) => {
-        // Vul het formulier met de data
+        this.stageId = performance.stageId;
+
         this.form.patchValue({
           description: performance.description,
           specialFeatures: performance.specialFeatures,
@@ -84,19 +86,33 @@ export class PerformanceEditComponent implements OnInit {
       const formData = {
         ...this.form.value,
         stageId: this.stageId
-      }
+      };
 
-      this.performanceService.createPerformance(formData).subscribe({
-        next: () => {
-          this.back();
-        },
-        error: (err) => {
-          console.error('Fout bij opslaan:', err);
-          this.errorMessage = 'Opslaan mislukt. Check of alle velden zijn ingevuld.';
-        }
-      });
+      if (this.isEditMode && this.performanceId) {
+        this.performanceService.updatePerformance(this.performanceId, formData).subscribe({
+          next: () => {
+            console.log('Succesvol bijgewerkt!');
+            this.back();
+          },
+          error: (err) => {
+            console.error('Fout bij updaten:', err);
+            this.errorMessage = 'Bewerken mislukt. Probeer het opnieuw.';
+          }
+        });
+      } else {
+        this.performanceService.createPerformance(formData).subscribe({
+          next: () => {
+            console.log('Succesvol aangemaakt!');
+            this.back();
+          },
+          error: (err) => {
+            console.error('Fout bij aanmaken:', err);
+            this.errorMessage = 'Aanmaken mislukt. Check of alle velden zijn ingevuld.';
+          }
+        });
+      }
     } else {
-      this.errorMessage = 'Formulier is ongeldig of Stage ID ontbreekt.';
+      this.errorMessage = 'Formulier is ongeldig. Controleer de roodgekleurde velden.';
     }
   }
 }

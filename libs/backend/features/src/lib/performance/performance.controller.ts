@@ -35,6 +35,7 @@ export class PerformanceController {
     @Post('')
     @UseGuards(AdminGuard)
     create(@Body() createDto: CreatePerformanceDto, @Request() req: any): Promise<IPerformance | null> {
+        this.logger.log('Binnenkomende Performance Data: ' + JSON.stringify(createDto));
         return this.performanceService.create(createDto, req.user._id);
     }
 

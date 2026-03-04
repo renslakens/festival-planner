@@ -90,7 +90,7 @@ export class PerformanceService {
         }
 
         this.logger.log(`Update performance with description ${performance.description}`);
-        return this.performanceModel.findByIdAndUpdate({ _id, ownerId }, { ...performance, dateTime: new Date(performance.dateTime) });
+        return this.performanceModel.findByIdAndUpdate(_id, { ...performance, dateTime: new Date(performance.dateTime) }, { new: true }).exec();
     }
 
     async delete(_id: string, ownerId: string): Promise<IPerformance | null> {
