@@ -32,7 +32,7 @@ export class UserDetailsComponent implements OnInit {
         if (this.currentUserId) {
             this.userService.getUserById(this.currentUserId).subscribe({
                 next: (response: any) => {
-                    this.currentUser = response.results;
+                    this.currentUser = response;
                 },
                 error: (err) => {
                     console.error('Fout bij ophalen user details:', err);
@@ -51,7 +51,7 @@ export class UserDetailsComponent implements OnInit {
     extractFestivalsFromTickets(tickets: ITicket[]): void {
         // Haal eerst ALLE festivals op om de namen/data te matchen
         this.festivalService.getFestivals().subscribe((response: any) => {
-            const allFestivals: IFestival[] = response.results || response;
+            const allFestivals: IFestival[] = response;
 
             // Zoek unieke festival ID's uit de tickets
             const uniqueFestivalIds = [...new Set(tickets.map(t => t.festivalId))];

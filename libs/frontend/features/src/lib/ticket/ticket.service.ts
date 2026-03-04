@@ -17,49 +17,35 @@ export class TicketService {
     }
 
     getTickets(): Observable<ITicket[]> {
-        return this.http.get<any>(this.apiUrl, { headers: this.getHeaders() }).pipe(
-            map(res => res.results)
-        );
+        return this.http.get<any>(this.apiUrl, { headers: this.getHeaders() });
     }
 
     getTicketById(id: string): Observable<ITicket> {
-        return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() }).pipe(
-            map(res => res.results)
-        );
+        return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
     }
 
     getMyTickets(): Observable<ITicket[]> {
         const url = `${this.apiUrl}/my/all`;
-        return this.http.get<any>(url, { headers: this.getHeaders() }).pipe(
-            map(res => res.results)
-        );
+        return this.http.get<any>(url, { headers: this.getHeaders() });
     }
 
     getTicketsByFestivalId(festivalId: string): Observable<ITicket[]> {
         const url = `${this.apiUrl}/festival/${festivalId}`;
-        return this.http.get<any>(url, { headers: this.getHeaders() }).pipe(
-            map(res => res.results)
-        );
+        return this.http.get<any>(url, { headers: this.getHeaders() });
     }
 
     purchaseTicket(ticketId: string): Observable<ITicket> {
         const url = `${this.apiUrl}/${ticketId}/purchase`;
         // We sturen een lege body {} mee, omdat het een POST is
-        return this.http.post<any>(url, {}, { headers: this.getHeaders() }).pipe(
-            map(res => res.results)
-        );
+        return this.http.post<any>(url, {}, { headers: this.getHeaders() });
     }
 
     createTicket(ticket: ITicket): Observable<ITicket> {
-        return this.http.post<any>(this.apiUrl, ticket, { headers: this.getHeaders() }).pipe(
-            map(res => res.results)
-        );
+        return this.http.post<any>(this.apiUrl, ticket, { headers: this.getHeaders() });
     }
 
     updateTicket(id: string, ticket: ITicket): Observable<ITicket> {
-        return this.http.put<any>(`${this.apiUrl}/${id}`, ticket, { headers: this.getHeaders() }).pipe(
-            map(res => res.results)
-        );
+        return this.http.put<any>(`${this.apiUrl}/${id}`, ticket, { headers: this.getHeaders() });
     }
 
     deleteTicket(id: string): Observable<void> {

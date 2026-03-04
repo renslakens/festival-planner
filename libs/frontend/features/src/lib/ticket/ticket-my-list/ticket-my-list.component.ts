@@ -24,7 +24,7 @@ export class TicketMyListComponent implements OnInit {
     // Haal festivals op voor de namen
     this.festivalService.getFestivals().subscribe({
       next: (response: any) => {
-        this.festivals = Array.isArray(response) ? response : response.results || [];
+        this.festivals = Array.isArray(response) ? response : [];
       }
     });
 

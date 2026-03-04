@@ -21,7 +21,7 @@ export class AuthService {
         return new Observable((observer) => {
             this.http.post<IUserIdentity>(`${this.apiUrl}/login`, credentials).subscribe({
                 next: (response: any) => {
-                    const token = response.results?.token; // Haal het token uit de "results" object
+                    const token = response?.token; // Haal het token uit de response object
                     if (token) {
                         this.setToken(token); // Sla het token op
                         console.log('Token opgeslagen:', token);
@@ -43,7 +43,7 @@ export class AuthService {
         return new Observable((observer) => {
             this.http.post<IUserIdentity>(`${this.apiUrl}/register`, credentials).subscribe({
                 next: (response: any) => {
-                    const token = response.results?.token;
+                    const token = response?.token;
                     if (token) {
                         this.setToken(token);
                         console.log('Token opgeslagen na registratie:', token);

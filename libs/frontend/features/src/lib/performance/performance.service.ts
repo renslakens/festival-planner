@@ -17,21 +17,15 @@ export class PerformanceService {
     }
 
     getPerformancesByStageId(stageId: string): Observable<IPerformance[]> {
-        return this.http.get<any>(`${this.apiUrl}/stage/${stageId}`, { headers: this.getHeaders() }).pipe(
-            map(res => res.results)
-        );
+        return this.http.get<any>(`${this.apiUrl}/stage/${stageId}`, { headers: this.getHeaders() });
     }
 
     createPerformance(data: IPerformance): Observable<IPerformance> {
-        return this.http.post<any>(this.apiUrl, data, { headers: this.getHeaders() }).pipe(
-            map(res => res.results)
-        );
+        return this.http.post<any>(this.apiUrl, data, { headers: this.getHeaders() });
     }
 
     updatePerformance(id: string, data: IPerformance): Observable<IPerformance> {
-        return this.http.put<any>(`${this.apiUrl}/${id}`, data, { headers: this.getHeaders() }).pipe(
-            map(res => res.results)
-        );
+        return this.http.put<any>(`${this.apiUrl}/${id}`, data, { headers: this.getHeaders() });
     }
 
     deletePerformance(id: string): Observable<void> {

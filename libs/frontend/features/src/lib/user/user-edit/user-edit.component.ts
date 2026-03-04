@@ -37,7 +37,7 @@ export class UserEditComponent implements OnInit {
         if (this.userId) {
             this.userService.getUserById(this.userId).subscribe({
                 next: (response: any) => {
-                    const user = response.results;
+                    const user = response;
                     console.log('User data loaded:', user);
                     this.form.patchValue({
                         name: user.name,

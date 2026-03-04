@@ -59,8 +59,8 @@ export class TicketListComponent implements OnInit {
 
   loadFestivals(): void {
     this.festivalService.getFestivals().subscribe({
-      next: (response: IFestivalListResponse) => {
-        this.festivals = response.results || [];
+      next: (response: IFestival[]) => {
+        this.festivals = response || [];
       }
     });
   }

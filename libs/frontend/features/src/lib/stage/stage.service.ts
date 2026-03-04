@@ -21,34 +21,24 @@ export class StageService {
     }
 
     getStages(): Observable<IStage[]> {
-        return this.http.get<any>(this.apiUrl, { headers: this.getHeaders() }).pipe(
-            map(response => response.results) // <--- De fix voor .filter error
-        );
+        return this.http.get<any>(this.apiUrl, { headers: this.getHeaders() });
     }
 
     getStageById(id: string): Observable<IStage> {
-        return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() }).pipe(
-            map(response => response.results)
-        );
+        return this.http.get<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
     }
 
     getStagesByFestivalId(festivalId: string): Observable<IStage[]> {
         const url = `${this.apiUrl}/festival/${festivalId}`;
-        return this.http.get<any>(url, { headers: this.getHeaders() }).pipe(
-            map(response => response.results)
-        );
+        return this.http.get<any>(url, { headers: this.getHeaders() });
     }
 
     createStage(stage: IStage): Observable<IStage> {
-        return this.http.post<IStage>(this.apiUrl, stage, { headers: this.getHeaders() }).pipe(
-            map(response => response)
-        );
+        return this.http.post<IStage>(this.apiUrl, stage, { headers: this.getHeaders() });
     }
 
     updateStage(id: string, stage: IStage): Observable<IStage> {
-        return this.http.put<IStage>(`${this.apiUrl}/${id}`, stage, { headers: this.getHeaders() }).pipe(
-            map(response => response)
-        );
+        return this.http.put<IStage>(`${this.apiUrl}/${id}`, stage, { headers: this.getHeaders() });
     }
 
     deleteStage(id: string): Observable<void> {

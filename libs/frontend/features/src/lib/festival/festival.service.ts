@@ -26,16 +26,14 @@ export class FestivalService {
         );
     }
 
-    getFestivals(): Observable<IFestivalListResponse> {
+    getFestivals(): Observable<IFestival[]> {
         const headers = this.createAuthHeaders();
-        return this.http.get<IFestivalListResponse>(this.apiUrl, { headers });
+        return this.http.get<IFestival[]>(this.apiUrl, { headers });
     }
 
     getFestivalById(id: string): Observable<IFestival> {
         const headers = this.createAuthHeaders();
-        return this.http.get<IFestivalResponse>(`${this.apiUrl}/${id}`, { headers }).pipe(
-            map(response => response.results)
-        );
+        return this.http.get<IFestival>(`${this.apiUrl}/${id}`, { headers });
     }
 
     createFestival(festival: IFestival): Observable<IFestival> {

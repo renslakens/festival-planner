@@ -27,8 +27,8 @@ export class FestivalListComponent implements OnInit, OnDestroy {
     this.isAdmin = this.authService.getCurrentUser()?.role === 'Admin';
 
     this.subscription = this.festivalService.getFestivals().subscribe((response) => {
-      console.log(`festivals returned: ${response.results}`);
-      this.festivals = response.results;
+      console.log(`festivals returned: ${response}`);
+      this.festivals = response;
     })
   }
 

@@ -51,7 +51,7 @@ export class TicketEditComponent implements OnInit {
     });
 
     this.festivalService.getFestivals().subscribe({
-      next: (response) => this.festivals = response.results || [],
+      next: (response) => this.festivals = response || [],
       error: (err) => console.error('Fout bij ophalen festivals', err)
     });
   }
